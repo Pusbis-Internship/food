@@ -117,7 +117,8 @@
                                                         alt="logo" class="img-responsive">
                                                 </td>
                                                 <td>
-                                                    <strong>ID Pesanan: {{ $groupedOrder->id_pesanan }}</strong>
+                                                    <strong>Nama Pemesan: {{ $groupedOrder->nama_lengkap }}</strong>
+                                                    <br><strong>ID Pesanan: {{ $groupedOrder->id_pesanan }}</strong>
                                                     <br><strong> Nama penjual: {{ $groupedOrder->sellers }}</strong>
                                                 </td>
                                                 

@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 
 use App\Models\User;
 
-use PDF;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 use Illuminate\Support\Facades\DB;
 
@@ -192,31 +192,26 @@ class UserController extends Controller
     
     
 
-    // public function generateinvoice($id_pesanan)
-    // {
-    // $userId = Auth::id();
+    public function generateinvoice($id_pesanan)
+    {
+        $userId = Auth::id();
+        
+        // Retrieve the grouped orders
+        $groupedOrders = DB::table('orders')
+            ->join('users', 'orders.users_id', '=', 'users.id')
+            ->select('id_pesanan', 'total', 'nama_penerima', 'alamat_pengiriman', 'fakultas', 'tanggal', 'jam', 'users.nama_lengkap', DB::raw('GROUP_CONCAT(menu_name) as menu_names'), DB::raw('GROUP_CONCAT(seller) as sellers'), DB::raw('GROUP_CONCAT(subtotal) as subtotals'), DB::raw('GROUP_CONCAT(quantity SEPARATOR ", ") as quantities'))
+            ->where('users_id', $userId)
+            ->where('id_pesanan', $id_pesanan)
+            ->groupBy('id_pesanan', 'total', 'nama_penerima', 'alamat_pengiriman', 'fakultas', 'tanggal', 'jam', 'users.nama_lengkap')
+            ->get();
+        
+        // Load the view for invoice
+            $pdf = Pdf::loadView('pointakses.user.invoice', compact('userId', 'groupedOrders'));
+
+        // Download the PDF file with the specified name
+        return $pdf->download('Nota'.$id_pesanan.'.pdf');
+    }
     
-    // // Retrieve the grouped orders
-    // $groupedOrders = DB::table('orders')
-    //     ->join('users', 'orders.users_id', '=', 'users.id')
-    //     ->select('id_pesanan', 'total', 'nama_penerima', 'alamat_pengiriman', 'fakultas', 'tanggal', 'jam',  'users.nama_lengkap',
-    //             DB::raw('GROUP_CONCAT(CONCAT(menu_name, " (", quantity, ")") SEPARATOR ", ") as menu_with_quantity'),
-    //             DB::raw('GROUP_CONCAT(seller SEPARATOR ", ") as sellers'),
-    //             DB::raw('GROUP_CONCAT(menu_price SEPARATOR ", ") as menu_prices'),
-    //             DB::raw('GROUP_CONCAT(quantity SEPARATOR ", ") as quantities'),
-    //             DB::raw('GROUP_CONCAT(subtotal SEPARATOR " + ") as subtotals'))
-    //     ->where('id_pesanan', $id_pesanan)
-    //     ->groupBy('id_pesanan', 'total', 'nama_penerima', 'alamat_pengiriman', 'fakultas', 'tanggal', 'jam', 'users.nama_lengkap')
-    //     ->get();
-    
-    // // Load the view for invoice
-    // $pdf = Pdf::loadView('pointakses.user.invoice', compact('userId', 'groupedOrders'));
-
-    // // Download the PDF file with the specified name
-    // return $pdf->download('invoice.pdf');
-    // }
-
-
     public function editprofile()
     {
         return view('pointakses/user/editprofile');
