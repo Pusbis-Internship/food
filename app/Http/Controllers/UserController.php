@@ -180,7 +180,11 @@ class UserController extends Controller
         // Retrieve the grouped orders
         $groupedOrders = DB::table('orders')
             ->join('users', 'orders.users_id', '=', 'users.id')
-            ->select('id_pesanan', 'total', 'nama_penerima', 'alamat_pengiriman', 'fakultas', 'tanggal', 'jam', 'users.nama_lengkap', DB::raw('GROUP_CONCAT(menu_name) as menu_names'), DB::raw('GROUP_CONCAT(seller) as sellers'), DB::raw('GROUP_CONCAT(subtotal) as subtotals'), DB::raw('GROUP_CONCAT(quantity SEPARATOR ", ") as quantities'))
+            ->select('id_pesanan', 'total', 'nama_penerima', 'alamat_pengiriman', 'fakultas', 'tanggal', 'jam', 'users.nama_lengkap', 
+                DB::raw('GROUP_CONCAT(menu_name) as menu_names'), 
+                DB::raw('GROUP_CONCAT(seller) as sellers'), 
+                DB::raw('GROUP_CONCAT(subtotal) as subtotals'), 
+                DB::raw('GROUP_CONCAT(quantity SEPARATOR ", ") as quantities'))
             ->where('users_id', $userId)
             ->where('id_pesanan', $id_pesanan)
             ->groupBy('id_pesanan', 'total', 'nama_penerima', 'alamat_pengiriman', 'fakultas', 'tanggal', 'jam', 'users.nama_lengkap')

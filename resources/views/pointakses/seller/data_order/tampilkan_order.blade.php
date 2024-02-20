@@ -34,14 +34,18 @@
                             @foreach($groupedOrders as $groupedOrder)
                             <tr>
                                 <td><strong>ID Pesanan: {{ $groupedOrder->id_pesanan }} </strong>
-                                    <br>Menu: {{ $groupedOrder->menu_names }}
+                                <br><strong>Pemesan: {{$groupedOrder->nama_lengkap}}</strong>
+                                    <br>Menu (Jumlah): {{ $groupedOrder->menu_with_quantity }}
                                     <br>Total: {{ $groupedOrder->total }}
                                     <br>Nama Penerima: {{ $groupedOrder->nama_penerima }}
                                     <br>Alamat Pengiriman: {{ $groupedOrder->alamat_pengiriman }}
                                     <br>fakultas: {{ $groupedOrder->fakultas }}
                                     <br>Tanggal & Jam: {{ $groupedOrder->tanggal }}, {{$groupedOrder->jam}}
                                 </td>
-                                <td><a href="#" class="btn btn-info">Download</a>
+                                <td>@isset($groupedOrder->id_pesanan)
+                                    <a href="{{ route('seller.invoice', ['id_pesanan' => $groupedOrder->id_pesanan]) }}"
+                                        class="btn btn-info">Buka Invoice</a>
+                                    @endisset
                                 </td>
                             </tr>
                             @endforeach

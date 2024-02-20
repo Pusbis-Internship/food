@@ -104,12 +104,12 @@
     <div class="invoice-box">
         <table cellpadding="0" cellspacing="0">
             <tr class="top">
-                <td colspan="2">
+                <td colspan="4">
                     <table>
                         @if ($groupedOrders && $groupedOrders->count() > 0)
                             @foreach ($groupedOrders as $groupedOrder)
                                 <tr class="top">
-                                    <td colspan="2">
+                                    <td colspan="4">
                                         <table>
                                             <tr>
                                                 <td class="title">
@@ -129,7 +129,7 @@
             </tr>
 
             <tr class="information">
-                <td colspan="2">
+                <td colspan="4">
                     <table>
                         <tr>
                             <td>
@@ -184,5 +184,35 @@
         @endif
     </div>
 </body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+    <script>
+        function downloadPDF() {
+            const element = document.querySelector('.invoice-box');
+
+            const options = {
+                margin: 1,
+                filename: 'invoice{id_pesanan}uinsafood.pdf',
+                image: {
+                    type: 'jpeg',
+                    quality: 1
+                },
+                html2canvas: {
+                    scale: 10
+                },
+                jsPDF: {
+                    unit: 'in',
+                    format: 'a4',
+                    orientation: 'landscape'
+                }
+            };
+
+            html2pdf()
+                .from(element)
+                .set(options)
+                .save();
+        }
+    </script>
+    <button onclick="downloadPDF()">Download Invoice</button>
 
 </html>

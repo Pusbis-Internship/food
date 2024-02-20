@@ -119,4 +119,5 @@ Route::middleware(['auth'])->group(function(){
     Route::get('datamenu/{id}/deletemenuseller', [SellerMenuController::class, 'menu_delete'])->name('deletemenuseller')->middleware('userAkses:seller');
 
     Route::get('seller/orders', [SellerController::class, 'seller_order'])->name('seller.orders')->middleware('userAkses:seller');
+    Route::get('/seller/invoice/{id_pesanan}', [SellerController::class, 'seller_invoice'])->name('seller.invoice')->middleware('userAkses:seller');
 });

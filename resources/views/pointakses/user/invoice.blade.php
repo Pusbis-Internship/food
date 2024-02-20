@@ -104,7 +104,7 @@
     <div class="invoice-box">
         <table cellpadding="0" cellspacing="0">
             <tr class="top">
-                <td colspan="2">
+                <td colspan="4">
                     <table>
                         @if ($groupedOrders && $groupedOrders->count() > 0)
                             @foreach ($groupedOrders as $groupedOrder)
@@ -119,7 +119,6 @@
                                                 <td>
                                                     <strong>Nama Pemesan: {{ $groupedOrder->nama_lengkap }}</strong>
                                                     <br><strong>ID Pesanan: {{ $groupedOrder->id_pesanan }}</strong>
-                                                    <br><strong> Nama penjual: {{ $groupedOrder->sellers }}</strong>
                                                 </td>
                                                 
                                             </tr>
@@ -131,7 +130,7 @@
             </tr>
 
             <tr class="information">
-                <td colspan="2">
+                <td colspan="4">
                     <table>
                         <tr>
                             <td>
@@ -154,6 +153,7 @@
             </tr>
             <tr class="heading">
                 <td>Item</td>
+                <td>Seller</td>
                 <td>Quantity</td>
                 <td>Price</td>
             </tr>
@@ -161,6 +161,7 @@
             @foreach($groupedOrders as $groupedOrder)
             @php
                 $menus = explode(',', $groupedOrder->menu_names);
+                $sellers = explode(',', $groupedOrder->sellers);
                 $quantities = explode(',', $groupedOrder->quantities); // Menggunakan string quantities yang baru
                 $subtotals = explode(',', $groupedOrder->subtotals);
                 $count = count($menus);
@@ -169,6 +170,7 @@
             @for ($i = 0; $i < $count; $i++)
                 <tr class="item">
                     <td>{{ isset($menus[$i]) ? $menus[$i] : '' }}</td>
+                    <td>{{ isset($sellers[$i]) ? $sellers[$i] : '' }}</td>
                     <td>{{ isset($quantities[$i]) ? number_format($quantities[$i], 0, ',', '.') : '' }}</td>
                     <td>Rp.{{ isset($subtotals[$i]) ? number_format($subtotals[$i], 0, ',', '.') : '' }}</td>
                 </tr>
@@ -184,4 +186,33 @@
     </div>
 </body>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+    <script>
+        function downloadPDF() {
+            const element = document.querySelector('.invoice-box');
+
+            const options = {
+                margin: 1,
+                filename: 'invoice{id_pesanan}uinsafood.pdf',
+                image: {
+                    type: 'jpeg',
+                    quality: 1
+                },
+                html2canvas: {
+                    scale: 10
+                },
+                jsPDF: {
+                    unit: 'in',
+                    format: 'a4',
+                    orientation: 'landscape'
+                }
+            };
+
+            html2pdf()
+                .from(element)
+                .set(options)
+                .save();
+        }
+    </script>
+    <button onclick="downloadPDF()">Download Invoice</button>
 </html>
