@@ -28,7 +28,8 @@ class AdminOrderController extends Controller
             ->join('users', 'orders.users_id', '=', 'users.id')
             ->select('id_pesanan', 'total', 'nama_penerima', 'alamat_pengiriman', 'fakultas', 'tanggal', 'jam', 'users.nama_lengkap', 
                 DB::raw('GROUP_CONCAT(menu_name) as menu_names'), 
-                DB::raw('GROUP_CONCAT(seller) as sellers'), 
+                DB::raw('GROUP_CONCAT(seller) as sellers'),
+                DB::raw('GROUP_CONCAT(menu_price) as menu_prices'),  
                 DB::raw('GROUP_CONCAT(subtotal) as subtotals'), 
                 DB::raw('GROUP_CONCAT(quantity SEPARATOR ", ") as quantities'))
             ->where('id_pesanan', $id_pesanan)

@@ -153,15 +153,15 @@
             </tr>
             <tr class="heading">
                 <td>Item</td>
-                <td>Seller</td>
-                <td>Quantity</td>
                 <td>Price</td>
+                <td>Quantity</td>
+                <td>Subtotal</td>
             </tr>
 
             @foreach($groupedOrders as $groupedOrder)
             @php
                 $menus = explode(',', $groupedOrder->menu_names);
-                $sellers = explode(',', $groupedOrder->sellers);
+                $menu_prices = explode(',', $groupedOrder->menu_prices);
                 $quantities = explode(',', $groupedOrder->quantities); // Menggunakan string quantities yang baru
                 $subtotals = explode(',', $groupedOrder->subtotals);
                 $count = count($menus);
@@ -170,7 +170,7 @@
             @for ($i = 0; $i < $count; $i++)
                 <tr class="item">
                     <td>{{ isset($menus[$i]) ? $menus[$i] : '' }}</td>
-                    <td>{{ isset($sellers[$i]) ? $sellers[$i] : '' }}</td>
+                    <td>Rp.{{ isset($menu_prices[$i]) ? number_format($menu_prices[$i], 0, ',', '.') : '' }}</td>
                     <td>{{ isset($quantities[$i]) ? number_format($quantities[$i], 0, ',', '.') : '' }}</td>
                     <td>Rp.{{ isset($subtotals[$i]) ? number_format($subtotals[$i], 0, ',', '.') : '' }}</td>
                 </tr>
