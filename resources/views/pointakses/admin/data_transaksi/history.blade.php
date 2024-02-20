@@ -27,6 +27,7 @@
                         <thead>
                             <tr>
                                 <th>Data Order</th>
+                                <th>Invoice</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -40,18 +41,12 @@
                                     <br>Alamat Pengiriman: {{ $groupedOrder->alamat_pengiriman }}
                                     <br>fakultas: {{ $groupedOrder->fakultas }}
                                     <br>Tanggal & Jam: {{ $groupedOrder->tanggal }}, {{$groupedOrder->jam}}
+                                    <br>Status: {{ $groupedOrder->status }}
+                                </td>
+                                <td><a href="#" class="btn btn-info">Download</a>
                                 </td>
                                 <td>
-                                    <form action="{{route('setuju',['id_pesanan' => $groupedOrder->id_pesanan])}}" method="POST">
-                                        @csrf
-                                        @method('PUT')
-                                        <button type="submit" class="btn btn-success">Setuju</button>
-                                    </form>
-                                    <form action="{{route('tolak',['id_pesanan' => $groupedOrder->id_pesanan])}}" method="POST">
-                                        @csrf
-                                        @method('PUT')
-                                        <button type="submit" class="btn btn-danger">Tolak</button>
-                                    </form>
+                                    {{ $groupedOrder->status }}
                                 </td>
                             </tr>
                             @endforeach
