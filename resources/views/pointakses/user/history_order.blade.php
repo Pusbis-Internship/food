@@ -20,6 +20,7 @@
             <tr>
                 <th>Data Order</th>
                 <th>Invoice</th>
+                <th>Status</th>
             </tr>
         </thead>
         <tbody>
@@ -42,6 +43,8 @@
                         class="btn btn-info">Buka Invoice</a>
                     @endisset
                 </td>
+                <td>
+                    <strong>{{ $groupedOrder->status }}</strong></td>
             </tr>
             @endforeach
         </tbody>
