@@ -43,10 +43,15 @@
                                     <br>Tanggal & Jam: {{ $groupedOrder->tanggal }}, {{$groupedOrder->jam}}
                                     <br>Status: {{ $groupedOrder->status }}
                                 </td>
-                                <td><a href="#" class="btn btn-info">Download</a>
-                                </td>
+                                <td>@isset($groupedOrder->id_pesanan)
+                                    <a href="{{ route('admin_invoice', ['id_pesanan' => $groupedOrder->id_pesanan]) }}"
+                                        class="btn btn-info">Lihat Invoice</a>
+                                    <a href="{{ route('download', ['id_pesanan' => $groupedOrder->id_pesanan]) }}"
+                                        class="btn btn-success">Unduh Invoice</a>
+                                    @endisset</td>
                                 <td>
-                                    {{ $groupedOrder->status }}
+                                <td>
+                                    <strong>{{ $groupedOrder->status }}</strong>
                                 </td>
                             </tr>
                             @endforeach

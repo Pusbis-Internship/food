@@ -189,8 +189,6 @@ class UserController extends Controller
         // Return the view with the data
         return view('pointakses.user.invoice', compact('userId', 'groupedOrders'));
     }
-    
-    
 
     public function generateinvoice($id_pesanan)
     {

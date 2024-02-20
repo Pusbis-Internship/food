@@ -27,6 +27,7 @@
                         <thead>
                             <tr>
                                 <th>Data Order</th>
+                                <th>Invoice</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -34,6 +35,7 @@
                             @foreach($groupedOrders as $groupedOrder)
                             <tr>
                                 <td><strong>ID Pesanan: {{ $groupedOrder->id_pesanan }} </strong>
+                                    <br><strong>Pemesan: {{$groupedOrder->nama_lengkap}}</strong>
                                     <br>Menu: {{ $groupedOrder->menu_names }}
                                     <br>Total: {{ $groupedOrder->total }}
                                     <br>Nama Penerima: {{ $groupedOrder->nama_penerima }}
@@ -41,12 +43,19 @@
                                     <br>fakultas: {{ $groupedOrder->fakultas }}
                                     <br>Tanggal & Jam: {{ $groupedOrder->tanggal }}, {{$groupedOrder->jam}}
                                 </td>
+                                <td>@isset($groupedOrder->id_pesanan)
+                                    <a href="{{ route('admin_invoice', ['id_pesanan' => $groupedOrder->id_pesanan]) }}"
+                                        class="btn btn-info">Lihat Invoice</a>
+                                    <a href="{{ route('download', ['id_pesanan' => $groupedOrder->id_pesanan]) }}"
+                                        class="btn btn-success">Unduh Invoice</a>
+                                    @endisset</td>
                                 <td>
                                     <form action="{{route('setuju',['id_pesanan' => $groupedOrder->id_pesanan])}}" method="POST">
                                         @csrf
                                         @method('PUT')
                                         <button type="submit" class="btn btn-success">Setuju</button>
                                     </form>
+                                    <br>
                                     <form action="{{route('tolak',['id_pesanan' => $groupedOrder->id_pesanan])}}" method="POST">
                                         @csrf
                                         @method('PUT')
