@@ -157,6 +157,15 @@
                            </p>
                        </a>
                     </span>
+                    <li class="nav-item">
+                    <span>
+                        <a href="{{route('admin.history')}}" class="nav-link">
+                           <i class="nav-icon fas fa-table"></i>
+                           <p>
+                               Tabel History
+                           </p>
+                       </a>
+                    </span>
 
                    <!-- Control Sidebar -->
                    <aside class="control-sidebar control-sidebar-dark">

@@ -83,7 +83,11 @@ Route::middleware(['auth'])->group(function(){
     ////////// Admin Controller //////////
     Route::get('/admin', [AdminController::class, 'index'])->name('admin')->middleware('userAkses:admin');
     Route::get('/admin/orders', [AdminOrderController::class, 'groupDataByCreatedAt'])->name('admin.orders')->middleware('userAkses:admin');
-
+    Route::get('/admin/history', [AdminOrderController::class, 'history_order'])->name('admin.history')->middleware('userAkses:admin');
+    Route::get('/admin/invoice/{id_pesanan}', [AdminOrderController::class, 'admin_invoice'])->name('admin_invoice')->middleware('userAkses:admin');
+    Route::put('/admin/orders/{id_pesanan}/setuju', [AdminOrderController::class, 'accept'])->name('setuju')->middleware('userAkses:admin');
+    Route::put('/admin/orders/{id_pesanan}/tolak', [AdminOrderController::class, 'reject'])->name('tolak')->middleware('userAkses:admin');
+    
     ////////// Admin Kategori Controller //////////
     Route::get('/datakategori', [CategoryController::class, 'data_kategori'])->name('datakategori')->middleware('userAkses:admin');
     Route::get('/createcategory', [CategoryController::class, 'create_category'])->name('createcategory')->middleware('userAkses:admin');
@@ -115,4 +119,5 @@ Route::middleware(['auth'])->group(function(){
     Route::get('datamenu/{id}/deletemenuseller', [SellerMenuController::class, 'menu_delete'])->name('deletemenuseller')->middleware('userAkses:seller');
 
     Route::get('seller/orders', [SellerController::class, 'seller_order'])->name('seller.orders')->middleware('userAkses:seller');
+    Route::get('/seller/invoice/{id_pesanan}', [SellerController::class, 'seller_invoice'])->name('seller.invoice')->middleware('userAkses:seller');
 });

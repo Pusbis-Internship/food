@@ -20,6 +20,7 @@
             <tr>
                 <th>Data Order</th>
                 <th>Invoice</th>
+                <th>Status</th>
             </tr>
         </thead>
         <tbody>
@@ -30,7 +31,7 @@
                     <strong>ID Pesanan: {{ $groupedOrder->id_pesanan }}</strong>
                     @endisset
                     <br>Menu (Jumlah): <strong>{{ $groupedOrder->menu_with_quantity }}</strong>
-                    <br>Total: {{ $groupedOrder->total }}
+                    <br>Total: Rp. {{ number_format($groupedOrder->total, 0, ',', '.') }}
                     <br>Nama Penerima: {{ $groupedOrder->nama_penerima }}
                     <br>Alamat Pengiriman: {{ $groupedOrder->alamat_pengiriman }}
                     <br>Fakultas: {{ $groupedOrder->fakultas }}
@@ -39,11 +40,11 @@
                 <td>
                     @isset($groupedOrder->id_pesanan)
                     <a href="{{ route('user_invoice', ['id_pesanan' => $groupedOrder->id_pesanan]) }}"
-                        class="btn btn-info">Lihat Invoice</a>
-                    <a href="{{ route('download', ['id_pesanan' => $groupedOrder->id_pesanan]) }}"
-                        class="btn btn-success">Unduh Invoice</a>
+                        class="btn btn-info">Buka Invoice</a>
                     @endisset
                 </td>
+                <td>
+                    <strong>{{ $groupedOrder->status }}</strong></td>
             </tr>
             @endforeach
         </tbody>

@@ -65,27 +65,6 @@ class OrderController extends Controller
         return $total;
     }
 
-    private function getTotalQuantity($orderData)
-    {
-        $totalQuantity = 0;
-
-        foreach ($orderData as $orderDetail) {
-            $totalQuantity += $orderDetail['quantity'];
-        }
-
-        return $totalQuantity;
-    }
-
-    private function calculateSubtotal($orderData)
-    {
-        $subtotal = 0;
-
-        foreach ($orderData as $orderDetail) {
-            $subtotal += $orderDetail['subtotal'];
-        }
-
-        return $subtotal;
-    }
     private function updateOrderTotal($orderId)
     {
         $orderItems = Order::where('id', $orderId)->get();

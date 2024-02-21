@@ -28,6 +28,7 @@ return new class extends Migration
                 $table->string('fakultas')->nullable(); // Kolom fakultas boleh kosong
                 $table->date('tanggal')->nullable(); // Kolom tanggal boleh kosong
                 $table->time('jam')->nullable(); // Kolom jam boleh kosong
+                $table->string('status')->default('pending');
                 $table->timestamps();
             });
         }

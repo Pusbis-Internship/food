@@ -32,7 +32,7 @@
                 <h2>{{ $menu->menu_name }}</h2>
                 <p>{{ $menu->seller }}</p>
                 <p>{{ $menu->menu_desc }}</p>
-                <h3>Rp. {{ $menu->menu_price }}</h3>
+                <h3>Rp. {{ number_format($menu->menu_price, 0, ',', '.') }}</h3>
                 <div class="menu_icon">
                     <i class="icon-basket2"></i>
                 </div>

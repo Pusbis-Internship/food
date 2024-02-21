@@ -1,6 +1,6 @@
-@extends('pointakses.seller.layouts.dashboard')
+@extends('pointakses.admin.layouts.dashboard')
 
-@section('content_seller')
+@section('content')
 
 <div class="content-wrapper iframe-mode" data-widget="iframe" data-loading-screen="750">
     <div class="container-fluid">
@@ -29,24 +29,27 @@
                             <tr>
                                 <th>Data Order</th>
                                 <th>Invoice</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($groupedOrders as $groupedOrder)
                             <tr>
                                 <td><strong>ID Pesanan: {{ $groupedOrder->id_pesanan }} </strong>
-                                <br><strong>Pemesan: {{$groupedOrder->nama_lengkap}}</strong>
-                                    <br>Menu (Jumlah): {{ $groupedOrder->menu_with_quantity }}
+                                    <br>Menu: {{ $groupedOrder->menu_names }}
                                     <br>Total: Rp. {{ number_format($groupedOrder->total, 0, ',', '.') }}
                                     <br>Nama Penerima: {{ $groupedOrder->nama_penerima }}
                                     <br>Alamat Pengiriman: {{ $groupedOrder->alamat_pengiriman }}
                                     <br>fakultas: {{ $groupedOrder->fakultas }}
                                     <br>Tanggal & Jam: {{ $groupedOrder->tanggal }}, {{$groupedOrder->jam}}
+                                    <br>Status: {{ $groupedOrder->status }}
                                 </td>
                                 <td>@isset($groupedOrder->id_pesanan)
-                                    <a href="{{ route('seller.invoice', ['id_pesanan' => $groupedOrder->id_pesanan]) }}"
-                                        class="btn btn-info">Buka Invoice</a>
-                                    @endisset
+                                    <a href="{{ route('admin_invoice', ['id_pesanan' => $groupedOrder->id_pesanan]) }}"
+                                        class="btn btn-info">Lihat Invoice</a>
+                                    @endisset</td>
+                                <td>
+                                    <strong>{{ $groupedOrder->status }}</strong>
                                 </td>
                             </tr>
                             @endforeach
@@ -59,5 +62,6 @@
         </div>
     </div>
 </div>
-@include('pointakses.seller.include.sidebar_seller')
+</div>
+@include('pointakses.admin.include.sidebar_admin')
 @endsection

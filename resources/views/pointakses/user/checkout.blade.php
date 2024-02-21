@@ -23,6 +23,7 @@
             <tr>
                 <th>Menu</th>
                 <th>Vendor</th>
+                <th> </th>
                 <th>Price</th>
                 <th>Quantity</th>
                 <th>Subtotal</th>
@@ -42,9 +43,9 @@
                         <td class="text-center">
                             <img src="{{ url('storage/menu_images/' . basename($order_detail['menu_pic'])) }}" class="rounded" style="width: 150px">
                         </td>
-                        <td data-th="Price">Rp. {{ $order_detail['menu_price'] }}</td>
-                        <td data-th="Quantity"> {{ $order_detail['quantity'] }} </td>
-                        <td data-th="Subtotal" class="text-center">{{ $order_detail['subtotal'] }} </td>
+                        <td data-th="Price">Rp. {{ number_format($order_detail['menu_price'], 0, ',', '.') }}</td>
+                        <td data-th="Quantity">{{ $order_detail['quantity'] }}</td>
+                        <td data-th="Subtotal" class="text-center">Rp. {{ number_format($order_detail['subtotal'], 0, ',', '.') }}</td>                        
                         @php
                             $total += $order_detail['subtotal'];
                         @endphp
@@ -78,12 +79,13 @@
                 <input type="time" class="form-control" id="jam" name="jam" required>
             </div>
             <div class="text-right">
+                <br>
                 <button type="submit" class="btn btn-success">Place Order</button>
             </div>
         </form>
 
         <div class="text-right">
-            <strong><p>Total: Rp. {{ $total }}</p></strong>
+            <strong>Total: Rp. {{ number_format($total, 0, ',', '.') }}</strong>
         </div>
     </div>
 @endsection
