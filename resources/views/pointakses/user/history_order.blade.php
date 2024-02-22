@@ -14,7 +14,25 @@
     </div>
 </section>
 <!-- /.card-header -->
-<div class="card-body table-responsive p-0">
+
+
+    <div class="card-body table-responsive p-0">
+        <br>
+        <h3>Cari Transaksi</h3>
+        <form method="GET" action="{{ route('admin.history') }}">
+            <div class="col-md-3">
+                <label for="">Tanggal mulai</label>
+                <input type="date" name="start_date" class="form-control">
+            </div>
+            <div class="col-md-3">
+                <label for="">Tanggal akhir</label>
+                <input type="date" name="end_date" class="form-control">
+            </div>
+            <div class="col-md-1 pt-4">
+                <button type="submit" class="btn btn-info">Filter</button>
+            </div>
+    </form>
+
     <table class="table table-hover text-nowrap">
         <thead>
             <tr>
@@ -44,7 +62,8 @@
                     @endisset
                 </td>
                 <td>
-                    <strong>{{ $groupedOrder->status }}</strong></td>
+                    <strong>{{ $groupedOrder->status }}</strong>
+                </td>
             </tr>
             @endforeach
         </tbody>

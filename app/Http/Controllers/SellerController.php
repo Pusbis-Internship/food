@@ -8,24 +8,35 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Support\Facades\DB;
 
+use Illuminate\Http\Request;
+
 class SellerController extends Controller
 {
     function index() {
         return view('pointakses/seller/index');
     }
 
-    public function seller_order()
+    public function seller_order(Request $request)
     {
         $userId = Auth::id();
+
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
     
-        $groupedOrders = DB::table('orders')
+        $groupedOrdersQuery = DB::table('orders')
         ->join('table_menu', 'orders.menu_name', '=', 'table_menu.menu_name')
         ->join('users', 'orders.users_id', '=', 'users.id')
         ->select('orders.id_pesanan', 'orders.total', 'orders.nama_penerima', 'orders.alamat_pengiriman', 'orders.fakultas', 'orders.tanggal', 'orders.jam', 'users.nama_lengkap', 'status',
             DB::raw('GROUP_CONCAT(CONCAT(orders.menu_name, " (", quantity, ")") SEPARATOR ", ") as menu_with_quantity'))
-        ->where('table_menu.users_id', $userId)
-        ->groupBy('orders.id_pesanan', 'orders.total', 'orders.nama_penerima', 'orders.alamat_pengiriman', 'orders.fakultas', 'orders.tanggal', 'orders.jam', 'users.nama_lengkap','status')
-        ->get();
+        ->where('table_menu.users_id', $userId);
+
+        if ($startDate && $endDate) {
+            $groupedOrdersQuery->whereBetween('tanggal', [$startDate, $endDate]);
+        }
+
+        $groupedOrders = $groupedOrdersQuery
+            ->groupBy('orders.id_pesanan', 'orders.total', 'orders.nama_penerima', 'orders.alamat_pengiriman', 'orders.fakultas', 'orders.tanggal', 'orders.jam', 'users.nama_lengkap','status')
+            ->get();
 
     return view('pointakses/seller/data_order/tampilkan_order', ['groupedOrders' => $groupedOrders]);
     }

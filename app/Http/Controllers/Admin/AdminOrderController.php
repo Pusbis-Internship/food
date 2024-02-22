@@ -5,17 +5,27 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class AdminOrderController extends Controller
 {
-    public function groupDataByCreatedAt()
+    public function groupDataByCreatedAt(Request $request)
     {
-        $groupedOrders = DB::table('orders')
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+
+        $groupedOrdersQuery = DB::table('orders')
             ->join('users', 'orders.users_id', '=', 'users.id')
             ->select('id_pesanan', 'total', 'nama_penerima', 'alamat_pengiriman', 'fakultas', 'tanggal', 'jam', 'users.nama_lengkap',
                 DB::raw('GROUP_CONCAT(menu_name SEPARATOR ", ") as menu_names'))
+            ->whereIn('status',['pending']);
+                
+        if ($startDate && $endDate) {
+                $groupedOrdersQuery->whereBetween('orders.tanggal', [$startDate, $endDate]);
+            }
+            
+        $groupedOrders = $groupedOrdersQuery
             ->groupBy('id_pesanan', 'total', 'nama_penerima', 'alamat_pengiriman', 'fakultas', 'tanggal', 'jam', 'users.nama_lengkap')
-            ->whereIn('status',['pending'])
             ->get();
 
         return view('pointakses/admin/data_transaksi/tampilkan_transaksi', ['groupedOrders' => $groupedOrders]);
@@ -59,12 +69,21 @@ class AdminOrderController extends Controller
         return redirect()->route('admin.orders')->with('success', 'Order Telah Ditolak');
     }
 
-    public function history_order()
+    public function history_order(Request $request)
     {
-        $groupedOrders = DB::table('orders')
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+
+        $groupedOrdersQuery = DB::table('orders')
             ->select('id_pesanan', 'total', 'nama_penerima', 'alamat_pengiriman', 'fakultas', 'tanggal', 'jam','status', 
                 DB::raw('GROUP_CONCAT(menu_name SEPARATOR ", ") as menu_names'))
-            ->whereIn('status',['Setuju', 'Tolak'])
+            ->whereIn('status',['Setuju', 'Tolak']);
+        
+        if ($startDate && $endDate) {
+                $groupedOrdersQuery->whereBetween('tanggal', [$startDate, $endDate]);
+            }
+
+        $groupedOrders = $groupedOrdersQuery
             ->groupBy('id_pesanan', 'total', 'nama_penerima', 'alamat_pengiriman', 'fakultas', 'tanggal', 'jam','status')
             ->get();
 

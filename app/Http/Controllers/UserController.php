@@ -159,14 +159,21 @@ class UserController extends Controller
 
         return $total;
     }
-    public function history_order()
+    public function history_order(Request $request)
     {
         $userId = Auth::id();
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
     
-        $groupedOrders = DB::table('orders')
+        $groupedOrdersQuery = DB::table('orders')
             ->select('id_pesanan', 'total', 'nama_penerima', 'alamat_pengiriman', 'fakultas', 'tanggal', 'jam', 'status',
                     DB::raw('GROUP_CONCAT(CONCAT(menu_name, " (", quantity, ")") SEPARATOR ", ") as menu_with_quantity'))
-            ->where('users_id', $userId)
+            ->where('users_id', $userId);
+
+        if ($startDate && $endDate) {
+                $groupedOrdersQuery->whereBetween('tanggal', [$startDate, $endDate]);
+            }
+        $groupedOrders = $groupedOrdersQuery
             ->groupBy('id_pesanan', 'total', 'nama_penerima', 'alamat_pengiriman', 'fakultas', 'tanggal', 'jam', 'status')
             ->get();
     

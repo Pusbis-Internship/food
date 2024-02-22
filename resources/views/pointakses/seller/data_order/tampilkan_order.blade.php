@@ -9,6 +9,22 @@
                 <div class="card">
                     <div class="card-header">
 
+                    <br>
+                    <h3>Cari Transaksi</h3>
+                    <form method="GET" action="{{ route('seller.orders') }}">
+                        <div class="col-md-3">
+                            <label for="">Tanggal mulai</label>
+                            <input type="date" name="start_date" class="form-control">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">Tanggal akhir</label>
+                            <input type="date" name="end_date" class="form-control">
+                        </div>
+                        <div class="col-md-1 pt-4">
+                            <button type="submit" class="btn btn-info">Filter</button>
+                        </div>
+                    </form>
+
                     <div class="card-tools">
                         <div class="input-group input-group-sm" style="width: 150px;">
                             <input type="text" name="table_search" class="form-control float-right"
