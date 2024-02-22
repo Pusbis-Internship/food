@@ -17,27 +17,35 @@ class AdminOrderController extends Controller
 
         $groupedOrdersQuery = DB::table('orders')
             ->join('users', 'orders.users_id', '=', 'users.id')
-            ->select('id_pesanan', 'total', 'nama_penerima', 'alamat_pengiriman', 'fakultas', 'tanggal', 'jam', 'users.nama_lengkap',
-                DB::raw('GROUP_CONCAT(CONCAT(menu_name, " (", quantity, ")") SEPARATOR ", ") as menu_with_quantity'))
-            ->whereIn('status',['pending']);
-                
+            ->select(
+                'id_pesanan',
+                'total',
+                'nama_penerima',
+                'alamat_pengiriman',
+                'fakultas',
+                'tanggal',
+                'jam',
+                'users.nama_lengkap',
+                DB::raw('GROUP_CONCAT(CONCAT(menu_name, " (", quantity, ")") SEPARATOR ", ") as menu_with_quantity')
+            )
+            ->whereIn('status', ['pending']);
+
         if ($startDate && $endDate) {
-                $groupedOrdersQuery->whereBetween('orders.tanggal', [$startDate, $endDate]);
-            }
+            $groupedOrdersQuery->whereBetween('orders.tanggal', [$startDate, $endDate]);
+        }
 
         if ($search) {
             $groupedOrdersQuery->where(function ($query) use ($search) {
                 $query->where('id_pesanan', 'like', '%' . $search . '%')
-                      ->orWhere('total', 'like', '%' . $search . '%')
-                      ->orWhere('nama_penerima', 'like', '%' . $search . '%')
-                      ->orWhere('alamat_pengiriman', 'like', '%' . $search . '%')
-                      ->orWhere('fakultas', 'like', '%' . $search . '%')
-                      ->orWhere('tanggal', 'like', '%' . $search . '%')
-                      ->orWhere('jam', 'like', '%' . $search . '%')
-                      ->orWhere('status', 'like', '%' . $search . '%');
-                });
-            }    
-            
+                    ->orWhere('menu_name', 'like', '%' . $search . '%')
+                    ->orWhere('total', 'like', '%' . $search . '%')
+                    ->orWhere('nama_penerima', 'like', '%' . $search . '%')
+                    ->orWhere('alamat_pengiriman', 'like', '%' . $search . '%')
+                    ->orWhere('fakultas', 'like', '%' . $search . '%')
+                    ->orWhere('status', 'like', '%' . $search . '%');
+            });
+        }
+
         $groupedOrders = $groupedOrdersQuery
             ->groupBy('id_pesanan', 'total', 'nama_penerima', 'alamat_pengiriman', 'fakultas', 'tanggal', 'jam', 'users.nama_lengkap')
             ->get();
@@ -47,39 +55,47 @@ class AdminOrderController extends Controller
 
     public function admin_invoice($id_pesanan)
     {
-        // Retrieve the grouped orders
         $groupedOrders = DB::table('orders')
             ->join('users', 'orders.users_id', '=', 'users.id')
-            ->select('id_pesanan', 'total', 'nama_penerima', 'alamat_pengiriman', 'fakultas', 'tanggal', 'jam', 'users.nama_lengkap','status', 
-                DB::raw('GROUP_CONCAT(menu_name) as menu_names'), 
+            ->select(
+                'id_pesanan',
+                'total',
+                'nama_penerima',
+                'alamat_pengiriman',
+                'fakultas',
+                'tanggal',
+                'jam',
+                'users.nama_lengkap',
+                'status',
+                DB::raw('GROUP_CONCAT(menu_name) as menu_names'),
                 DB::raw('GROUP_CONCAT(seller) as sellers'),
-                DB::raw('GROUP_CONCAT(menu_price) as menu_prices'),  
-                DB::raw('GROUP_CONCAT(subtotal) as subtotals'), 
-                DB::raw('GROUP_CONCAT(quantity SEPARATOR ", ") as quantities'))
+                DB::raw('GROUP_CONCAT(menu_price) as menu_prices'),
+                DB::raw('GROUP_CONCAT(subtotal) as subtotals'),
+                DB::raw('GROUP_CONCAT(quantity SEPARATOR ", ") as quantities')
+            )
             ->where('id_pesanan', $id_pesanan)
-            ->groupBy('id_pesanan', 'total', 'nama_penerima', 'alamat_pengiriman', 'fakultas', 'tanggal', 'jam', 'users.nama_lengkap','status')
+            ->groupBy('id_pesanan', 'total', 'nama_penerima', 'alamat_pengiriman', 'fakultas', 'tanggal', 'jam', 'users.nama_lengkap', 'status')
             ->get();
-        
-        // Return the view with the data
+
         return view('pointakses.admin.data_transaksi.admin_invoice', compact('groupedOrders'));
     }
 
-    public function accept($id_pesanan){
+    public function accept($id_pesanan)
+    {
         DB::table('orders')
 
-        ->where('id_pesanan', $id_pesanan)
-    
-        ->update(['status'=>'Setuju']);
-    
+            ->where('id_pesanan', $id_pesanan)
+            ->update(['status' => 'Setuju']);
+
         return redirect()->route('admin.orders')->with('sucess', 'Order Telah Disetujui');
     }
-    public function reject($id_pesanan){
+    public function reject($id_pesanan)
+    {
         DB::table('orders')
 
-        ->where('id_pesanan', $id_pesanan)
-    
-        ->update(['status'=>'Tolak']);
-    
+            ->where('id_pesanan', $id_pesanan)
+            ->update(['status' => 'Tolak']);
+
         return redirect()->route('admin.orders')->with('success', 'Order Telah Ditolak');
     }
 
@@ -91,29 +107,40 @@ class AdminOrderController extends Controller
 
         $groupedOrdersQuery = DB::table('orders')
             ->join('users', 'orders.users_id', '=', 'users.id')
-            ->select('id_pesanan', 'total', 'nama_penerima', 'alamat_pengiriman', 'fakultas', 'tanggal', 'jam', 'status', 'users.nama_lengkap',
-                DB::raw('GROUP_CONCAT(CONCAT(menu_name, " (", quantity, ")") SEPARATOR ", ") as menu_with_quantity'))
-            ->whereIn('status',['Setuju', 'Tolak']);
-        
+            ->select(
+                'id_pesanan',
+                'total',
+                'nama_penerima',
+                'alamat_pengiriman',
+                'fakultas',
+                'tanggal',
+                'jam',
+                'status',
+                'users.nama_lengkap',
+                DB::raw('GROUP_CONCAT(CONCAT(menu_name, " (", quantity, ")") SEPARATOR ", ") as menu_with_quantity')
+            )
+            ->whereIn('status', ['Setuju', 'Tolak']);
+
         if ($startDate && $endDate) {
-                $groupedOrdersQuery->whereBetween('tanggal', [$startDate, $endDate]);
-            }
+            $groupedOrdersQuery->whereBetween('tanggal', [$startDate, $endDate]);
+        }
+
         if ($search) {
-                $groupedOrdersQuery->where(function ($query) use ($search) {
-                    $query->where('id_pesanan', 'like', '%' . $search . '%')
-                          ->orWhere('total', 'like', '%' . $search . '%')
-                          ->orWhere('nama_penerima', 'like', '%' . $search . '%')
-                          ->orWhere('alamat_pengiriman', 'like', '%' . $search . '%')
-                          ->orWhere('fakultas', 'like', '%' . $search . '%')
-                          ->orWhere('tanggal', 'like', '%' . $search . '%')
-                          ->orWhere('jam', 'like', '%' . $search . '%')
-                          ->orWhere('status', 'like', '%' . $search . '%');
-                    });
-            } 
+            $groupedOrdersQuery->where(function ($query) use ($search) {
+                $query->where('id_pesanan', 'like', '%' . $search . '%')
+                    ->orWhere('nama_lengkap', 'like', '%' . $search . '%')
+                    ->orWhere('menu_name', 'like', '%' . $search . '%')
+                    ->orWhere('total', 'like', '%' . $search . '%')
+                    ->orWhere('nama_penerima', 'like', '%' . $search . '%')
+                    ->orWhere('alamat_pengiriman', 'like', '%' . $search . '%')
+                    ->orWhere('fakultas', 'like', '%' . $search . '%')
+                    ->orWhere('status', 'like', '%' . $search . '%');
+            });
+        }
         $groupedOrders = $groupedOrdersQuery
             ->groupBy('id_pesanan', 'total', 'nama_penerima', 'alamat_pengiriman', 'fakultas', 'tanggal', 'jam', 'status', 'users.nama_lengkap')
             ->get();
 
-        return view('pointakses/admin/data_transaksi/history', ['groupedOrders' => $groupedOrders, 'search' => $search ]);
+        return view('pointakses/admin/data_transaksi/history', ['groupedOrders' => $groupedOrders, 'search' => $search]);
     }
 }
