@@ -61,6 +61,51 @@
       </div>
       <!-- /.info-box -->
     </div>
+    <div class="card-tools">
+              <div class="input-group input-group-sm" style="width: 150px;">
+                  <input type="text" name="table_search" class="form-control float-right"
+                      placeholder="Search">
+  
+                  <div class="input-group-append">
+                      <button type="submit" class="btn btn-default">
+                          <i class="fas fa-search"></i>
+                      </button>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <!-- /.card-header -->
+      <div class="card-body table-responsive p-0">
+          <table class="table table-hover text-nowrap">
+              <thead>
+                  <tr>
+                      <th>Data Order</th>
+                      <th>Invoice</th>
+                  </tr>
+              </thead>
+              <tbody>
+                @foreach($groupedOrders as $groupedOrder)
+                <tr>
+                    <td><strong>ID Pesanan: {{ $groupedOrder->id_pesanan }} </strong>
+                    <br><strong>Pemesan: {{$groupedOrder->nama_lengkap}}</strong>
+                        <br>Menu (Jumlah): {{ $groupedOrder->menu_with_quantity }}
+                        <br>Total: Rp. {{ number_format($groupedOrder->total, 0, ',', '.') }}
+                        <br>Nama Penerima: {{ $groupedOrder->nama_penerima }}
+                        <br>Alamat Pengiriman: {{ $groupedOrder->alamat_pengiriman }}
+                        <br>fakultas: {{ $groupedOrder->fakultas }}
+                        <br>Tanggal & Jam: {{ $groupedOrder->tanggal }}, {{$groupedOrder->jam}}
+                    </td>
+                    <td>@isset($groupedOrder->id_pesanan)
+                        <a href="{{ route('seller.invoice', ['id_pesanan' => $groupedOrder->id_pesanan]) }}"
+                            class="btn btn-info">Buka Invoice</a>
+                        @endisset
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+          </table>
+      </div>
+    </div>
     <!-- /.col -->
   </div>
 </div>

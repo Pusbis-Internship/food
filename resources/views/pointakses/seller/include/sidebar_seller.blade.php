@@ -13,7 +13,9 @@
                 <img src="{{ asset('frontend/images/favicon.png') }}" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block"> {{ Auth::user()->nama_lengkap }}</a>
+                <span>
+                <a href="{{ route('seller') }}" class="d-block"> {{ Auth::user()->nama_lengkap }}</a>
+                </span>
             </div>
         </div>
 

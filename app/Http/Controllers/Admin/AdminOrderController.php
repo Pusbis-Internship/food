@@ -17,7 +17,7 @@ class AdminOrderController extends Controller
         $groupedOrdersQuery = DB::table('orders')
             ->join('users', 'orders.users_id', '=', 'users.id')
             ->select('id_pesanan', 'total', 'nama_penerima', 'alamat_pengiriman', 'fakultas', 'tanggal', 'jam', 'users.nama_lengkap',
-                DB::raw('GROUP_CONCAT(menu_name SEPARATOR ", ") as menu_names'))
+                DB::raw('GROUP_CONCAT(CONCAT(menu_name, " (", quantity, ")") SEPARATOR ", ") as menu_with_quantity'))
             ->whereIn('status',['pending']);
                 
         if ($startDate && $endDate) {
@@ -75,8 +75,9 @@ class AdminOrderController extends Controller
         $endDate = $request->input('end_date');
 
         $groupedOrdersQuery = DB::table('orders')
-            ->select('id_pesanan', 'total', 'nama_penerima', 'alamat_pengiriman', 'fakultas', 'tanggal', 'jam','status', 
-                DB::raw('GROUP_CONCAT(menu_name SEPARATOR ", ") as menu_names'))
+            ->join('users', 'orders.users_id', '=', 'users.id')
+            ->select('id_pesanan', 'total', 'nama_penerima', 'alamat_pengiriman', 'fakultas', 'tanggal', 'jam', 'status', 'users.nama_lengkap',
+                DB::raw('GROUP_CONCAT(CONCAT(menu_name, " (", quantity, ")") SEPARATOR ", ") as menu_with_quantity'))
             ->whereIn('status',['Setuju', 'Tolak']);
         
         if ($startDate && $endDate) {
@@ -84,7 +85,7 @@ class AdminOrderController extends Controller
             }
 
         $groupedOrders = $groupedOrdersQuery
-            ->groupBy('id_pesanan', 'total', 'nama_penerima', 'alamat_pengiriman', 'fakultas', 'tanggal', 'jam','status')
+            ->groupBy('id_pesanan', 'total', 'nama_penerima', 'alamat_pengiriman', 'fakultas', 'tanggal', 'jam', 'status', 'users.nama_lengkap')
             ->get();
 
         return view('pointakses/admin/data_transaksi/history', ['groupedOrders' => $groupedOrders]);

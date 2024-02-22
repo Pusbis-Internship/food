@@ -52,7 +52,8 @@
                             @foreach($groupedOrders as $groupedOrder)
                             <tr>
                                 <td><strong>ID Pesanan: {{ $groupedOrder->id_pesanan }} </strong>
-                                    <br>Menu: {{ $groupedOrder->menu_names }}
+                                    <br><strong>Pemesan: {{ $groupedOrder->nama_lengkap }}</strong>
+                                    <br>Menu (Jumlah): {{ $groupedOrder->menu_with_quantity }}
                                     <br>Total: Rp. {{ number_format($groupedOrder->total, 0, ',', '.') }}
                                     <br>Nama Penerima: {{ $groupedOrder->nama_penerima }}
                                     <br>Alamat Pengiriman: {{ $groupedOrder->alamat_pengiriman }}
