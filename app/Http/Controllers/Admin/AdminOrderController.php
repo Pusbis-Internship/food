@@ -13,6 +13,7 @@ class AdminOrderController extends Controller
     {
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
+        $search = $request->input('search');
 
         $groupedOrdersQuery = DB::table('orders')
             ->join('users', 'orders.users_id', '=', 'users.id')
@@ -23,12 +24,25 @@ class AdminOrderController extends Controller
         if ($startDate && $endDate) {
                 $groupedOrdersQuery->whereBetween('orders.tanggal', [$startDate, $endDate]);
             }
+
+        if ($search) {
+            $groupedOrdersQuery->where(function ($query) use ($search) {
+                $query->where('id_pesanan', 'like', '%' . $search . '%')
+                      ->orWhere('total', 'like', '%' . $search . '%')
+                      ->orWhere('nama_penerima', 'like', '%' . $search . '%')
+                      ->orWhere('alamat_pengiriman', 'like', '%' . $search . '%')
+                      ->orWhere('fakultas', 'like', '%' . $search . '%')
+                      ->orWhere('tanggal', 'like', '%' . $search . '%')
+                      ->orWhere('jam', 'like', '%' . $search . '%')
+                      ->orWhere('status', 'like', '%' . $search . '%');
+                });
+            }    
             
         $groupedOrders = $groupedOrdersQuery
             ->groupBy('id_pesanan', 'total', 'nama_penerima', 'alamat_pengiriman', 'fakultas', 'tanggal', 'jam', 'users.nama_lengkap')
             ->get();
 
-        return view('pointakses/admin/data_transaksi/tampilkan_transaksi', ['groupedOrders' => $groupedOrders]);
+        return view('pointakses/admin/data_transaksi/tampilkan_transaksi', ['groupedOrders' => $groupedOrders, 'search' => $search]);
     }
 
     public function admin_invoice($id_pesanan)
@@ -73,6 +87,7 @@ class AdminOrderController extends Controller
     {
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
+        $search = $request->input('search');
 
         $groupedOrdersQuery = DB::table('orders')
             ->join('users', 'orders.users_id', '=', 'users.id')
@@ -83,11 +98,22 @@ class AdminOrderController extends Controller
         if ($startDate && $endDate) {
                 $groupedOrdersQuery->whereBetween('tanggal', [$startDate, $endDate]);
             }
-
+        if ($search) {
+                $groupedOrdersQuery->where(function ($query) use ($search) {
+                    $query->where('id_pesanan', 'like', '%' . $search . '%')
+                          ->orWhere('total', 'like', '%' . $search . '%')
+                          ->orWhere('nama_penerima', 'like', '%' . $search . '%')
+                          ->orWhere('alamat_pengiriman', 'like', '%' . $search . '%')
+                          ->orWhere('fakultas', 'like', '%' . $search . '%')
+                          ->orWhere('tanggal', 'like', '%' . $search . '%')
+                          ->orWhere('jam', 'like', '%' . $search . '%')
+                          ->orWhere('status', 'like', '%' . $search . '%');
+                    });
+            } 
         $groupedOrders = $groupedOrdersQuery
             ->groupBy('id_pesanan', 'total', 'nama_penerima', 'alamat_pengiriman', 'fakultas', 'tanggal', 'jam', 'status', 'users.nama_lengkap')
             ->get();
 
-        return view('pointakses/admin/data_transaksi/history', ['groupedOrders' => $groupedOrders]);
+        return view('pointakses/admin/data_transaksi/history', ['groupedOrders' => $groupedOrders, 'search' => $search ]);
     }
 }
