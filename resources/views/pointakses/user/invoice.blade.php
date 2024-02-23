@@ -98,7 +98,8 @@
             text-align: left;
         }
 
-        .download-button {
+        .download-button,
+        .whatsapp-button {
             background-color: #4CAF50;
             color: white;
             padding: 10px 20px;
@@ -107,13 +108,17 @@
             cursor: pointer;
             text-align: center;
             text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 0 auto;
+            /* Menambahkan properti untuk menghapus underline */
             display: block;
+            margin: 20px auto;
+            /* Menyesuaikan margin agar tombol berada di tengah halaman */
+            width: 200px;
+            /* Menyesuaikan lebar tombol */
+            font-size: 16px;
         }
 
-        .download-button:hover {
+        .download-button:hover,
+        .whatsapp-button:hover {
             background-color: #45a049;
         }
 
@@ -128,7 +133,6 @@
             font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
             color: #555;
             text-align: center;
-        }
         }
     </style>
 </head>
@@ -229,7 +233,7 @@
 <script>
     function downloadPDF() {
         const element = document.querySelector('.invoice-box');
-        const idPesanan = "{{ $groupedOrder->id_pesanan }}"; 
+        const idPesanan = "{{ $groupedOrder->id_pesanan }}";
 
         const options = {
             margin: 1,
@@ -255,6 +259,52 @@
     }
 </script>
 <br>
+<div style="text-align: center;">
+    <h3>Download dan Kirimkan Invoice ke WhatsApp Admin</h3>
+</div>
 <button class="download-button" onclick="downloadPDF()">Download Invoice</button>
+
+<a id="whatsapp-link" href="https://wa.me/6285704232262?">
+    <button class="whatsapp-button">Kirim Invoice via WhatsApp</button>
+</a>
+
+<script>
+    // Fungsi untuk menambahkan pesan ke URL WhatsApp saat tombol diklik
+    document.getElementById('whatsapp-link').addEventListener('click', function() {
+        var message = "Berikut adalah pesanan order UINSAFOOD \n"; // Pesan default
+        const element = document.querySelector('.invoice-box');
+        const idPesanan = "{{ $groupedOrder->id_pesanan }}";
+        const namaPenerima = "{{ $groupedOrder->nama_penerima }}";
+        const alamatPengiriman = "{{ $groupedOrder->alamat_pengiriman }}";
+        const fak = "{{ $groupedOrder->fakultas }}";
+        const tgl = "{{ $groupedOrder->tanggal }}";
+        const jam = "{{ $groupedOrder->jam }}";
+
+        // Mengambil data item pesanan dari invoice
+        var items = element.querySelectorAll('.item');
+        items.forEach(function(item, index) {
+            var namaItem = item.querySelector('td:nth-of-type(1)').textContent.trim();
+            var hargaItem = item.querySelector('td:nth-of-type(3)').textContent.trim();
+            var jumlahItem = item.querySelector('td:nth-of-type(4)').textContent.trim();
+            var subtotalItem = item.querySelector('td:nth-of-type(5)').textContent.trim();
+            message += "\n" + "==================================================\n" +
+                "Nama Makanan/Minuman: " + namaItem + "\n" +
+                "Harga dan banyaknya (Rp." + hargaItem + ") x " + jumlahItem + " " + subtotalItem +
+                "\n";
+        });
+
+        // Menambahkan total pesanan ke dalam pesan
+        var total = element.querySelector('.total strong').textContent.trim();
+        message += "\n" + "==================================================\n" + "Pesanan ID : " + idPesanan +
+            "\nAtas Nama : " + namaPenerima + "\nAlamat Pengiriman : " + alamatPengiriman +
+            "\nFakultas : " + fak + "\nTanggal : " + tgl + "\nJam : " + jam + "\n" + total +
+            "==================================================\n" +
+            "Dengan ini juga menyertakan invoice sebagai berikut :\n";
+
+        // Mengganti pesan default dengan pesan yang sudah diproses
+        message = encodeURIComponent(message);
+        this.href = "https://wa.me/6285704232262?text=" + message;
+    });
+</script>
 
 </html>
