@@ -64,6 +64,16 @@
                        </a>
                     </span>
                     <li class="nav-item">
+                        <span>
+                            <a href="#" class="nav-link">
+                               <i class="nav-icon fas fa-table"></i>
+                               <p>
+                                   Tabel Seller
+                               </p>
+                           </a>
+                        </span>
+                    </li>
+                    <li class="nav-item">
                     <span>
                         <a href="{{route('admin.history')}}" class="nav-link">
                            <i class="nav-icon fas fa-table"></i>
@@ -72,6 +82,16 @@
                            </p>
                        </a>
                     </span>
+                    <li class="nav-item">
+                        <span>
+                            <a href="{{route('dataseller')}}" class="nav-link">
+                               <i class="nav-icon fas fa-table"></i>
+                               <p>
+                                   Daftar Seller
+                               </p>
+                           </a>
+                        </span>
+                    </li>
 
                    <!-- Control Sidebar -->
                    <aside class="control-sidebar control-sidebar-dark">

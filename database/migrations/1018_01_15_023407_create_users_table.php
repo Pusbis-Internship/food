@@ -18,7 +18,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->enum('role',['admin','user', 'seller'])->default('user');
-            $table->string('verify_key');
+            $table->string('verify_key')->nullable();
             $table->string('no_tlp');
             $table->string('unit_kerja');
             $table->string('alamat');

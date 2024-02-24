@@ -87,6 +87,13 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/admin/invoice/{id_pesanan}', [AdminOrderController::class, 'admin_invoice'])->name('admin_invoice')->middleware('userAkses:admin');
     Route::put('/admin/orders/{id_pesanan}/setuju', [AdminOrderController::class, 'accept'])->name('setuju')->middleware('userAkses:admin');
     Route::put('/admin/orders/{id_pesanan}/tolak', [AdminOrderController::class, 'reject'])->name('tolak')->middleware('userAkses:admin');
+
+    ////////// Admin Seller Controller //////////
+    Route::get('/dataseller', [AdminController::class, 'seller'])->name('dataseller')->middleware('userAkses:admin');
+    Route::get('/createseller', [AdminController::class, 'sellercreate'])->name('createseller')->middleware('userAkses:admin');
+    Route::post('/storeseller', [AdminController::class, 'storeseller'])->name('storeseller')->middleware('userAkses:admin');
+    Route::get('dataseller/deleteseller/{id}', [AdminController::class, 'deleteseller'])->name('deleteseller')->middleware('userAkses:admin');
+    
     
     ////////// Admin Kategori Controller //////////
     Route::get('/datakategori', [CategoryController::class, 'data_kategori'])->name('datakategori')->middleware('userAkses:admin');
