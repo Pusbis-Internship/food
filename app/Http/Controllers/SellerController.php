@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Hash;
+
+use Illuminate\Support\Facades\Validator;
+
 class SellerController extends Controller
 {
     function index(){
@@ -87,5 +91,52 @@ class SellerController extends Controller
         
         // Return the view with the data
         return view('pointakses/seller/data_order/seller_invoice', compact('groupedOrders'));
+    }
+
+    public function selleredit()
+    {
+        return view('pointakses/seller/profile/profileedit');
+    }
+
+    public function updateprofileseller(Request $request)
+    {
+        $users = auth()->user();
+        $users->nama_lengkap = $request->input('nama_lengkap');
+        $users->email = $request->input('email');
+        $users->no_tlp = $request->input('no_tlp');
+        $users->alamat = $request->input('alamat');
+        $users->unit_kerja = $request->input('unit_kerja');
+        $users->save();
+
+        return back()->with('message','Update Profile Berhasil');
+    }
+
+    public function editpasswordseller()
+    {
+        return view('pointakses/seller/profile/password');
+    }
+    public function updatepasswordseller( Request $request){
+        $validator = Validator::make($request->all(), [
+            'current_password' => 'required',
+            'password' => 'required|min:6|confirmed',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->route('change.password')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        if (!Hash::check($request->current_password, auth()->user()->password)) {
+            return redirect()->route('change.password')
+                ->with('error', 'Password lama tidak valid.')
+                ->withInput();
+        }
+    
+        // Update password baru
+        auth()->user()->update(['password' => Hash::make($request->password)]);
+    
+        return redirect()->back()
+            ->with('success', 'Password berhasil diperbarui.');
     }
 }

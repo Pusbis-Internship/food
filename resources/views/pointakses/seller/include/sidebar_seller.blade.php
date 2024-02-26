@@ -25,6 +25,16 @@
                 data-accordion="false">
                 <li class="nav-item">
                  <span>
+                     <a href="{{route('selleredit')}}" class="nav-link">
+                        <i class="nav-icon fas fa-table"></i>
+                        <p>
+                            Profile Seller
+                        </p>
+                    </a>
+                 </span>
+                </li>
+                <li class="nav-item">
+                 <span>
                      <a href="{{route('data_menu_seller')}}" class="nav-link">
                         <i class="nav-icon fas fa-table"></i>
                         <p>
@@ -42,7 +52,8 @@
                            </p>
                        </a>
                     </span>
-                   </li>
+                </li>
+
                 <!-- Control Sidebar -->
                 <aside class="control-sidebar control-sidebar-dark">
                     <!-- Control sidebar content goes here -->

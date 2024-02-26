@@ -20,7 +20,11 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Models\Category;
 
+use Illuminate\Support\Facades\Validator;
+
 use Illuminate\Support\Facades\Session;
+
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -223,5 +227,30 @@ class UserController extends Controller
     public function editpassword()
     {
         return view('pointakses/user/changepassword');
+    }
+
+    public function updatepassword( Request $request){
+        $validator = Validator::make($request->all(), [
+            'current_password' => 'required',
+            'password' => 'required|min:6|confirmed',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->route('change.password')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        if (!Hash::check($request->current_password, auth()->user()->password)) {
+            return redirect()->route('change.password')
+                ->with('error', 'Password lama tidak valid.')
+                ->withInput();
+        }
+    
+        // Update password baru
+        auth()->user()->update(['password' => Hash::make($request->password)]);
+    
+        return redirect()->back()
+            ->with('success', 'Password berhasil diperbarui.');
     }
 }

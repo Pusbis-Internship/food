@@ -59,6 +59,7 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/editprofile',[UserController::class, 'editprofile'])->name('editprofile')->middleware('userAkses:user');
     Route::put('/updateprofile',[UserController::class, 'updateprofile'])->name('updateprofile')->middleware('userAkses:user');
     Route::get('/editpassword',[UserController::class, 'editpassword'])->name('editpassword')->middleware('userAkses:user');
+    Route::post('/changepassword',[UserController::class, 'updatepassword'])->name('changepassword')->middleware('userAkses:user');
 
     ////////// User Cart Controller //////////
     Route::get('/shopping-cart', [UserController::class, 'menuOrder'])->name('shopping.order')->middleware('userAkses:user');
@@ -124,6 +125,12 @@ Route::middleware(['auth'])->group(function(){
     Route::get('datamenu/{id}/editmenuseller', [SellerMenuController::class, 'edit_menu'])->name('editmenuseller')->middleware('userAkses:seller');
     Route::put('{id}/updatemenuseller', [SellerMenuController::class, 'menu_update'])->name('updatemenuseller')->middleware('userAkses:seller');
     Route::get('datamenu/{id}/deletemenuseller', [SellerMenuController::class, 'menu_delete'])->name('deletemenuseller')->middleware('userAkses:seller');
+    
+    ////////// Seller Profile //////////
+    Route::get('/selleredit', [SellerController::class, 'selleredit'])->name('selleredit')->middleware('userAkses:seller');
+    Route::put('/updateseller', [SellerController::class, 'updateprofileseller'])->name('updateseller')->middleware('userAkses:seller');
+    Route::get('/editpwseller', [SellerController::class, 'editpasswordseller'])->name('editpwseller')->middleware('userAkses:seller');
+    Route::post('/updatepwseller', [SellerController::class, 'updatepasswordseller'])->name('updatepwseller')->middleware('userAkses:seller');
 
     Route::get('seller/orders', [SellerController::class, 'seller_order'])->name('seller.orders')->middleware('userAkses:seller');
     Route::get('/seller/invoice/{id_pesanan}', [SellerController::class, 'seller_invoice'])->name('seller.invoice')->middleware('userAkses:seller');

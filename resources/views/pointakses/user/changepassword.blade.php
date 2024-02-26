@@ -23,25 +23,25 @@
                             <div class="card-header">Update Password</div>
 
                             <div class="card-body">
-                                <form action="#" method="POST" enctype="multipart/form-data">
+                                <form action="{{route('changepassword')}}" method="POST" enctype="multipart/form-data">
                                     @csrf   
 
                                     <div class="form-group">
-                                        <label for="password_lama">Password Lama</label>
-                                        <input type="password" class="form-control"  name="password_lama" required>
+                                        <label for="current_password">Password Lama</label>
+                                        <input type="password" class="form-control"  name="current_password" required>
                                      @error('password_lama')
                                         <span class="text-danger">{{ $message }}</span>
                                       @enderror
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="password-baru">Password Baru</label>
-                                        <input type="password" class="form-control"  name="password-baru" required>
+                                        <label for="password">Password Baru</label>
+                                        <input type="password" class="form-control"  name="password" required>
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="confirm_password">Konfirmasi Password</label>
-                                        <input type="password" class="form-control"  name="confirm_password" required>
+                                        <label for="password_confirmation">Konfirmasi Password</label>
+                                        <input type="password" class="form-control"  name="password_confirmation" required>
                                     </div>
 
 
