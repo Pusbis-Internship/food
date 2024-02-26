@@ -1,5 +1,5 @@
-   <!-- Main Sidebar Container -->
-   <aside class="main-sidebar sidebar-dark-primary elevation-4">
+<!-- Main Sidebar Container -->
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
         <span class="brand-text font-weight-light">Seller Controller</span>
@@ -14,43 +14,42 @@
             </div>
             <div class="info">
                 <span>
-                <a href="{{ route('seller') }}" class="d-block"> {{ Auth::user()->nama_lengkap }}</a>
+                    <a href="{{ route('seller') }}" class="d-block"> {{ Auth::user()->nama_lengkap }}</a>
                 </span>
             </div>
         </div>
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">
-            <ul class="nav nav-pills nav-sidebar flex-column"  role="menu"
-                data-accordion="false">
+            <ul class="nav nav-pills nav-sidebar flex-column" role="menu" data-accordion="false">
                 <li class="nav-item">
-                 <span>
-                     <a href="{{route('selleredit')}}" class="nav-link">
-                        <i class="nav-icon fas fa-table"></i>
-                        <p>
-                            Profile Seller
-                        </p>
-                    </a>
-                 </span>
+                    <span>
+                        <a href="{{route('selleredit')}}" class="nav-link">
+                            <i class="nav-icon fas fa-table"></i>
+                            <p>
+                                Profil
+                            </p>
+                        </a>
+                    </span>
                 </li>
                 <li class="nav-item">
-                 <span>
-                     <a href="{{route('data_menu_seller')}}" class="nav-link">
-                        <i class="nav-icon fas fa-table"></i>
-                        <p>
-                            Tabel Menu
-                        </p>
-                    </a>
-                 </span>
+                    <span>
+                        <a href="{{route('data_menu_seller')}}" class="nav-link">
+                            <i class="nav-icon fas fa-table"></i>
+                            <p>
+                                Menu
+                            </p>
+                        </a>
+                    </span>
                 </li>
                 <li class="nav-item">
                     <span>
                         <a href="{{ route('seller.orders') }}" class="nav-link">
-                           <i class="nav-icon fas fa-table"></i>
-                           <p>
-                               Tabel Order
-                           </p>
-                       </a>
+                            <i class="nav-icon fas fa-table"></i>
+                            <p>
+                                Pesanan
+                            </p>
+                        </a>
                     </span>
                 </li>
 

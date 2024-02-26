@@ -1,4 +1,4 @@
-@extends('pointakses.admin.layouts.dashboard')'
+@extends('pointakses.admin.layouts.dashboard')
 
 
 @section('content')
@@ -20,7 +20,7 @@
                 <th>NO Telepon</th>
                 <th>Alamat Lengkap</th>
                 <th>Unit Kerja</th>
-                <th>Opsi</th>
+                <th>Aksi</th>
             </tr>
           </thead>
           <tbody>
@@ -31,8 +31,8 @@
                 <td>{{ $seller->no_tlp }}</td>
                 <td>{{ $seller->alamat }}</td>
                 <td>{{ $seller->unit_kerja }}</td>
-                <td><a href="{{route('deleteseller', $seller->id)}}" class="btn btn-danger btn-sm" onclick="return confirm('Apakah yakin dihapus? {{ $seller->nama_lengkap }}');">Hapus</a></td>
-                <td><a href="/user/{{ $seller->id }}/edit" class="btn btn-info btn-sm">Edit</a></td>
+                <td><a href="{{route('deleteseller', $seller->id)}}" class="btn btn-danger btn-sm" 
+                  onclick="return confirm('Apakah yakin dihapus? {{ $seller->nama_lengkap }}');">Hapus</a></td>
             </tr>
             @endforeach
           </tbody>
@@ -44,6 +44,6 @@
   </div>
 </div>
 </div>
-@include('pointakses.admin.include.sidebar_admin')>
+@include('pointakses.admin.include.sidebar_admin')
 
 @endsection

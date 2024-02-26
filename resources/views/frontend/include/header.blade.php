@@ -19,21 +19,18 @@
                             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#fixed-collapse-navbar" aria-expanded="false">
                                 <span class="icon-bar top-bar"></span> <span class="icon-bar middle-bar"></span> <span class="icon-bar bottom-bar"></span>
                             </button>
-                            <a class="navbar-brand" href="#"><img src="{{ asset('frontend/images/logo_uinsa_food.png') }}" alt="logo" class="img-responsive"></a>
+                            <a class="navbar-brand" href="{{ route('homepage') }}"><img src="{{ asset('frontend/images/logo_uinsa_food.png') }}" alt="logo" class="img-responsive"></a>
                         </div>
 
                         <div id="fixed-collapse-navbar" class="navbar-collapse collapse navbar-right">
                             <ul class="nav navbar-nav">
-                                <li>
-                                    <a href="{{ route('homepage') }}">Home</a>
-                                </li>
                                 @auth
                                 <li><a href="{{ route('menu_user') }}">Menu</a></li>
                                 <li><a href="{{ route('about_user') }}">Tentang Kami</a></li>
                                 <li><a href="{{ route('contact_user') }}">Kontak</a></li>
                                 <li>
                                     <a href="{{ route('shopping.order') }}">
-                                        <i class="icon-shopping-cart"></i>Cart
+                                        <i class="icon-shopping-cart"></i>Keranjang
                                         <span class="badge text-bg-danger">{{ count((array) session("order_" . auth()->id())) }}</span>
                                     </a>
                                 </li>
@@ -43,10 +40,10 @@
                                 <li class="nav-item dropdown">
                                     <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Halo {{ Auth::user()->nama_lengkap }}</a>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="{{route('editprofile')}}">Profile</a></li>
-                                        <li><a class="dropdown-item" href="{{ route('history_order') }}">History</a></li>
+                                        <li><a class="dropdown-item" href="{{route('editprofile')}}">Profil</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('history_order') }}">Riwayat Pesanan</a></li>
                                         <li><a href="#" class="dropdown-item"
-                                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Log Out</a>
+                                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Keluar</a>
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                             style="display: none;">
                                             @csrf
@@ -59,7 +56,7 @@
                                 <li><a href="{{ route('menu') }}">Menu</a></li>
                                 <li><a href="{{ route('about') }}">Tentang Kami</a></li>
                                 <li><a href="{{ route('contact') }}">Kontak</a></li>
-                                <li><a href="{{ route('auth') }}">Login</a></li>
+                                <li><a href="{{ route('auth') }}">Masuk</a></li>
                                 @endguest
                             </ul>
                         </div>
