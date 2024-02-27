@@ -2,114 +2,81 @@
 @section('content')
 
 <div class="content-wrapper iframe-mode" data-widget="iframe" data-loading-screen="750">
-  <div class="row">
-    <div class="col-12 col-sm-6 col-md-3 mt-4 ">
-      <div class="info-box">
-        <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
-
-        <div class="info-box-content">
-          <span class="info-box-text">Vendor</span>
-          <span class="info-box-number">
-            {{ $totalsellers }}
-          </span>
-        </div>
-        <!-- /.info-box-content -->
-      </div>
-      <!-- /.info-box -->
-    </div>
-    <!-- /.col -->
-    <div class="col-12 col-sm-6 col-md-3 mt-4">
-      <div class="info-box mb-3">
-        <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-thumbs-up"></i></span>
-
-        <div class="info-box-content">
-          <span class="info-box-text">Diproses</span>
-          <span class="info-box-number">{{ $totalacceptedorders }}</span>
-        </div>
-        <!-- /.info-box-content -->
-      </div>
-      <!-- /.info-box -->
-    </div>
-    <!-- /.col -->
-
-    <!-- fix for small devices only -->
-    <div class="clearfix hidden-md-up"></div>
-
-    <div class="col-12 col-sm-6 col-md-3 mt-4">
-      <div class="info-box mb-3">
-        <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
-
-        <div class="info-box-content">
-          <span class="info-box-text">Order</span>
-          <span class="info-box-number">{{ $totalOrders }}</span>
-        </div>
-        <!-- /.info-box-content -->
-      </div>
-      <!-- /.info-box -->
-    </div>
-    <!-- /.col -->
-    <div class="col-12 col-sm-6 col-md-3 mt-4">
-      <div class="info-box mb-3">
-        <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
-
-        <div class="info-box-content">
-          <span class="info-box-text">Menu</span>
-          <span class="info-box-number">{{ $totalmenus }}</span>
-        </div>
-        <!-- /.info-box-content -->
-      </div>
-      <!-- /.info-box -->
-    </div>
-    <!-- /.col -->
-    <div class="card-tools">
-            <div class="input-group input-group-sm" style="width: 150px;">
-                <input type="text" name="table_search" class="form-control float-right"
-                    placeholder="Search">
-
-                <div class="input-group-append">
-                    <button type="submit" class="btn btn-default">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- /.card-header -->
-    <div class="card-body table-responsive p-0">
-        <table class="table table-hover text-nowrap">
-            <thead>
-                <tr>
-                    <th>Data Order</th>
-                    <th>Invoice</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($groupedOrders as $groupedOrder)
-                <tr>
-                    <td><strong>ID Pesanan: {{ $groupedOrder->id_pesanan }} </strong>
-                        <br><strong>Pemesan: {{$groupedOrder->nama_lengkap}}</strong>
-                        <br>Menu (Jumlah): {{ $groupedOrder->menu_with_quantity }}
-                        <br>Total: {{ $groupedOrder->total }}
-                        <br>Nama Penerima: {{ $groupedOrder->nama_penerima }}
-                        <br>Alamat Pengiriman: {{ $groupedOrder->alamat_pengiriman }}
-                        <br>fakultas: {{ $groupedOrder->fakultas }}
-                        <br>Tanggal & Jam: {{ $groupedOrder->tanggal }}, {{$groupedOrder->jam}}
-                    </td>
-                    <td>@isset($groupedOrder->id_pesanan)
-                        <a href="{{ route('admin_invoice', ['id_pesanan' => $groupedOrder->id_pesanan]) }}"
-                            class="btn btn-info">Lihat Invoice</a>
-                        @endisset</td>
-                    <td> 
-                      <strong>{{ $groupedOrder->status }}</strong>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">Dashboard</h1>
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
   </div>
-</div>
+  <section class="content">
+    <div class="container-fluid">
+    <div class="row">
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-info">
+              <div class="inner">
+                <h3>{{ $totalsellers }}</h3>
+
+                <p>Vendor</p>
+              </div>
+              <div class="icon">
+                <i class="icon-users5"></i>
+              </div>
+              <a href="{{route('dataseller')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-success">
+              <div class="inner">
+                <h3>{{ $totalacceptedorders }}</h3>
+
+                <p>Order Pending</p>
+              </div>
+              <div class="icon">
+                <i class="icon-moneybag"></i>
+              </div>
+              <a href="{{route('admin.orders')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-warning">
+              <div class="inner">
+                <h3>{{ $totalOrders }}</h3>
+
+                <p>Orders</p>
+              </div>
+              <div class="icon">
+                <i class="icon-cart2"></i>
+              </div>
+              <a href="{{route('admin.history')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-danger">
+              <div class="inner">
+                <h3>{{ $totalmenus }}</h3>
+
+                <p>Menu</p>
+              </div>
+              <div class="icon">
+                <i class="icon-menu"></i>
+              </div>
+              <a href="{{route('datamenu')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <!-- ./col -->
+        </div>
+      </div>
+      </section>
 
 @include('pointakses.admin.include.sidebar_admin')
 @endsection

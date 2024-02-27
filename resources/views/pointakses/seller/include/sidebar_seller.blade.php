@@ -14,7 +14,7 @@
             </div>
             <div class="info">
                 <span>
-                    <a href="{{ route('seller') }}" class="d-block"> {{ Auth::user()->nama_lengkap }}</a>
+                    <a href="{{route('selleredit')}}" class="d-block"> {{ Auth::user()->nama_lengkap }}</a>
                 </span>
             </div>
         </div>
@@ -24,10 +24,10 @@
             <ul class="nav nav-pills nav-sidebar flex-column" role="menu" data-accordion="false">
                 <li class="nav-item">
                     <span>
-                        <a href="{{route('selleredit')}}" class="nav-link">
+                        <a href="{{ route('seller') }}" class="nav-link">
                             <i class="nav-icon fas fa-table"></i>
                             <p>
-                                Profil
+                                Dashboard
                             </p>
                         </a>
                     </span>
