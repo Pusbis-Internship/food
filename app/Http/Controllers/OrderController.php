@@ -21,6 +21,9 @@ class OrderController extends Controller
         // Mendapatkan id_pesanan yang sama untuk semua menu dalam satu pesanan
         $orderId = Order::max('id_pesanan') + 1;
     
+        // Mendapatkan catatan dari request
+        $catatan = $request->input('catatan');
+    
         foreach ($orderData as $orderDetail) {
             $orderDetail['id_pesanan'] = $orderId; // Tetapkan id_pesanan ke setiap detail order
     
@@ -34,12 +37,14 @@ class OrderController extends Controller
                 'quantity' => $orderDetail['quantity'],
                 'subtotal' => $orderDetail['subtotal'],
                 'total' => $this->calculateTotal($orderData),
-                'id_pesanan' => $orderId, // Menggunakan id_pesanan yang sama untuk semua menu dalam satu pesanan
-                'nama_penerima' => $request->input('nama_penerima'), // Tambahkan data manual
-                'alamat_pengiriman' => $request->input('alamat_pengiriman'), // Tambahkan data manual
-                'fakultas' => $request->input('fakultas'), // Tambahkan data manual
-                'tanggal' => $request->input('tanggal'), // Tambahkan data manual
-                'jam' => $request->input('jam'), // Tambahkan data manual
+                'id_pesanan' => $orderId, 
+                'nama_penerima' => $request->input('nama_penerima'), 
+                'alamat_pengiriman' => $request->input('alamat_pengiriman'), 
+                'fakultas' => $request->input('fakultas'), 
+                'tanggal' => $request->input('tanggal'), 
+                'jam' => $request->input('jam'), 
+                'min_order_time' => $request->input('min_order_time'),
+                'catatan' => $request->input('catatan'), 
             ]);
     
             $order->save();
@@ -51,8 +56,9 @@ class OrderController extends Controller
         Session::forget("order_" . auth()->id());
     
         // Redirect ke halaman terima kasih atau halaman lainnya
-        return redirect()->route('menu_user')->with('Berhasil', 'Transaksi berhasil.');
+        return redirect()->route('menu_user')->with('success', 'Transaksi berhasil.');
     }
+    
     
     private function calculateTotal($orderData)
     {

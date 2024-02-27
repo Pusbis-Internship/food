@@ -32,10 +32,10 @@
                     <label for="category">Select Category</label>
                     <select class="form-control" id="category" name="category">
                         <option value="" selected>Select Category</option>
-                            @php
-                              $categories = \App\Models\Category::all();   
-                            @endphp
-                            
+                        @php
+                            $categories = \App\Models\Category::all();   
+                        @endphp
+                        
                         @if ($categories && count($categories) > 0)
                             @foreach ($categories as $category)
                                 <option value="{{ $category['id'] }}" {{ $category['id'] == $menus->category_id ? 'selected' : '' }}>
@@ -45,6 +45,16 @@
                         @endif
                     </select>
                 </div>
+
+                <div class="form-group">
+                    <label for="min_order">Minimal Order</label>
+                    <select class="form-control" id="min_order" name="min_order">
+                        <option value="H-1" {{ $menus->min_order_time == 'H-1' ? 'selected' : '' }}>H-1</option>
+                        <option value="H-2" {{ $menus->min_order_time == 'H-2' ? 'selected' : '' }}>H-2</option>
+                        <option value="H-3" {{ $menus->min_order_time == 'H-3' ? 'selected' : '' }}>H-3</option>
+                    </select>
+                </div>
+                
 
                 <div class="form-group">
                     <label for="menu_desc">Deskripsi Menu:</label>
@@ -60,6 +70,5 @@
         </form>
     </div>
 
-@include('pointakses.seller.include.sidebar_seller')>
-
+@include('pointakses.seller.include.sidebar_seller')
 @endsection

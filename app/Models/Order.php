@@ -27,6 +27,7 @@ class Order extends Model
         'fakultas', 
         'tanggal', 
         'jam',
+        'catatan',
     ];
 
     public function user()

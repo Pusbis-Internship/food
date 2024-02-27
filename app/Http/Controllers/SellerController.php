@@ -78,7 +78,7 @@ class SellerController extends Controller
         $groupedOrders = DB::table('orders')
             ->join('table_menu', 'orders.menu_name', '=', 'table_menu.menu_name')
             ->join('users', 'orders.users_id', '=', 'users.id')
-            ->select('id_pesanan', 'total', 'nama_penerima', 'alamat_pengiriman', 'fakultas', 'tanggal', 'jam', 'users.nama_lengkap','status', 
+            ->select('id_pesanan', 'total', 'nama_penerima', 'alamat_pengiriman', 'fakultas', 'tanggal', 'jam', 'users.nama_lengkap','status','catatan', 
                 DB::raw('GROUP_CONCAT(orders.menu_name) as menu_names'), 
                 DB::raw('GROUP_CONCAT(orders.seller) as sellers'), 
                 DB::raw('GROUP_CONCAT(orders.menu_price) as menu_prices'), 
@@ -86,7 +86,7 @@ class SellerController extends Controller
                 DB::raw('GROUP_CONCAT(orders.quantity SEPARATOR ", ") as quantities'))
             ->where('id_pesanan', $id_pesanan)
             ->where('table_menu.users_id', $userId)
-            ->groupBy('id_pesanan', 'total', 'nama_penerima', 'alamat_pengiriman', 'fakultas', 'tanggal', 'jam', 'users.nama_lengkap','status')
+            ->groupBy('id_pesanan', 'total', 'nama_penerima', 'alamat_pengiriman', 'fakultas', 'tanggal', 'jam', 'users.nama_lengkap','status','catatan')
             ->get();
         
         // Return the view with the data

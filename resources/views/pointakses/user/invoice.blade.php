@@ -189,6 +189,12 @@
                     </table>
                 </td>
             </tr>
+            <tr class="catatan">
+                <td colspan="5">
+                    <br><strong>Catatan:</strong> {{ $groupedOrder->catatan }}
+                </td>
+
+            </tr>
             <tr class="heading">
                 <td>Item</td>
                 <td>Seller</td>

@@ -66,8 +66,7 @@
         </div>
         <div class="mb-3">
             <label for="alamat_pengiriman" class="form-label">Alamat Pengiriman</label>
-            <br>
-            <select name="alamat_pengiriman" id="alamat_pengiriman">
+            <select name="alamat_pengiriman" id="alamat_pengiriman" class="form-control">
                 <option value="" disabled selected>-- Pilih Alamat --</option>
                 <option value="Pusat Pengembangan Bisnis UINSA">Pusat Pengembangan Bisnis UINSA</option>
                 <option value="UINSA Kampus 1, Ahmad Yani">UINSA Kampus 1, Ahmad Yani</option>
@@ -76,8 +75,7 @@
         </div>
         <div class="mb-3">
             <label for="fakultas" class="form-label">Fakultas</label>
-            <br>
-            <select name="fakultas" id="fakultas">
+            <select name="fakultas" id="fakultas" class="form-control">
                 <option value="" disabled selected>-- Pilih Fakultas --</option>
                 <option value="Adab dan Humaniora">Adab dan Humaniora</option>
                 <option value="Dakwah dan Komunikasi">Dakwah dan Komunikasi</option>
@@ -90,6 +88,7 @@
                 <option value="Sains dan Teknologi">Sains dan Teknologi</option>
             </select>
         </div>
+        
         <div class="mb-3">
             <label for="tanggal" class="form-label">Tanggal</label>
             <input type="date" class="form-control" id="tanggal" name="tanggal" required>
@@ -97,6 +96,10 @@
         <div class="mb-3">
             <label for="jam" class="form-label">Jam</label>
             <input type="time" class="form-control" id="jam" name="jam" required>
+        </div>
+        <div class="mb-3">
+            <label for="catatan" class="form-label">Catatan</label>
+            <textarea class="form-control" id="catatan" name="catatan" rows="3"></textarea>
         </div>
         <div class="text-right">
             <br>

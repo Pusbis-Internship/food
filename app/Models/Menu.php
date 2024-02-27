@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 class Menu extends Model
 {
     use HasFactory;
+
     /**
      * fillable
      *
@@ -23,21 +24,22 @@ class Menu extends Model
         'menu_price',
         'menu_desc',
         'users_id',
-        'seller'
+        'seller',
+        'min_order_time', 
     ];
 
     public function category()
     {
-        return $this -> belongsTo(Category::class);
+        return $this->belongsTo(Category::class);
     }
 
     public function user()
     {
-        return $this -> belongsTo(User::class, 'users_id');
+        return $this->belongsTo(User::class, 'users_id');
     }
 
-    public function order()
+    public function orders()
     {
-        return $this -> belongsTo(Order::class, 'menu_id');
+        return $this->hasMany(Order::class, 'menu_id'); // Ubah relasi menjadi hasMany karena satu menu bisa memiliki banyak pesanan
     }
 }

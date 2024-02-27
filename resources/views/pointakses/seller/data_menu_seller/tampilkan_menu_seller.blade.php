@@ -1,4 +1,5 @@
 @extends('pointakses.seller.layouts.dashboard')
+
 @section('content_seller')
 
 <div class="content-wrapper iframe-mode" data-widget="iframe" data-loading-screen="750">
@@ -37,6 +38,7 @@
                                 <th>Harga Menu</th>
                                 <th>Kategori</th>
                                 <th>Vendor</th>
+                                <th>Min Order</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -60,6 +62,7 @@
                                             @endif
                                         </td>
                                         <td>{{ $menu->users_id }}</td>
+                                        <td>{{ $menu->min_order_time }}</td>
                                         <td>
                                             <a href="{{ route('deletemenuseller', ['id' => $menu->id]) }}"
                                                 class="btn btn-danger"

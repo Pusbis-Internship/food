@@ -22,13 +22,14 @@ return new class extends Migration
                 $table->integer('menu_price')->references('menu_price')->on('table_menu');
                 $table->integer('subtotal');
                 $table->integer('total');
-                $table->integer('id_pesanan')->nullable(); // Kolom untuk menunjukkan grup pesanan
-                $table->string('nama_penerima')->nullable(); // Kolom nama_penerima boleh kosong
-                $table->string('alamat_pengiriman')->nullable(); // Kolom alamat_pengiriman boleh kosong
-                $table->string('fakultas')->nullable(); // Kolom fakultas boleh kosong
-                $table->date('tanggal')->nullable(); // Kolom tanggal boleh kosong
-                $table->time('jam')->nullable(); // Kolom jam boleh kosong
+                $table->integer('id_pesanan')->nullable(); 
+                $table->string('nama_penerima')->nullable(); 
+                $table->string('alamat_pengiriman')->nullable(); 
+                $table->string('fakultas')->nullable(); 
+                $table->date('tanggal')->nullable(); 
+                $table->time('jam')->nullable(); 
                 $table->string('status')->default('pending');
+                $table->text('catatan')->nullable(); 
                 $table->timestamps();
             });
         }

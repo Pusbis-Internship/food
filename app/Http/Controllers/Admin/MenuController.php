@@ -33,7 +33,8 @@ class MenuController extends Controller
     function store_menu(Request $request): RedirectResponse
     {
         $this->validate($request, [
-            'menu_pic' => 'required|image|mimes:jpeg,jpg,png'
+            'menu_pic' => 'required|image|mimes:jpeg,jpg,png',
+            'min_order' => 'required|in:H-1,H-2,H-3', 
         ]);
 
         $menu = new Menu();
@@ -42,6 +43,8 @@ class MenuController extends Controller
         $menu->category_id = $request->input('category');
         $menu->users_id = $request->input('vendor');
         $menu->menu_desc = $request->input('menu_desc');
+        $menu->min_order_time = $request->input('min_order');
+
 
         // $menu->users_id = auth()->id();
 

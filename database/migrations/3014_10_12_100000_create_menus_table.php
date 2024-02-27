@@ -21,6 +21,7 @@ return new class extends Migration
                 $table->string('menu_name');
                 $table->integer('menu_price');
                 $table->string('menu_desc');
+                $table->enum('min_order_time', ['H-1', 'H-2', 'H-3']);
                 $table->timestamps();
             });
         }
