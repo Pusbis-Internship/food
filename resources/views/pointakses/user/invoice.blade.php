@@ -193,7 +193,6 @@
                 <td colspan="5">
                     <br><strong>Catatan:</strong> {{ $groupedOrder->catatan }}
                 </td>
-
             </tr>
             <tr class="heading">
                 <td>Item</td>
@@ -205,12 +204,12 @@
 
             @foreach ($groupedOrders as $groupedOrder)
                 @php
-                    $menus = explode(',', $groupedOrder->menu_names);
-                    $sellers = explode(',', $groupedOrder->sellers);
-                    $menu_prices = explode(',', $groupedOrder->menu_prices);
-                    $quantities = explode(',', $groupedOrder->quantities); // Menggunakan string quantities yang baru
-                    $subtotals = explode(',', $groupedOrder->subtotals);
-                    $count = count($menus);
+            $menus = explode(',', $groupedOrder->menu_names);
+            $sellers = explode(',', $groupedOrder->sellers);
+            $menu_prices = explode(',', $groupedOrder->menu_prices);
+            $quantities = explode(',', $groupedOrder->quantities); // Menggunakan string quantities yang baru
+            $subtotals = explode(',', $groupedOrder->subtotals);
+            $count = count($menus);
                 @endphp
 
                 @for ($i = 0; $i < $count; $i++)

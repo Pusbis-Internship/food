@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Seller;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -45,7 +45,8 @@ class SellerController extends Controller
         ->join('users', 'orders.users_id', '=', 'users.id')
         ->select('orders.id_pesanan', 'orders.total', 'orders.nama_penerima', 'orders.alamat_pengiriman', 'orders.fakultas', 'orders.tanggal', 'orders.jam', 'users.nama_lengkap', 'status',
             DB::raw('GROUP_CONCAT(CONCAT(orders.menu_name, " (", quantity, ")") SEPARATOR ", ") as menu_with_quantity'))
-        ->where('table_menu.users_id', $userId);
+        ->where('table_menu.users_id', $userId)
+        ->whereIn('status', ['setuju']);
 
         if ($startDate && $endDate) {
             $groupedOrdersQuery->whereBetween('tanggal', [$startDate, $endDate]);

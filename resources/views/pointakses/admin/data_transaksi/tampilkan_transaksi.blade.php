@@ -59,7 +59,7 @@
                                     <br>Total: {{ $groupedOrder->total }}
                                     <br>Nama Penerima: {{ $groupedOrder->nama_penerima }}
                                     <br>Alamat Pengiriman: {{ $groupedOrder->alamat_pengiriman }}
-                                    <br>fakultas: {{ $groupedOrder->fakultas }}
+                                    <br>Fakultas: {{ $groupedOrder->fakultas }}
                                     <br>Tanggal & Jam: {{ $groupedOrder->tanggal }}, {{$groupedOrder->jam}}
                                 </td>
                                 <td>@isset($groupedOrder->id_pesanan)

@@ -67,6 +67,7 @@ class AdminOrderController extends Controller
                 'jam',
                 'users.nama_lengkap',
                 'status',
+                'catatan',
                 DB::raw('GROUP_CONCAT(menu_name) as menu_names'),
                 DB::raw('GROUP_CONCAT(seller) as sellers'),
                 DB::raw('GROUP_CONCAT(menu_price) as menu_prices'),
@@ -74,7 +75,7 @@ class AdminOrderController extends Controller
                 DB::raw('GROUP_CONCAT(quantity SEPARATOR ", ") as quantities')
             )
             ->where('id_pesanan', $id_pesanan)
-            ->groupBy('id_pesanan', 'total', 'nama_penerima', 'alamat_pengiriman', 'fakultas', 'tanggal', 'jam', 'users.nama_lengkap', 'status')
+            ->groupBy('id_pesanan', 'total', 'nama_penerima', 'alamat_pengiriman', 'fakultas', 'tanggal', 'jam', 'users.nama_lengkap', 'status', 'catatan')
             ->get();
 
         return view('pointakses.admin.data_transaksi.admin_invoice', compact('groupedOrders'));

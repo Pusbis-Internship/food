@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -17,36 +19,49 @@ class AdminController extends Controller
 
         $groupedOrders = DB::table('orders')
             ->join('users', 'orders.users_id', '=', 'users.id')
-            ->select('id_pesanan', 'total', 'nama_penerima', 'alamat_pengiriman', 'fakultas', 'tanggal', 'jam', 'users.nama_lengkap', 'status',
-                DB::raw('GROUP_CONCAT(CONCAT(menu_name, " (", quantity, ")") SEPARATOR ", ") as menu_with_quantity'))
+            ->select(
+                'id_pesanan',
+                'total',
+                'nama_penerima',
+                'alamat_pengiriman',
+                'fakultas',
+                'tanggal',
+                'jam',
+                'users.nama_lengkap',
+                'status',
+                DB::raw('GROUP_CONCAT(CONCAT(menu_name, " (", quantity, ")") SEPARATOR ", ") as menu_with_quantity')
+            )
             ->groupBy('id_pesanan', 'total', 'nama_penerima', 'alamat_pengiriman', 'fakultas', 'tanggal', 'jam', 'users.nama_lengkap', 'status')
             ->get();
 
         return view('pointakses/admin/index', ['groupedOrders' => $groupedOrders], compact('totalOrders', 'totalacceptedorders', 'totalsellers', 'totalmenus'));
     }
 
-    function seller(){
+    function seller()
+    {
         $sellers = User::where('role', 'seller')->get();
 
-        return view('pointakses/admin/data_seller/tampil_seller',compact('sellers'));
+        return view('pointakses/admin/data_seller/tampil_seller', compact('sellers'));
     }
 
-    function sellercreate(){
+    function sellercreate()
+    {
         return view('pointakses/admin/data_seller/create');
     }
 
-    function storeseller(Request $request){
+    function storeseller(Request $request)
+    {
         // Validasi data input jika diperlukan
         $request->validate([
-        'nama_lengkap' => 'required|string',
-        'email' => 'required|email|unique:users,email',
-        'no_tlp' => 'required|string',
-        'alamat' => 'required|string',
-        'unit_kerja' => 'required|string',
-        'password' => 'required|min:8',
-     ]);
+            'nama_lengkap' => 'required|string',
+            'email' => 'required|email|unique:users,email',
+            'no_tlp' => 'required|string',
+            'alamat' => 'required|string',
+            'unit_kerja' => 'required|string',
+            'password' => 'required|min:8',
+        ]);
 
-    // Membuat akun seller baru
+        // Membuat akun seller baru
         $seller = new User();
         $seller->nama_lengkap = $request->input('nama_lengkap');
         $seller->email = $request->input('email');
@@ -64,7 +79,8 @@ class AdminController extends Controller
         return redirect()->route('dataseller')->with('message', 'data berhasil dibuat');
     }
 
-    function deleteseller($id){
+    function deleteseller($id)
+    {
         $sellers = User::find($id);
         $sellers->delete();
 

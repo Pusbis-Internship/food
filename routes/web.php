@@ -1,16 +1,16 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\AdminOrderController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\SellerController;
+use App\Http\Controllers\Seller\SellerController;
 use App\Http\Controllers\Seller\SellerMenuController;
+use App\Http\Controllers\User\OrderController;
+use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AuthController;
+use Illuminate\Support\Facades\Route;
 
 
 /*

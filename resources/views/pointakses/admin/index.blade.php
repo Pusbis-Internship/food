@@ -33,9 +33,9 @@
             <!-- small box -->
             <div class="small-box bg-success">
               <div class="inner">
-                <h3>{{ $totalacceptedorders }}</h3>
+                <h3>{{ $totalOrders }}</h3>
 
-                <p>Order Pending</p>
+                <p>Pesanan menunggu</p>
               </div>
               <div class="icon">
                 <i class="icon-moneybag"></i>
@@ -48,9 +48,8 @@
             <!-- small box -->
             <div class="small-box bg-warning">
               <div class="inner">
-                <h3>{{ $totalOrders }}</h3>
-
-                <p>Orders</p>
+                <h3>{{ $totalacceptedorders }}</h3>
+                <p>Pesanan diterima</p>
               </div>
               <div class="icon">
                 <i class="icon-cart2"></i>

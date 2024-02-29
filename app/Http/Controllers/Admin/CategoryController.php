@@ -11,7 +11,7 @@ class CategoryController extends Controller
 {
     public function data_kategori()
     {
-        $categories=Category::all();
+        $categories = Category::all();
         return view('pointakses/admin/data_kategori/tampilkan_data', compact('categories'));
     }
 
@@ -20,7 +20,7 @@ class CategoryController extends Controller
         return view('pointakses/admin/data_kategori/create');
     }
 
-     function store_category(Request $request)
+    function store_category(Request $request)
     {
         $category = new Category();
         $category->category_name = $request->input('category_name');
@@ -29,29 +29,29 @@ class CategoryController extends Controller
         return redirect()->route('datakategori')->with(['success' => 'Data Berhasil Disimpan!']);
     }
 
-    
-    function edit_category( string $id): View
+
+    function edit_category(string $id): View
     {
         $categories = Category::findOrFail($id);
 
         return view('pointakses/admin/data_kategori/edit', compact('categories'))->with(['success' => 'Data Berhasil Disimpan!']);
     }
 
-    
+
     function category_update(Request $request, $id)
     {
         $categories = Category::find($id);
         $categories->category_name = $request->input('category_name'); // Perbaikan disini
         $categories->save();
-    
+
         return redirect()->route('datakategori')->with('Berhasil', 'Kategori berhasil diupdate.');
     }
     public function category_delete($id)
     {
         $category = Category::find($id);
         $category->delete();
-    
+
         return redirect()->back();
     }
-    
+
 }
