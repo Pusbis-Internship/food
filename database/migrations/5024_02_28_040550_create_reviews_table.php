@@ -14,13 +14,14 @@ return new class extends Migration
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
             $table->foreignId('users_id')->references('id')->on('users');
-            $table->foreignId('menu_id')->nullable(false)->references('id')->on('table_menu');
-            $table->foreignId('menu_name')->nullable(false)->references('id')->on('table_menu');
-            $table->unsignedTinyInteger('rating');
-            $table->text('review')->nullable();
+            $table->foreignId('menu_id')->nullable(false)->references('id')->on('table_menu')->onDelete('cascade');
+            $table->integer('id_pesanan')->nullable(); 
+            $table->integer('rating');
+            $table->text('comment');
             $table->timestamps();
         });
     }
+    
 
     /**
      * Reverse the migrations.

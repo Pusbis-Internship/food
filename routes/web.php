@@ -54,6 +54,7 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/history_order',[UserController::class, 'history_order'])->name('history_order')->middleware('userAkses:user');
     Route::get('/user/invoice/{id_pesanan}', [UserController::class, 'invoice'])->name('user_invoice')->middleware('userAkses:user');
     Route::get('generate-pdf/{id_pesanan}', [UserController::class, 'generateinvoice'])->name('download')->middleware('userAkses:user');
+    Route::post('/add-rating-review/{id_pesanan}', [UserController::class, 'addRatingReview'])->name('add.rating.review')->middleware('userAkses:user');
     
     ////////// User EDIT //////////
     Route::get('/editprofile',[UserController::class, 'editprofile'])->name('editprofile')->middleware('userAkses:user');

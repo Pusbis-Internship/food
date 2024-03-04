@@ -18,6 +18,54 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend/css/zerogrid.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend/css/style.css') }}">
     <link rel="shortcut icon" href="{{ asset('frontend/images/favicon.png') }}">
+    <style>
+        /* Modal */
+        .modal {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            /* Stay in place */
+            z-index: 9999;
+            /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%;
+            /* Full width */
+            height: 100%;
+            /* Full height */
+            overflow: auto;
+            /* Enable scroll if needed */
+            background-color: rgba(0, 0, 0, 0.4);
+            /* Black w/ opacity */
+        }
+
+        /* Modal Content/Box */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            /* Could be more or less, depending on screen size */
+        }
+
+        /* Close Button */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+
 
 </head>
 
@@ -27,6 +75,66 @@
     @include('frontend.include.loader')
     <!--Header-->
     @include('frontend.include.header')
+
+<div id="myModal" class="modal">
+        <div class="modal-content">
+            <    span class="close">&times;</>
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>Welcome Back, {{ Auth::user()->nama_lengkap }}</h2>
+                    <p>Siap Menemani Hari-Hari mu!</p>
+                    <!-- Menampilkan gambar menu dan harga -->
+                    <div class="card">
+                        <img src="{{ asset($lastOrder->menu_pic) }}" class="card-img-top" alt="Menu Image">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ $lastOrder->menu_name }}</h5>
+                            <p class="card-text">Harga: {{ $lastOrder->menu_price }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <!-- Form untuk menambahkan rating dan ulasan -->
+                    @php
+                        // Mengecek apakah pengguna sudah memberikan penilaian untuk pesanan ini
+                        $userReview = App\Models\Review::where('users_id', auth()->id())
+                                                        ->where('id_pesanan', $lastOrder->id_pesanan)
+                                                        ->first();
+                    @endphp
+                    @if(!$userReview || $userReview->rating === null)
+                    <form id="ratingForm" method="POST" action="{{ route('add.rating.review', $lastOrder->id_pesanan) }}">
+                        @csrf
+                        <div class="form-group">
+                            <label for="menu_id">Menu:</label>
+                            <!-- Menampilkan menu yang terkait dengan pesanan terakhir -->
+                            <select name="menu_id" id="menu_id" class="form-control">
+                                <option value="{{ $lastOrder->menu_id }}">{{ $lastOrder->menu_name }}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="rating">Rating:</label>
+                            <input type="number" name="rating" id="rating" class="form-control" min="1" max="5" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="review">Review:</label>
+                            <textarea name="review" id="review" class="form-control" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                    @else
+                    <!-- Jika pengguna telah memberikan penilaian, tampilkan pesan -->
+                    <p>Anda sudah memberikan penilaian untuk pesanan ini.</p>
+                    <script>
+                        // Tutup modal saat halaman dimuat jika pengguna telah memberikan penilaian
+                        document.addEventListener("DOMContentLoaded", function() {
+                            closeModal();
+                        });
+                    </script>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+    
 
 
     <!-- REVOLUTION SLIDER -->
@@ -41,8 +149,8 @@
                     data-title="Welcome &nbsp; Back" data-description="Siap Menemani Hari-Hari mu">
                     <!-- MAIN IMAGE -->
                     <img src="{{ asset('frontend/images/banner2.jpg') }}" alt=""
-                        data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" class="rev-slidebg"
-                        data-no-retina>
+                        data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat"
+                        class="rev-slidebg" data-no-retina>
                     <!-- LAYER NR. 2 -->
                     <h1 class="tp-caption tp-resizeme" data-x="left" data-hoffset="15" data-y="70"
                         data-transform_idle="o:1;"
@@ -239,6 +347,55 @@
     @include('frontend.include.content.minuman')
     <!--Footer-->
     @include('frontend.include.footer')
+    <script>
+        // Function untuk menampilkan modal
+        function showModal() {
+            var modal = document.getElementById("myModal");
+            modal.style.display = "block";
+        }
+    
+        // Function untuk menutup modal
+        function closeModal() {
+            var modal = document.getElementById('myModal');
+            modal.style.display = 'none';
+        }
+    
+        // Membuat event listener untuk menutup modal saat tombol close diklik
+        var closeBtn = document.querySelector('.close');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', closeModal);
+        }
+    
+        // Membuat event listener untuk menutup modal saat form disubmit
+        var form = document.getElementById('ratingForm');
+        if (form) {
+            form.addEventListener('submit', function() {
+                closeModal();
+            });
+        }
+    
+        // When the page is fully loaded, show modal
+        window.onload = function() {
+            // Cek apakah pengguna telah memberikan penilaian
+            var userReview = {!! json_encode($userReview) !!}; // Ambil data dari PHP blade
+            if (userReview && userReview.rating !== null) {
+                closeModal(); // Tutup modal jika sudah memberikan penilaian
+            } else {
+                showModal(); // Tampilkan modal jika belum memberikan penilaian
+            }
+        };
+    
+        // Close modal when clicking outside the modal
+        window.onclick = function(event) {
+            var modal = document.getElementById("myModal");
+            if (event.target == modal) {
+                closeModal();
+            }
+        };
+    </script>
+    
+    
+
 
     <script src="{{ asset('frontend/js/jquery-2.2.3.js') }}" type="text/javascript"></script>
     <script src="{{ asset('frontend/js/bootstrap.min.js') }}" type="text/javascript"></script>

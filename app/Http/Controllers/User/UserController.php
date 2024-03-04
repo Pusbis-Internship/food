@@ -20,17 +20,65 @@ class UserController extends Controller
     {
         $menus = Menu::all();
         $order = session()->get('order', []);
+        $userId = auth()->id();
+        $lastOrder = Order::where('users_id', $userId)->latest()->first();
         $total = 0;
-
+        $menuDetail = [];
+    
         foreach ($order as $id => $order_detail) {
             $subtotal = isset($order_detail['subtotal']) ? $order_detail['subtotal'] : 0;
             $subtotal += $order_detail['quantity'] * $order_detail['menu_price'];
             $order[$id]['subtotal'] = $subtotal;
             $total += $subtotal;
         }
+    
+        if ($lastOrder) {
+            $menuDetail = Menu::findOrFail($lastOrder->menu_id);
+        }
+    
         session()->put('order', $order);  // Update the session with new subtotal values
-        return view('pointakses/user/index', compact('menus', 'order', 'total'));
+        return view('pointakses/user/index', compact('menus', 'order', 'total', 'lastOrder', 'menuDetail'));
     }
+    
+    public function addRatingReview(Request $request, $id_pesanan)
+    {
+        // Periksa apakah pengguna telah login
+        if (!Auth::check()) {
+            return redirect()->back()->with('error', 'Anda harus login untuk memberikan rating dan ulasan.');
+        }
+    
+        // Periksa apakah pesanan dengan id yang diberikan dimiliki oleh pengguna yang sedang login
+        $userId = Auth::id();
+        $order = Order::where('id_pesanan', $id_pesanan)->where('users_id', $userId)->first();
+        if (!$order) {
+            return redirect()->back()->with('error', 'Anda hanya dapat memberikan rating dan ulasan untuk pesanan yang sudah Anda buat.');
+        }
+    
+        // Validasi data yang diterima dari form
+        $validator = Validator::make($request->all(), [
+            'rating' => 'required|integer|between:1,5',
+            'comment' => 'nullable|string|max:255',
+        ]);
+    
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+    
+        // Simpan rating dan ulasan ke dalam database
+        $review = new Review([
+            'menu_id' => $order->menu_id,
+            'users_id' => auth()->id(),
+            'id_pesanan' => $id_pesanan, // Menambahkan id_pesanan ke dalam review
+            'rating' => $request->rating,
+            'comment' => $request->review,
+        ]);
+    
+        $review->save();
+    
+        return redirect()->back()->with('success', 'Rating dan ulasan berhasil ditambahkan.');
+    }
+    
+
     public function menu_user()
     {
         $menus = Menu::all();

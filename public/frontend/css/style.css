@@ -1320,38 +1320,6 @@ ul.tags li a, ul.social_icon li a,
 /* 
 
 
-/* ================== Counters Fact Info ================== */
-#facts{
-	background:url(../images/bg-facts.jpg) no-repeat fixed;
-	padding:6% 0;
-	background-size:cover;
-}
-#facts .counters-item{
-	padding:26% 10%;
-	font-weight:bold;
-	vertical-align:middle;
-	color:#fff;
-}
-#facts .counters-item h2{
-	font-family: "Open Sans", sans-serif;
-	color:#e25111;
-}	
-.counters-item i {
-  font-size:50px;
-  display: block;
-  margin-bottom:15px;
-}
-.counters-item p{
-	color:#fff;
-	text-transform: capitalize;
-	font-weight:bold;
-}
-/*  ================ Counters Fact Info Ends ============= */
-
-
-
-
-
 /* ========== Our Food ======== */
 #page_header{
 	background:url(../images/page-header.jpg) no-repeat;
