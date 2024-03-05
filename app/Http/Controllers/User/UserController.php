@@ -57,7 +57,7 @@ class UserController extends Controller
         // Validasi data yang diterima dari form
         $validator = Validator::make($request->all(), [
             'rating' => 'required|integer|between:1,5',
-            'comment' => 'nullable|string|max:255',
+            'review' => 'nullable|string|max:255',
         ]);
     
         if ($validator->fails()) {
@@ -77,7 +77,6 @@ class UserController extends Controller
     
         return redirect()->back()->with('success', 'Rating dan ulasan berhasil ditambahkan.');
     }
-    
 
     public function menu_user()
     {
