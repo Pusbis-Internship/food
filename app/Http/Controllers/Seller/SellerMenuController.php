@@ -7,8 +7,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Contracts\View\View;
 use App\Models\Menu;
-use App\Models\User;
 use App\Models\Category;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class SellerMenuController extends Controller
 {
@@ -54,13 +55,19 @@ class SellerMenuController extends Controller
 
         if ($request->hasFile('menu_pic')) {
             $image = $request->file('menu_pic');
-
+        
             // Ubah nama file gambar menjadi ID makanan
             $imageName = $menuId . '.' . $image->getClientOriginalExtension();
-
+        
             // Simpan gambar ke direktori storage dengan nama baru
-            $imagePath = $image->storeAs('public/menu_images/', $imageName);
-
+            $resizedImage = Image::make($image)->fit(600, 520)->encode();
+        
+            // Tentukan path penyimpanan baru
+            $imagePath = 'public/menu_images/' . $imageName;
+        
+            // Simpan gambar yang telah diresize ke dalam penyimpanan
+            Storage::put($imagePath, $resizedImage);
+        
             // Update path gambar pada model Menu
             $menu->menu_pic = $imagePath;
             $menu->save();
@@ -96,8 +103,13 @@ class SellerMenuController extends Controller
             // Ubah nama file gambar menjadi ID makanan
             $imageName = $menuId . '.' . $image->getClientOriginalExtension();
 
-            // Simpan gambar ke direktori storage dengan nama baru
-            $imagePath = $image->storeAs('public/menu_images/', $imageName);
+            $resizedImage = Image::make($image)->fit(600, 520)->encode();
+
+            // Tentukan path penyimpanan baru
+            $imagePath = 'public/menu_images/' . $imageName;
+        
+            // Simpan gambar yang telah diresize ke dalam penyimpanan
+            Storage::put($imagePath, $resizedImage);
 
             // Update path gambar pada model Menu
             $menus->menu_pic = $imagePath;
@@ -105,7 +117,6 @@ class SellerMenuController extends Controller
         }
 
         return redirect()->route('data_menu_seller')->with('Berhasil', 'Menu berhasil diupdate.');
-        ;
     }
     public function menu_delete($id)
     {
