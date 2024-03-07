@@ -9,6 +9,8 @@ use Illuminate\Http\RedirectResponse;
 use App\Models\Menu;
 use App\Models\Category;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class MenuController extends Controller
 {
@@ -34,7 +36,12 @@ class MenuController extends Controller
     {
         $this->validate($request, [
             'menu_pic' => 'required|image|mimes:jpeg,jpg,png',
-            'min_order' => 'required|in:H-1,H-2,H-3', 
+            'min_order' => 'required|in:H-1,H-2,H-3',
+            'menu_name' => 'required',
+            'menu_price' => 'required',
+            'category' => 'required',
+            'vendor' => 'required',
+            'menu_desc' => 'required',
         ]);
 
         $menu = new Menu();
@@ -42,29 +49,26 @@ class MenuController extends Controller
         $menu->menu_price = $request->input('menu_price');
         $menu->category_id = $request->input('category');
         $menu->users_id = $request->input('vendor');
+        $menu->seller = $request->input('vendor');
         $menu->menu_desc = $request->input('menu_desc');
         $menu->min_order_time = $request->input('min_order');
 
-
-        // $menu->users_id = auth()->id();
-
-        // Ambil ID makanan yang baru saja disimpan
         $menuId = $menu->id;
 
         if ($request->hasFile('menu_pic')) {
             $image = $request->file('menu_pic');
 
-            // Ubah nama file gambar menjadi ID makanan
             $imageName = $menuId . '.' . $image->getClientOriginalExtension();
 
-            // Simpan gambar ke direktori storage dengan nama baru
-            $imagePath = $image->storeAs('public/menu_images/', $imageName);
+            $resizedImage = Image::make($image)->fit(600, 520)->encode();
 
-            // Update path gambar pada model Menu
+            $imagePath = 'public/menu_images/' . $imageName;
+
+            Storage::put($imagePath, $resizedImage);
+
             $menu->menu_pic = $imagePath;
+            $menu->save();
         }
-
-        $menu->save();
 
         return redirect()->route('datamenu')->with(['success' => 'Data Berhasil Disimpan!']);
     }
@@ -83,7 +87,6 @@ class MenuController extends Controller
         $menus->menu_price = $request->input('menu_price');
         $menus->category_id = $request->input('category');
         $menus->menu_desc = $request->input('menu_desc');
-        $menus->users_id = auth()->id();
         $menus->save();
 
         // Ambil ID makanan yang baru saja disimpan
@@ -92,13 +95,14 @@ class MenuController extends Controller
         if ($request->hasFile('menu_pic')) {
             $image = $request->file('menu_pic');
 
-            // Ubah nama file gambar menjadi ID makanan
             $imageName = $menuId . '.' . $image->getClientOriginalExtension();
 
-            // Simpan gambar ke direktori storage dengan nama baru
-            $imagePath = $image->storeAs('public/menu_images/', $imageName);
+            $resizedImage = Image::make($image)->fit(600, 520)->encode();
 
-            // Update path gambar pada model Menu
+            $imagePath = 'public/menu_images/' . $imageName;
+
+            Storage::put($imagePath, $resizedImage);
+
             $menus->menu_pic = $imagePath;
             $menus->save();
         }

@@ -59,6 +59,19 @@
                         </div>
                     </div>
 
+                    <div class="form-group">
+                        <label for="min_order">Minimal Order</label>
+                        <select class="form-control @error('min_order') is-invalid @enderror" id="min_order" name="min_order">
+                            <option value="" selected>Pilih Minimal Order</option>
+                            <option value="H-1">H-1</option>
+                            <option value="H-2">H-2</option>
+                            <option value="H-3">H-3</option>
+                        </select>
+                        @error('min_order')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
                 </div>
                 <!-- /.card-body -->
 
@@ -69,7 +82,6 @@
             </form>
         </div>
 
+    @include('pointakses.admin.include.sidebar_admin')>
 
-        @include('pointakses.admin.include.sidebar_admin')>
-
-    @endsection
+@endsection
