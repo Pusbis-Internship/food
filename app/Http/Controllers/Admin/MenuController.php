@@ -43,13 +43,15 @@ class MenuController extends Controller
             'vendor' => 'required',
             'menu_desc' => 'required',
         ]);
+        
+        $vendor = User::find($request->input('vendor'));
 
         $menu = new Menu();
         $menu->menu_name = $request->input('menu_name');
         $menu->menu_price = $request->input('menu_price');
         $menu->category_id = $request->input('category');
         $menu->users_id = $request->input('vendor');
-        $menu->seller = $request->input('vendor');
+        $menu->seller = $vendor->nama_lengkap;
         $menu->menu_desc = $request->input('menu_desc');
         $menu->min_order_time = $request->input('min_order');
 
