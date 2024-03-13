@@ -12,21 +12,29 @@ use Illuminate\Support\Facades\Session;
 
 use App\Models\Order;
 
+use App\Models\Menu;
+
 class OrderController extends Controller
 {
     public function placeOrder(Request $request): RedirectResponse
     {
         $orderData = Session::get("order_" . auth()->id());
+
+        if (!$orderData) {
+            return redirect()->route('menu_user')->with('error', 'Tidak ada data pesanan yang tersedia.');
+        }
     
         // Mendapatkan id_pesanan yang sama untuk semua menu dalam satu pesanan
         $orderId = Order::max('id_pesanan') + 1;
-    
+        
         // Mendapatkan catatan dari request
         $catatan = $request->input('catatan');
-    
+
+        $total = $this->calculateTotal($orderData);
+        
         foreach ($orderData as $orderDetail) {
             $orderDetail['id_pesanan'] = $orderId; // Tetapkan id_pesanan ke setiap detail order
-    
+            
             $order = new Order([
                 'users_id' => auth()->id(),
                 'menu_id' => $orderDetail['menu_id'],
@@ -46,19 +54,18 @@ class OrderController extends Controller
                 'min_order_time' => $request->input('min_order_time'),
                 'catatan' => $request->input('catatan'), 
             ]);
-    
+
             $order->save();
         }
     
         // Update nilai 'total' setelah semua item order ditambahkan
         $this->updateOrderTotal($orderId);
-    
+        
         Session::forget("order_" . auth()->id());
-    
+        
         // Redirect ke halaman terima kasih atau halaman lainnya
-        return redirect()->route('menu_user')->with('success', 'Transaksi berhasil.');
+        return redirect()->route('history_order')->with('success', 'Transaksi berhasil.')->with(compact('total'));
     }
-    
     
     private function calculateTotal($orderData)
     {

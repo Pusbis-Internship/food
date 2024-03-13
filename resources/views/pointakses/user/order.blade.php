@@ -2,117 +2,424 @@
 @include('frontend.include.header')
 @section('menu')
 
- <!--Page header & Title-->
-<section id="page_header">
-    <div class="page_title">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <h2 class="title">Shopping Cart</h2>
-                    <p>UINSA FOOD</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<div class="container">
-    <table id="cart" class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Menu</th>
-                <th>Vendor</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Subtotal</th>
-                <th></th>
-            </tr>
-        </thead>
-
-        <tbody>
-            @php $total = 0 @endphp
-            @if(session("order_" . auth()->id()))
-                @foreach(session("order_" . auth()->id()) as $id => $order_detail)
-                <tr rowId="{{ $id }}">
-                    <td data-th="Menu">{{ $order_detail['menu_name'] }}</td>
-                    <td data-th="Seller">{{ $order_detail['seller'] }}</td>
-                    <td data-th="Price">Rp. {{ number_format($order_detail['menu_price'], 0, ',', '.') }}</td>
-                    <td data-th="Quantity">
-                        <input type="number" class="form-control edit-cart-info" value="{{ $order_detail['quantity'] }}" />
-                    </td>
-                    <td data-th="Subtotal">Rp. {{ number_format($order_detail['subtotal'], 0, ',', '.') }}</td>
-                    <td class="actions">
-                        <button class="btn btn-outline-danger btn-sm delete-product"><i class="icon-trash"></i></button>
-                    </td>
-                    @php
-                    $total += $order_detail['subtotal'];
-                    @endphp
-                </tr>
-                @endforeach
-            @endif
-        </tbody>
-        
-        <tfoot>
-            <tr>
-                <td colspan="5"><strong>Total: Rp. {{ number_format($total, 0, ',', '.') }}</strong></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td colspan="6" class="text-right">
-                    <a href="{{ url('/menu') }}" class="btn btn-primary"><i class="fa fa-angle-left"></i> Continue
-                        Shopping</a>
-                        <a href="{{ url('/checkout') }}" class="btn btn-danger checkout-btn">Checkout</a>
-
-                </td>
-            </tr>
-        </tfoot>
-    </table>
-</div>
-   
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script type="text/javascript">
-    $(document).ready(function() {
-        // Function to increase quantity
-        function increaseQuantity(button) {
-            var input = button.parentNode.querySelector('input[type="number"]');
-            var currentValue = parseInt(input.value);
-            input.value = currentValue + 1;
+    <style>
+        .wrap-iten-in-cart {
+            padding-left: 70px;
+            padding-right: 70px;
         }
 
-        // Function to decrease quantity
-        function decreaseQuantity(button) {
-            var input = button.parentNode.querySelector('input[type="number"]');
-            var currentValue = parseInt(input.value);
-            if (currentValue > 0) {
-                input.value = currentValue - 1;
+        @media screen and (max-width: 768px) {
+            .wrap-iten-in-cart {
+                padding-left: 20px;
+                padding-right: 20px;
             }
         }
 
-        // Function to handle quantity change
-        $(".edit-cart-info").change(function(e) {
+        .wrap-iten-in-cart .products-cart {
+            padding: 0;
+            border-top: 1px solid #e6e6e6;
+        }
+
+        .wrap-iten-in-cart .products-cart .pr-cart-item {
+            list-style: none;
+            display: flex;
+            /* Mengubah tata letak menjadi flexbox */
+            justify-content: space-between;
+            /* Menyusun elemen ke tepi kanan dan kiri */
+            align-items: center;
+            /* Memusatkan vertikal */
+            padding: 20px 0px;
+            width: 100%;
+        }
+
+        .wrap-iten-in-cart .products-cart .pr-cart-item:not(:first-child) {
+            border-top: 1px solid #e6e6e6;
+        }
+
+        .wrap-iten-in-cart .products-cart .delete,
+        .wrap-iten-in-cart .products-cart .quantity,
+        .wrap-iten-in-cart .products-cart .price-field,
+        .wrap-iten-in-cart .products-cart .product-name,
+        .wrap-iten-in-cart .products-cart .product-image {
+            display: table-cell;
+            vertical-align: middle;
+        }
+
+        .wrap-iten-in-cart .products-cart .product-image {
+            flex: 0 0 auto;
+            /* Tetapkan lebar tetap untuk gambar produk */
+            width: 100px;
+            margin-right: 20px;
+            /* Menambahkan ruang di antara gambar dan nama produk */
+        }
+
+        @media screen and (-ms-high-contrast: active),
+        (-ms-high-contrast: none) {
+            .wrap-iten-in-cart .products-cart .product-image img {
+                width: 100%;
+            }
+        }
+
+        .wrap-iten-in-cart .products-cart .quantity {
+            width: 157px;
+        }
+
+        .wrap-iten-in-cart .products-cart .price-field {
+            width: 182px;
+            text-align: center;
+        }
+
+        .wrap-iten-in-cart .products-cart .delete {
+            width: 39px;
+            text-align: right;
+        }
+
+        .wrap-iten-in-cart .products-cart .product-name {
+            padding-left: 20px;
+        }
+
+        .wrap-iten-in-cart .products-cart .product-name a {
+            font-size: 14px;
+            line-height: 20px;
+            font-weight: 600;
+            color: #333333;
+            text-align: left;
+        }
+
+        .wrap-iten-in-cart .products-cart .price-field p {
+            font-size: 22px;
+            line-height: 18px;
+            color: #222222;
+            font-weight: 600;
+        }
+
+        .wrap-iten-in-cart .products-cart .quantity .quantity-input {
+            display: inline-block;
+            border: 1px solid #e6e6e6;
+            width: 100%;
+            max-width: 157px;
+        }
+
+        .wrap-iten-in-cart .products-cart .quantity .quantity-input input[type=number],
+        .wrap-iten-in-cart .products-cart .quantity .quantity-input input[type=text] {
+            max-width: 71px;
+            float: right;
+            border: none;
+            outline: none;
+            height: 37px;
+            font-size: 16px;
+            line-height: 20px;
+            color: #222222;
+            text-align: right;
+            padding-right: 15px;
+            padding-left: 10px;
+        }
+
+        .wrap-iten-in-cart .products-cart .quantity .quantity-input .btn {
+            display: inline-block;
+            float: right;
+            width: 28px;
+            height: 28px;
+            background-color: #dddddd;
+            border: none;
+            padding: 0;
+            line-height: 20px;
+            margin: 4.5px 0 0 10px;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .wrap-iten-in-cart .products-cart .quantity .quantity-input .btn::after,
+        .wrap-iten-in-cart .products-cart .quantity .quantity-input .btn::before {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            /*transform: translate( -50% , -50% );*/
+            /*-webkit-transform: translate( -50% , -50% );*/
+            /*-ms-transform: translate( -50% , -50% );*/
+        }
+
+        .wrap-iten-in-cart .products-cart .quantity .quantity-input .btn:hover::before,
+        .wrap-iten-in-cart .products-cart .quantity .quantity-input .btn:hover::after {
+            background-color: #ffffff !important;
+        }
+
+        .wrap-iten-in-cart .products-cart .quantity .quantity-input .btn::before {
+            content: "";
+            width: 10px;
+            height: 2px;
+            margin-left: -5px;
+            margin-top: -1px;
+            background-color: #666666;
+            display: inline-block;
+        }
+
+        .wrap-iten-in-cart .products-cart .quantity .quantity-input .btn.btn-increase {
+            background-color: #999999;
+        }
+
+        .wrap-iten-in-cart .products-cart .quantity .quantity-input .btn.btn-increase::after {
+            content: "";
+            width: 2px;
+            height: 10px;
+            margin-left: -1px;
+            margin-top: -5px;
+            background-color: #666666;
+            display: block;
+            /*    transform: translate(-6px, 4px);
+                                                -webkit-transform: translate(-6px, 4px);
+                                                -ms-transform: translate(-6px, 4px);*/
+
+        }
+
+        .wrap-iten-in-cart .products-cart .delete a:focus,
+        .wrap-iten-in-cart .products-cart .delete a.btn {
+            padding: 0;
+            margin: 0;
+            outline: none;
+            box-shadow: none;
+        }
+
+        .wrap-iten-in-cart .products-cart .delete a.btn span {
+            display: none;
+        }
+
+        .wrap-iten-in-cart .products-cart .delete a.btn i {
+            font-size: 20px;
+            line-height: 24px;
+            color: #888888;
+            outline: none;
+        }
+
+        .wrap-iten-in-cart .products-cart .delete a.btn:hover i {
+            color: #ff2832;
+        }
+
+        .card {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            /* Menambahkan efek bayangan */
+        }
+
+
+        .product-image img {
+            max-width: 100px;
+            height: auto;
+            margin-right: 20px;
+        }
+
+        .product-details {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-name {
+            margin: 0;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .vendor {
+            margin: 20;
+            font-size: 16px;
+        }
+
+        .box {
+        background-color: #fdfdfd;
+        width: 600px;
+        border: 1px solid #e6e6e6;
+        padding: 40px 40px 21px 40px;
+        position: relative; /* Mengatur posisi relatif */
+        margin: 0 auto; /* Menyamakan margin kiri dan kanan (margin otomatis) */
+        }
+
+        .detail-order {
+            position: absolute;
+            top: 10;
+            left: 10; /* Mengatur posisi ke kiri */
+        }
+
+        .detail-order p {
+            margin: 0;
+            font-size: 16px;
+            font-weight: bold;
+            color: black; /* Warna teks hitam */
+        }
+        .total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .total p:first-child {
+            margin-right: 10px;
+        }
+        .checkout-btn {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0px;
+        }
+
+        .continue-btn {
+            flex: 2; /* Mengatur agar ukuran tombol menjadi sama */
+            background-color: #1c33b8;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px; /* Tambahkan margin kanan */
+        }
+
+        .checkout-btn button {
+            flex: 2; /* Mengatur agar ukuran tombol menjadi sama */
+            background-color: #b7c2b7;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .continue-btn:hover, .checkout-btn button:hover {
+            background-color: #45a049;
+        }
+
+    </style>
+
+    <!--Page header & Title-->
+    <section id="page_header">
+        <div class="page_title">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2 class="title">Shopping Cart</h2>
+                        <p>UINSA FOOD</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    @if(session('order_' . auth()->id()))
+    <div class="wrap-iten-in-cart" id="cart">
+        <ul class="products-cart">
+            @php 
+            $total = 0; 
+            @endphp
+            @foreach(session('order_' . auth()->id()) as $id => $order_detail)
+                <li class="pr-cart-item" rowId="{{ $id }}">
+                    <div class="product-image">
+                        <img src="{{ url('storage/menu_images/' . basename($order_detail['menu_pic'])) }}" alt="Product Image">
+                    </div>
+                    <div class="product-details">
+                        <h2 class="product-name">{{ $order_detail['menu_name'] }}</h2>
+                        <p class="vendor">{{ $order_detail['seller'] }}</p>
+                    </div>
+                    <div class="price-field product-price">
+                        <p class="price">Rp. {{ number_format($order_detail['menu_price'], 0, ',', '.') }}</p>
+                    </div>
+                    <div class="quantity">
+                        <div class="quantity-input">
+                            <input type="number" name="product-quantity" value="{{ $order_detail['quantity'] }}" data-max="120" pattern="[0-9]*" class="edit-cart-info">
+                            <a class="btn btn-increase" href="#"></a>
+                            <a class="btn btn-reduce" href="#"></a>
+                        </div>
+                    </div>
+                    <div class="price-field sub-total">
+                        <p class="price">Rp. {{ number_format($order_detail['subtotal'], 0, ',', '.') }}</p>
+                    </div>
+                    <div class="delete">
+                        <a href="#" class="btn btn-delete delete-product" title="">
+                            <span>Delete from your cart</span>
+                            <i class="fa fa-times-circle" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </li>
+                @php
+                    $total += $order_detail['subtotal'];
+                @endphp
+            @endforeach
+        </ul>
+    </div>
+    <br>
+    <div class="box">
+        <div class="detail-order">
+            <p>Detail Order</p>
+        </div>
+
+        <div class="total">
+            <p>Total</p>
+            <p><strong> Rp. {{ number_format($total, 0, ',', '.') }}</strong></p>
+        </div>
+        <div class="checkout-btn">
+            <button class="continue-btn" onclick="window.location.href='{{ url('/menu') }}'">Lanjutkan Order</button>
+            <button class="checkout-btn" onclick="window.location.href='{{ url('/checkout') }}'">Checkout</button>
+        </div>    
+    </div>
+    <br>
+    <br>
+    @endif
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        // Function to increase quantity
+        $(document).on('click', '.btn-increase', function(e) {
             e.preventDefault();
-            var ele = $(this);
-            var quantity = ele.val();
+            var input = $(this).siblings('input[type="number"]');
+            var currentValue = parseInt(input.val());
+            input.val(currentValue + 1);
+            updateCart(input); // Panggil fungsi untuk mengirim permintaan ke server
+        });
+
+        // Function to decrease quantity
+        $(document).on('click', '.btn-reduce', function(e) {
+            e.preventDefault();
+            var input = $(this).siblings('input[type="number"]');
+            var currentValue = parseInt(input.val());
+            if (currentValue > 1) {
+                input.val(currentValue - 1);
+                updateCart(input); // Panggil fungsi untuk mengirim permintaan ke server
+            }
+        });
+
+        // Function to update cart via AJAX
+        function updateCart(input) {
+            var listItem = input.closest('.pr-cart-item');
+            var productId = listItem.attr('rowId');
+            var quantity = input.val();
 
             $.ajax({
                 url: '{{ route('update.sopping.order') }}',
-                method: "patch",
+                method: "PATCH",
                 data: {
                     _token: '{{ csrf_token() }}',
-                    id: ele.parents("tr").attr("rowId"),
+                    id: productId,
                     quantity: quantity,
                 },
                 success: function(response) {
-                    window.location.reload(true);
+                    // Reload the page after successful update
+                    window.location.reload();
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                    alert("Failed to update cart. Please try again later.");
                 }
             });
-        });
+        }
 
         // Function to handle product deletion
         $(".delete-product").click(function(e) {
             e.preventDefault();
 
             var ele = $(this);
+            var rowId = ele.closest("li").attr("rowId");
 
             if (confirm("Do you really want to delete?")) {
                 $.ajax({
@@ -120,10 +427,14 @@
                     method: "DELETE",
                     data: {
                         _token: '{{ csrf_token() }}',
-                        id: ele.parents("tr").attr("rowId")
+                        id: rowId
                     },
                     success: function(response) {
-                        window.location.reload();
+                        location.reload(); // Reload the page after successful deletion
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                        alert("Failed to delete item from cart. Please try again later.");
                     }
                 });
             }
@@ -131,16 +442,18 @@
 
         // Function to handle checkout button
         $(".checkout-btn").click(function(e) {
-            e.preventDefault();
-
-            if ($("#cart tbody tr").length < 1) {
-                alert("Minimal masukkan 1 makanan untuk Checkout");
-            } else {
-                // Redirect to the checkout page if the cart is not empty
-                window.location.href = $(this).attr('href');
-            }
-        });
+        e.preventDefault();
+        var total = {{ $total ?? 0 }};
+        if (total > 0) {
+            // Redirect to checkout page if there are items in the cart
+            window.location.href = '{{ url('/checkout') }}';
+        } else {
+            // Show alert if there are no items in the cart
+            alert("Your cart is empty. Please add items before checkout.");
+        }
     });
+});
+
 </script>
 
 @endsection

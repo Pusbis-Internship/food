@@ -23,7 +23,7 @@
         <tr>
             <th>Menu</th>
             <th>Vendor</th>
-            <th>Gambar</th>
+            <th>Gambar Menu</th>
             <th>Price</th>
             <th>Quantity</th>
             <th>Subtotal</th>
