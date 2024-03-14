@@ -158,24 +158,19 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-3 col-sm-6 feature text-center">
+                <div class="col-md-4 col-sm-6 feature text-center">
                     <i class="icon-food"></i>
                     <h3><a href="#">Makanan Berat</a></h3>
                     <p> Enjoy Delicious Food!</p>
                 </div>
-                <div class="col-md-3 col-sm-6 feature text-center">
+                <div class="col-md-4 col-sm-6 feature text-center">
                     <i class="icon-coffee"></i>
                     <h3><a href="#">Sarapan</a></h3>
                     <p> Enjoy Delicious Food!</p>
                 </div>
-                <div class="col-md-3 col-sm-6 feature text-center">
+                <div class="col-md-4 col-sm-6 feature text-center">
                     <i class="icon-glass"></i>
                     <h3><a href="#">Minuman Segar</a></h3>
-                    <p> Enjoy Delicious Food!</p>
-                </div>
-                <div class="col-md-3 col-sm-6 feature text-center">
-                    <i class="icon-food"></i>
-                    <h3><a href="#">Makanan Cepat Saji</a></h3>
                     <p> Enjoy Delicious Food!</p>
                 </div>
             </div>

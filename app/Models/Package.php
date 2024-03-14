@@ -1,12 +1,12 @@
 <?php
-// app/Models/Category.php
+// app/Models/Package.php
 
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Category extends Model
+class Package extends Model
 {
     use HasFactory;
 
@@ -15,7 +15,7 @@ class Category extends Model
      *
      * @var string
      */
-    protected $table = 'table_category';
+    protected $table = 'packages';
 
     /**
      * The attributes that are mass assignable.
@@ -23,14 +23,15 @@ class Category extends Model
      * @var array
      */
     protected $fillable = [
-        'category_name',
+        'category_id', 'makanan_1', 'makanan_2', 'makanan_3', 'makanan_4',
+        'makanan_5', 'makanan_6', 'makanan_7', 'makanan_8',
     ];
 
     /**
-     * Get the menus for the category.
+     * Get the category that owns the package.
      */
-    public function menus()
+    public function packageCategory()
     {
-        return $this->hasMany(Menu::class);
+        return $this->belongsTo(Category::class, 'category_id');
     }
 }
