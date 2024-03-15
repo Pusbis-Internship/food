@@ -22,8 +22,10 @@ class UserController extends Controller
         $order = session()->get('order', []);
         $userId = auth()->id();
         $lastOrder = Order::where('users_id', $userId)->latest()->first();
+        $userOrders = Order::where('users_id', $userId)->get();
         $total = 0;
         $menuDetail = [];
+        $uniqueMenus = collect([]);
     
         foreach ($order as $id => $order_detail) {
             $subtotal = isset($order_detail['subtotal']) ? $order_detail['subtotal'] : 0;
@@ -34,10 +36,20 @@ class UserController extends Controller
     
         if ($lastOrder) {
             $menuDetail = Menu::findOrFail($lastOrder->menu_id);
+            $uniqueMenus = $userOrders->unique('menu_id')->map(function ($order) {
+                return Menu::findOrFail($order->menu_id);
+            });
+        }
+
+        $userReview = null;
+        if ($lastOrder) {
+            $userReview = Review::where('users_id', auth()->id())
+                ->where('id_pesanan', $lastOrder->id_pesanan)
+                ->first();
         }
     
         session()->put('order', $order);  // Update the session with new subtotal values
-        return view('pointakses/user/index', compact('menus', 'order', 'total', 'lastOrder', 'menuDetail'));
+        return view('pointakses/user/index', compact('menus', 'order', 'lastOrder', 'userOrders', 'total', 'menuDetail', 'uniqueMenus', 'userReview'));
     }
     
     public function addRatingReview(Request $request, $id_pesanan)
@@ -46,7 +58,7 @@ class UserController extends Controller
         if (!Auth::check()) {
             return redirect()->back()->with('error', 'Anda harus login untuk memberikan rating dan ulasan.');
         }
-    
+
         // Periksa apakah pesanan dengan id yang diberikan dimiliki oleh pengguna yang sedang login
         $userId = Auth::id();
         $order = Order::where('id_pesanan', $id_pesanan)->where('users_id', $userId)->first();

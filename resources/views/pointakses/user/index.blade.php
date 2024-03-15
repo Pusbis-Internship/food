@@ -146,14 +146,10 @@
          .rated > label:hover ~ input:checked ~ label {
          color: #c59b08;
          }
-
     </style>
-
-
 </head>
 
 <body>
-
     <!--Loader-->
     @include('frontend.include.loader')
     <!--Header-->
@@ -194,10 +190,11 @@
                                 value="{{ $lastOrder ? $lastOrder->id_pesanan : '' }}">
                             <div class="form-group">
                                 <label for="menu_id">Menu:</label>
-                                <!-- Menampilkan menu yang terkait dengan pesanan terakhir -->
+                                <!-- Menampilkan semua menu pada pesanan terakhir -->
                                 <select name="menu_id" id="menu_id" class="form-control">
-                                    <option value="{{ $lastOrder ? $lastOrder->menu_id : '' }}">
-                                        {{ $lastOrder ? $lastOrder->menu_name : '' }}</option>
+                                    @foreach ($uniqueMenus as $menu)
+                                        <option value="{{ $menu->id }}">{{ $menu->menu_name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-group">
