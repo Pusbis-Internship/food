@@ -75,7 +75,20 @@
           <!-- ./col -->
         </div>
       </div>
-      </section>
+
+      <div class="container px-4 mx-auto">
+
+        <div class="p-6 m-20 bg-white rounded shadow">
+            {!! $chart->container() !!}
+        </div>
+    
+    </div>
+    </section>
+
+    
+    
+    <script src="{{ $chart->cdn() }}"></script>
+    {{ $chart->script() }}
 
 @include('pointakses.admin.include.sidebar_admin')
 @endsection

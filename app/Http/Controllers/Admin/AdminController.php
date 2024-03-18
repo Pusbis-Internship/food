@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
+use App\Charts\AdminMenuReviewChart;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
@@ -10,12 +10,15 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    public function index()
+        public function index(AdminMenuReviewChart $chart)
     {
         $totalOrders = DB::table('orders')->count();
         $totalacceptedorders = DB::table('orders')->where('status', 'setuju')->count();
         $totalsellers = DB::table('users')->where('role', 'seller')->count();
         $totalmenus = DB::table('table_menu')->count();
+        
+        // Membuat chart
+        $datachart['chart'] =  $chart->build();
 
         $groupedOrders = DB::table('orders')
             ->join('users', 'orders.users_id', '=', 'users.id')
@@ -34,9 +37,15 @@ class AdminController extends Controller
             ->groupBy('id_pesanan', 'total', 'nama_penerima', 'alamat_pengiriman', 'fakultas', 'tanggal', 'jam', 'users.nama_lengkap', 'status')
             ->get();
 
-        return view('pointakses/admin/index', ['groupedOrders' => $groupedOrders], compact('totalOrders', 'totalacceptedorders', 'totalsellers', 'totalmenus'));
-    }
+        // Menggabungkan semua variabel ke dalam satu array
+        $data = compact('totalOrders', 'totalacceptedorders', 'totalsellers', 'totalmenus', 'groupedOrders');
 
+        // Menggabungkan $datachart ke dalam array $data
+        $datamerge = array_merge($data, $datachart);
+
+        // Mengirimkan semua variabel ke tampilan
+        return view('pointakses/admin/index', $datamerge);
+    }
     function seller()
     {
         $sellers = User::where('role', 'seller')->get();
