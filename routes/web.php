@@ -50,7 +50,7 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/menu_user',[UserController::class, 'menu_user'])->name('menu_user')->middleware('userAkses:user');
     Route::get('/tentangkami_user',[UserController::class, 'about_user'])->name('about_user')->middleware('userAkses:user');
     Route::get('/kontak_user',[UserController::class, 'contact_user'])->name('contact_user')->middleware('userAkses:user');
-    Route::get('/menu_user',[UserController::class, 'filterMenu_user'])->name('menu_user')->middleware('userAkses:user');
+    Route::get('/filter_menu_user',[UserController::class, 'filterMenu_user'])->name('filter.menu.user')->middleware('userAkses:user');
     Route::get('/history_order',[UserController::class, 'history_order'])->name('history_order')->middleware('userAkses:user');
     Route::get('/user/invoice/{id_pesanan}', [UserController::class, 'invoice'])->name('user_invoice')->middleware('userAkses:user');
     Route::get('generate-pdf/{id_pesanan}', [UserController::class, 'generateinvoice'])->name('download')->middleware('userAkses:user');

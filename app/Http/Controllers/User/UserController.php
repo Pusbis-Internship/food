@@ -90,25 +90,32 @@ class UserController extends Controller
         return redirect()->back()->with('success', 'Rating dan ulasan berhasil ditambahkan.');
     }
 
-    public function menu_user()
+    public function menu_user(Request $request)
     {
-        $menus = Menu::all();
+        $categories = Category::all();
+        $search = $request->input('search');
+    
+        if ($search) {
+            $menus = Menu::where('menu_name', 'LIKE', '%' . $search . '%')->get();
+        } else {
+            $menus = Menu::all();
+        }
 
-        return view('pointakses/user/page_menu', compact('menus'));
+        return view('pointakses/user/page_menu', compact('categories', 'menus', 'search'));
     }
 
     public function filterMenu_user(Request $request)
     {
-        $query = Menu::query();
         $categories = Category::all();
-
-        if ($request->ajax()) {
-            $menus = $query->where(['category_id' => $request->category])->get();
-            return response()->json(['menus' => $menus]);
+        $category = $request->input('category');
+    
+        if ($category) {
+            $menus = Menu::where('category_id', $category)->get();
+        } else {
+            $menus = Menu::all();
         }
-        $menus = $query->get();
 
-        return view('pointakses/user/page_menu', compact('categories', 'menus'));
+        return view('pointakses/user/page_menu', compact('menus', 'categories'));
     }
 
     public function about_user()

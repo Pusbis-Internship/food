@@ -4,6 +4,31 @@
 <div class="menu" id="Menu">
     <h1><span>Menu</span></h1>
     
+    @auth
+    <form action="{{ route('menu_user') }}" method="GET">
+        <div class="input-group input-group-sm" style="width: 150px;">
+            <input type="search" name="search" class="form-control float-right" placeholder="Search">
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-default">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+    </form>
+    <br>
+    <form action="{{ route('filter.menu.user') }}" method="GET">
+        <select name="category" id="category">
+            <option value="">Select Category</option>
+            @if($categories && count($categories) > 0)
+                @foreach($categories as $category)
+                    <option value="{{ $category->id }}">{{ $category->category_name }}</option>
+                @endforeach
+            @endif
+        </select>
+        <button type="submit">Filter</button>
+    </form>
+    @endauth
+    @guest
     <form action="{{ route('menu') }}" method="GET">
         <div class="input-group input-group-sm" style="width: 150px;">
             <input type="search" name="search" class="form-control float-right" placeholder="Search">
@@ -24,8 +49,9 @@
                 @endforeach
             @endif
         </select>
-        <button type="submit">Cari</button>
+        <button type="submit">Filter</button>
     </form>
+    @endguest
 
     <br>
     <br>
