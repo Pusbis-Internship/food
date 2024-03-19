@@ -32,7 +32,7 @@ Route::middleware(['guest'])->group(function(){
     Route::get('/menu',[HomeController::class, 'menu'])->name('menu');
     Route::get('/tentangkami',[HomeController::class, 'about'])->name('about');
     Route::get('/kontak',[HomeController::class, 'contact'])->name('contact');
-    Route::get('/menu',[HomeController::class, 'filterMenu'])->name('menu');
+    Route::get('/filter-menu', [HomeController::class, 'filterMenu'])->name('filter.menu');
 
 
     ////////// Guest Login & Regis Controller //////////

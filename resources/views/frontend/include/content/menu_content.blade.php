@@ -4,14 +4,28 @@
 <div class="menu" id="Menu">
     <h1><span>Menu</span></h1>
     
-    <select name="category" id="category">
-        <option value="">Select Category</option>
-        @if($categories && count($categories) > 0)
-            @foreach($categories as $category)
-                <option value="{{ $category['id'] }}">{{ $category->category_name }}</option>
-            @endforeach
-        @endif
-    </select>
+    <form action="{{ route('menu') }}" method="GET">
+        <div class="input-group input-group-sm" style="width: 150px;">
+            <input type="search" name="search" class="form-control float-right" placeholder="Search">
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-default">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+    </form>
+    <br>
+    <form action="{{ route('filter.menu') }}" method="GET">
+        <select name="category" id="category">
+            <option value="">Select Category</option>
+            @if($categories && count($categories) > 0)
+                @foreach($categories as $category)
+                    <option value="{{ $category->id }}">{{ $category->category_name }}</option>
+                @endforeach
+            @endif
+        </select>
+        <button type="submit">Cari</button>
+    </form>
 
     <br>
     <br>
@@ -19,15 +33,12 @@
     <div class="menu_box">
         @foreach($menus as $menu)
         <div class="menu_card">
-
             <div class="menu_image">
                 <img src="{{ url('storage/menu_images/' . basename($menu->menu_pic)) }}">
             </div>
-
             <div class="small_card">
                 <i class="icon-basket2"></i>
             </div>
-
             <div class="menu_info">
                 <h2>{{ $menu->menu_name }}</h2>
                 <p>{{ $menu->seller }}</p>
@@ -43,41 +54,7 @@
                <a href="{{ route('auth') }}" class="menu_btn">Order Now</a> 
                @endguest
             </div>
-
         </div>
         @endforeach
-
-        <script>
-        $(document).ready(function(){
-            $("#category").on('change', function(){
-                var category = $(this).val();
-                $.ajax({
-                    url:"{{ route('menu' )}}",
-                    type: "GET",
-                    data: {category: category},
-                    success:function(data){
-                        var menus = data.menus;
-                        var html = '';
-                        if(menus.length>0){
-                            for(let i=0; i<menus.length; i++){
-                                html +='<tr>\
-                                        <td>'+(menus[i]['id'])+'</td>\
-                                        <td>'+menus[i]['menu_name']+'</td>\
-                                        <td>'+menus[i]['menu_price']+'</td>\
-                                        <td>'+menus[i]['menu_desc']+'</td>\
-                                        </tr>';
-                            }
-                        } else {
-                            html += '<tr>\
-                                        <td>Tidak ada menu tersedia</td>\
-                                    </tr>';
-                        }
-                        $("#body").html(html);
-                    }
-                })
-            })
-        })
-    </script>
     </div>
-
 </div>
