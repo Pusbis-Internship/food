@@ -164,10 +164,10 @@
                     <!-- Menampilkan gambar menu dan harga -->
                     @if ($lastOrder)
                         <div class="card">
-                            <img src="{{ asset($lastOrder->menu_pic) }}" class="card-img-top" alt="Menu Image">
+                            <img src="" id="menuPic" class="card-img-top" alt="Menu Image" style="width: 300px; height: 260px;">
                             <div class="card-body">
-                                <h5 class="card-title">{{ $lastOrder->menu_name }}</h5>
-                                <p class="card-text">Harga: {{ $lastOrder->menu_price }}</p>
+                                <h3 class="card-title"><span id="selectedMenu"></span></h3>
+                                <p class="card-text">Rp. <span id="menuPrice"></span></p>
                             </div>
                         </div>
                     @else
@@ -193,7 +193,10 @@
                                 <!-- Menampilkan semua menu pada pesanan terakhir -->
                                 <select name="menu_id" id="menu_id" class="form-control">
                                     @foreach ($uniqueMenus as $menu)
-                                        <option value="{{ $menu->id }}">{{ $menu->menu_name }}</option>
+                                        <option value="{{ $menu->id }}" data-price="{{ number_format($menu->menu_price, 0, ',', '.') }}"
+                                            data-pic="{{ url('storage/menu_images/' . basename($menu['menu_pic'])) }}">
+                                            {{ $menu->menu_name }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -454,6 +457,35 @@
                 var modal = document.getElementById('myModal');
                 modal.style.display = 'none';
             }
+
+            function handleMenuChange() {
+                var selectElement = document.getElementById('menu_id');
+                var menuOptions = selectElement.options; // Get options of the select element
+                var selectedMenuId = selectElement.value;
+                
+                // Find the selected option and get its data attributes
+                for (var i = 0; i < menuOptions.length; i++) {
+                    if (menuOptions[i].value == selectedMenuId) {
+                        var selectedOption = menuOptions[i];
+                        var selectedMenuPrice = selectedOption.getAttribute('data-price');
+                        var selectedMenuName = selectedOption.innerText;
+                        var selectedMenuPic = selectedOption.getAttribute('data-pic');
+
+                        // Update modal content with selected menu details
+                        document.getElementById('selectedMenu').innerText = selectedMenuName;
+                        document.getElementById('menuPrice').innerText = selectedMenuPrice;
+                        document.getElementById('menuPic').src = selectedMenuPic;
+                        
+                        break; // Exit the loop once the selected option is found
+                    }
+                }
+            }
+
+            // Add event listener for menu select change
+            document.getElementById('menu_id').addEventListener('change', handleMenuChange);
+
+            // Call handleMenuChange initially to populate modal with initially selected menu
+            handleMenuChange();
 
             // Membuat event listener untuk menutup modal saat tombol close diklik
             var closeBtn = document.querySelector('.close');

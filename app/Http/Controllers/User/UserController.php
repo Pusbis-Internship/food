@@ -286,39 +286,6 @@ class UserController extends Controller
         return view('pointakses.user.invoice', compact('userId', 'groupedOrders'));
     }
 
-    // public function addRatingReview(Request $request, $id_pesanan)
-    // {
-
-    //     if (!Auth::check()) {
-    //         return redirect()->back()->with('error', 'Anda harus login untuk memberikan rating dan ulasan.');
-    //     }
-
-    //     // Memastikan user sudah pernah memesan sebelum memberikan rating dan review
-    //     $userId = Auth::id();
-    //     $order = Order::where('id', $id_pesanan)->where('user_id', $userId)->first();
-    //     if (!$order) {
-    //         return redirect()->back()->with('error', 'Anda hanya dapat memberikan rating dan ulasan untuk pesanan yang sudah Anda buat.');
-    //     }
-
-    //     $request->validate([
-    //         'menu_id' => 'required|exists:menus,id',
-    //         'rating' => 'required|integer|between:1,5',
-    //         'review' => 'nullable|string|max:255',
-    //     ]);
-
-    //     $ratingReview = new Review([
-    //         'menu_id' => $request->menu_id,
-    //         'user_id' => auth()->id(),
-    //         'rating' => $request->rating,
-    //         'review' => $request->review,
-    //     ]);
-
-    //     $ratingReview->save();
-
-    //     return redirect()->back()->with('success', 'Rating dan ulasan berhasil ditambahkan.');
-    // }
-
-
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~   Method Profile   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\\
 
     public function editprofile()
