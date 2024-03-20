@@ -11,6 +11,7 @@ use App\Models\Category;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
+
 class SellerMenuController extends Controller
 {
     function data_menu_seller(Request $request)
@@ -30,15 +31,18 @@ class SellerMenuController extends Controller
         return view('pointakses/seller/data_menu_seller/create', compact('categories'));
     }
 
-    function store_menu(Request $request): RedirectResponse
+    public function store_menu(Request $request): RedirectResponse
     {
+        // Validasi input
         $this->validate($request, [
             'menu_pic' => 'required|image|mimes:jpeg,jpg,png',
             'min_order' => 'required|in:H-1,H-2,H-3',
         ]);
-
+    
+        // Mendapatkan user yang sedang login
         $user = auth()->user();
-
+    
+        // Membuat instance model Menu
         $menu = new Menu();
         $menu->menu_name = $request->input('menu_name');
         $menu->menu_price = $request->input('menu_price');
@@ -47,34 +51,41 @@ class SellerMenuController extends Controller
         $menu->menu_desc = $request->input('menu_desc');
         $menu->users_id = auth()->id();
         $menu->min_order_time = $request->input('min_order');
+        $menu->makanan_1 = $request->input('makanan_1');
+        $menu->makanan_2 = $request->input('makanan_2');
+        $menu->makanan_3 = $request->input('makanan_3');
+        $menu->makanan_4 = $request->input('makanan_4');
+        $menu->makanan_5 = $request->input('makanan_5');
+        $menu->makanan_6 = $request->input('makanan_6');
+        $menu->makanan_7 = $request->input('makanan_7');
+        $menu->makanan_8 = $request->input('makanan_8');
+    
+    
+        // Simpan data menu ke dalam database
         $menu->save();
-
-
-        // Ambil ID makanan yang baru saja disimpan
-        $menuId = $menu->id;
-
+    
+        // Jika terdapat file gambar yang diupload
         if ($request->hasFile('menu_pic')) {
             $image = $request->file('menu_pic');
-        
-            // Ubah nama file gambar menjadi ID makanan
-            $imageName = $menuId . '.' . $image->getClientOriginalExtension();
-        
-            // Simpan gambar ke direktori storage dengan nama baru
+    
+            // Ubah nama file gambar menjadi ID menu
+            $imageName = $menu->id . '.' . $image->getClientOriginalExtension();
+    
+            // Resize dan simpan gambar ke dalam penyimpanan
             $resizedImage = Image::make($image)->fit(600, 520)->encode();
-        
-            // Tentukan path penyimpanan baru
             $imagePath = 'public/menu_images/' . $imageName;
-        
-            // Simpan gambar yang telah diresize ke dalam penyimpanan
             Storage::put($imagePath, $resizedImage);
-        
+    
             // Update path gambar pada model Menu
             $menu->menu_pic = $imagePath;
             $menu->save();
         }
-
+    
+        // Redirect dengan pesan sukses
         return redirect()->route('data_menu_seller')->with(['success' => 'Data Berhasil Disimpan!']);
     }
+    
+    
 
     function edit_menu(string $id): View
     {
@@ -107,7 +118,7 @@ class SellerMenuController extends Controller
 
             // Tentukan path penyimpanan baru
             $imagePath = 'public/menu_images/' . $imageName;
-        
+
             // Simpan gambar yang telah diresize ke dalam penyimpanan
             Storage::put($imagePath, $resizedImage);
 

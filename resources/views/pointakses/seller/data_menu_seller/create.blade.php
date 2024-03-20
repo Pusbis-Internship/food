@@ -2,7 +2,6 @@
 
 @section('content_seller')
     <div class="content-wrapper iframe-mode" data-widget="iframe" data-loading-screen="600">
-
         <div class="card card-primary mt-4">
             <div class="card-header">
                 <h3 class="card-title">Tambah Menu</h3>
@@ -17,7 +16,7 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
-
+        
                     <div class="form-group">
                         <label for="menu_price">Harga Menu</label>
                         <input type="number" class="form-control @error('menu_price') is-invalid @enderror" id="menu_price" placeholder="Harga Menu" name="menu_price" value="{{ old('menu_price') }}">
@@ -25,7 +24,7 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
-
+        
                     <div class="form-group">
                         <label for="menu_pic">Gambar Menu</label>
                         <input type="file" class="form-control @error('menu_pic') is-invalid @enderror" name="menu_pic">
@@ -33,15 +32,15 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
-
+        
                     <div class="form-group">
                         <label for="category">Select Category</label>
                         <select class="form-control @error('category') is-invalid @enderror" id="category" name="category">
                             <option value="" selected>Select Category</option>
-
+        
                             @if ($categories && count($categories) > 0)
                                 @foreach ($categories as $category)
-                                    <option value="{{ $category['id'] }}">{{ $category->category_name }}</option>
+                                    <option value="{{ $category['id'] }}" data-category="{{ $category->category_name }}">{{ $category->category_name }}</option>
                                 @endforeach
                             @endif
                         </select>
@@ -49,7 +48,7 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
-
+        
                     <div class="col-sm-6">
                         <!-- textarea -->
                         <div class="form-group">
@@ -60,6 +59,7 @@
                             @enderror
                         </div>
                     </div>
+                    
                     <div class="form-group">
                         <label for="min_order">Minimal Order</label>
                         <select class="form-control @error('min_order') is-invalid @enderror" id="min_order" name="min_order">
@@ -73,17 +73,50 @@
                         @enderror
                     </div>
                     
-                    
-
+                    <!-- Input makanan_1 sampai makanan_8 -->
+                    <div id="makanan_prasmanan" style="display: none;">
+                        <div class="form-group">
+                            <label for="makanan_1">Makanan 1</label>
+                            <input type="text" class="form-control" id="makanan_1" name="makanan_1">
+                        </div>
+                        <div class="form-group">
+                            <label for="makanan_2">Makanan 2</label>
+                            <input type="text" class="form-control" id="makanan_2" name="makanan_2">
+                        </div>
+                        <div class="form-group">
+                            <label for="makanan_3">Makanan 3</label>
+                            <input type="text" class="form-control" id="makanan_3" name="makanan_3">
+                        </div>
+                        <!-- Tambahkan input untuk makanan selanjutnya sesuai kebutuhan -->
+                    </div>
                 </div>
                 <!-- /.card-body -->
-
+        
                 <div class="card-footer">
                     <button type="submit" class="btn btn-primary">Submit</button>
                     <a href="{{ route('data_menu_seller') }}" class="btn btn-primary">Kembali ke Daftar Menu</a>
                 </div>
             </form>
         </div>
+        
+        <script>
+            document.getElementById('category').addEventListener('change', function() {
+                var selectedCategory = this.options[this.selectedIndex].getAttribute('data-category');
+                if (selectedCategory === 'prasmanan') {
+                    document.getElementById('makanan_prasmanan').style.display = 'block';
+                    // Aktifkan input makanan prasmanan
+                    document.getElementById('makanan_1').required = true;
+                    document.getElementById('makanan_2').required = true;
+                    // Aktifkan input makanan lainnya sesuai kebutuhan
+                } else {
+                    document.getElementById('makanan_prasmanan').style.display = 'none';
+                    // Nonaktifkan input makanan prasmanan
+                    document.getElementById('makanan_1').required = false;
+                    document.getElementById('makanan_2').required = false;
+                    // Nonaktifkan input makanan lainnya sesuai kebutuhan
+                }
+            });
+        </script>
 
         @include('pointakses.seller.include.sidebar_seller')
     </div>

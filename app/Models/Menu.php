@@ -25,7 +25,15 @@ class Menu extends Model
         'menu_desc',
         'users_id',
         'seller',
-        'min_order_time', 
+        'min_order_time',
+        'makanan_1',
+        'makanan_2',
+        'makanan_3',
+        'makanan_4',
+        'makanan_5',
+        'makanan_6',
+        'makanan_7',
+        'makanan_8',
     ];
 
     public function category()

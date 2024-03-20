@@ -22,6 +22,14 @@ return new class extends Migration
                 $table->integer('menu_price');
                 $table->string('menu_desc');
                 $table->enum('min_order_time', ['H-1', 'H-2', 'H-3']);
+                $table->string('makanan_1')->nullable();
+                $table->string('makanan_2')->nullable();
+                $table->string('makanan_3')->nullable();
+                $table->string('makanan_4')->nullable();
+                $table->string('makanan_5')->nullable();
+                $table->string('makanan_6')->nullable();
+                $table->string('makanan_7')->nullable();
+                $table->string('makanan_8')->nullable();
                 $table->timestamps();
             });
         }
