@@ -37,8 +37,8 @@
                                 <li>
                                 
                                 </li>
-                                <li class="nav-item dropdown">
-                                    <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Halo {{ Auth::user()->nama_lengkap }}</a>
+                                <li class="dropdown">
+                                    <a data-toggle="dropdown" href="#" class="dropdown-toggle">Halo {{ Auth::user()->nama_lengkap }}</a>
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item" href="{{route('editprofile')}}">Profil</a></li>
                                         <li><a class="dropdown-item" href="{{ route('history_order') }}">Riwayat Pesanan</a></li>
@@ -49,7 +49,7 @@
                                             @csrf
                                         </form></li>
                                       </ul>
-                                </li>
+                                  </li>
                                 @endauth
 
                                 @guest
