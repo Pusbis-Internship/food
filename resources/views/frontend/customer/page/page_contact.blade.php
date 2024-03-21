@@ -35,9 +35,9 @@
                 <div class="col-md-4 col-sm-4 bistro">
                     <h2 class="heading">bistro</h2>
                     <hr class="heading_space">
-                    <p><strong>Contact Office:</strong> +6231-8410298 ext. 2103</p>
-                    <p><strong>Email:</strong> <a href="mailto:support@bistro.com"> pusbisuinsasurabaya@gmail.com</a></p>
-                    <p><a href="#.">https://uinsa.ac.id/pusbis</a></p>
+                    <p><strong>Contact Office:</strong> (031) 8410298</p>
+                    <p><strong>Email:</strong> <a href="mailto:pusbisuinsasurabaya@gmail.com"> pusbisuinsasurabaya@gmail.com</a></p>
+                    <p><strong>Website:</strong><a href="https://uinsa.ac.id/pusbis"> https://uinsa.ac.id/pusbis</a></p>
                     <p><strong>Address:</strong>  Kantin Maqha lt 2 UIN Sunan Ampel Surabaya, Jl. Ahmad Yani No.117, Jemur Wonosari, Wonocolo, Surabaya</p>
                     <ul class="social_icon">
                         <li class="black"><a href="#." class="facebook"><i class="icon-facebook5"></i></a></li>

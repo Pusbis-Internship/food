@@ -238,10 +238,8 @@
             </div>
         </div>
     </div>
-
-
+    
     <!-- REVOLUTION SLIDER -->
-
     <div id="rev_slider_34_1_wrapper" class="rev_slider_wrapper fullwidthbanner-container" data-alias="news-gallery34"
         style="margin:0px auto;background-color:#ffffff;padding:0px;margin-top:0px;margin-bottom:0px;">
         <!-- START REVOLUTION SLIDER 5.0.7 fullwidth mode -->
@@ -272,7 +270,6 @@
                         data-mask_in="x:0px;y:0px;s:inherit;e:inherit;" data-mask_out="x:0;y:0;s:inherit;e:inherit;"
                         data-start="800" style="z-index: 9;">Siap Menemani Hari-harimu!
                     </p>
-
                 </li>
 
                 <li class="text-center" data-index="rs-130" data-transition="slideleft" data-slotamount="default"
@@ -296,8 +293,6 @@
                         data-mask_in="x:0px;y:0px;s:inherit;e:inherit;" data-mask_out="x:0;y:0;s:inherit;e:inherit;"
                         data-start="800" style="z-index: 9;">Siap Menemani Hari-harimu!
                     </p>
-
-
                     <div class="tp-caption fade tp-resizeme" data-x="center" data-hoffset="15" data-y="280"
                         data-width = "full"
                         data-transform_in="y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;s:1500;e:Power3.easeInOut;"
@@ -308,9 +303,6 @@
                         &nbsp; <a href="#order-form" class="btn-common btn-orange page-scroll">Beli &nbsp;
                             Sekaramg</a>
                     </div>
-
-
-
                 </li>
 
                 <li class="text-right" data-index="rs-131" data-transition="slideleft" data-rotate="0"
@@ -378,7 +370,6 @@
             </div>
     </section>
 
-
     <!-- image with content -->
     <section class="info_section paralax">
         <div class="container">
@@ -439,9 +430,11 @@
     </section>
 
     <!-- dESSERT -->
-    @include('frontend.include.content.dessert')
+    @include('frontend.include.content.makanan')
     <!-- Minuman -->
     @include('frontend.include.content.minuman')
+    <!-- snack -->
+    @include('frontend.include.content.snack')
     <!--Footer-->
     @include('frontend.include.footer')
     @if ($lastOrder)
@@ -492,7 +485,6 @@
             if (closeBtn) {
                 closeBtn.addEventListener('click', closeModal);
             }
-
             // Membuat event listener untuk menutup modal saat form disubmit
             var form = document.getElementById('ratingForm');
             if (form) {
@@ -500,7 +492,6 @@
                     closeModal();
                 });
             }
-
             // When the page is fully loaded, show modal
             window.onload = function() {
                 // Cek apakah pengguna telah memberikan penilaian
@@ -511,7 +502,6 @@
                     showModal(); // Tampilkan modal jika belum memberikan penilaian
                 }
             };
-
             // Close modal when clicking outside the modal
             window.onclick = function(event) {
                 var modal = document.getElementById("myModal");
@@ -521,10 +511,6 @@
             };
         </script>
     @endif
-
-
-
-
 
     <script src="{{ asset('frontend/js/jquery-2.2.3.js') }}" type="text/javascript"></script>
     <script src="{{ asset('frontend/js/bootstrap.min.js') }}" type="text/javascript"></script>
@@ -543,7 +529,6 @@
     <script src="{{ asset('frontend/js/jquery.appear.js') }}"></script>
     <script src="{{ asset('frontend/js/jquery.fancybox.js') }}"></script>
     <script src="{{ asset('frontend/js/functions.js') }}" type="text/javascript"></script>
-
 
 </body>
 

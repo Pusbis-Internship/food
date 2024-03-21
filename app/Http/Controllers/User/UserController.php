@@ -19,6 +19,10 @@ class UserController extends Controller
     public function index()
     {
         $menus = Menu::all();
+        $makanans = Menu::where('category_id', 1)->get();
+        $minumans = Menu::where('category_id', 2)->get();
+        $snacks   = Menu::where('category_id', 3)->get();
+
         $order = session()->get('order', []);
         $userId = auth()->id();
         $lastOrder = Order::where('users_id', $userId)->latest()->first();
@@ -49,7 +53,7 @@ class UserController extends Controller
         }
     
         session()->put('order', $order);  // Update the session with new subtotal values
-        return view('pointakses/user/index', compact('menus', 'order', 'lastOrder', 'userOrders', 'total', 'menuDetail', 'uniqueMenus', 'userReview'));
+        return view('pointakses/user/index', compact('menus', 'makanans', 'minumans', 'snacks', 'order', 'lastOrder', 'userOrders', 'total', 'menuDetail', 'uniqueMenus', 'userReview'));
     }
     
     public function addRatingReview(Request $request, $id_pesanan)

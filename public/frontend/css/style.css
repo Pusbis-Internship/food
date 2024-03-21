@@ -2476,3 +2476,7 @@ footer .copyright ul.social_icon {
         margin-top: 20px;
     }
 }
+
+.icon-star-full:before {
+	color : #F39C12;
+}
