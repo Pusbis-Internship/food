@@ -63,42 +63,51 @@
                 <img src="{{ url('storage/menu_images/' . basename($menu->menu_pic)) }}">
             </div>
             <div class="small_card">
-                <i class="icon-basket2"></i>
+                <a href="{{ route('addMenu.to.order', $menu->id) }}" class="add-to-cart" data-menu-id="{{ $menu->id }}">
+                    <i class="icon-basket2"></i>
+                </a>
             </div>
             <div class="menu_info">
-                <h2>{{ $menu->menu_name }}</h2>
-                @if ($menu->reviews->count() > 0)
-                <div class="rating">
-                    @for ($i = 1; $i <= 5; $i++)
-                        @if ($i <= $menu->averageRating())
-                            <i class="icon-star-full"></i>
-                        @else
-                            <i class="icon-star-empty"></i>
-                        @endif
-                    @endfor
-                    <span>{{ number_format($menu->averageRating(), 1) }}</span>
-                </div>
-                @else
-                <div class="rating">
-                    @for ($i = 1; $i <= 5; $i++)
+            <h2>{{ $menu->menu_name }}</h2>
+            @if ($menu->reviews->count() > 0)
+            <div class="rating">
+                @php
+                    $averageRating = $menu->averageRating();
+                    $fullStars = floor($averageRating);
+                    $halfStar = $averageRating - $fullStars >= 0.5;
+                @endphp
+                @for ($i = 1; $i <= 5; $i++)
+                    @if ($i <= $fullStars)
+                        <i class="icon-star-full"></i>
+                    @elseif ($i == $fullStars + 1 && $halfStar)
+                        <i class="icon-star-half"></i>
+                    @else
                         <i class="icon-star-empty"></i>
-                    @endfor
-                    <span>0</span>
-                </div>
-                @endif
-                <p>{{ $menu->seller }}</p>
-                <p>{{ $menu->menu_desc }}</p>
-                <h3>Rp. {{ number_format($menu->menu_price, 0, ',', '.') }}</h3>
-                <div class="menu_icon">
-                    <i class="icon-basket2"></i>
-                </div>
-               @auth
-               <a href="{{ route('addMenu.to.order', $menu->id) }}" class="menu_btn">Order Now</a>   
-               @endauth
-               @guest
-               <a href="{{ route('auth') }}" class="menu_btn">Order Now</a> 
-               @endguest
+                    @endif
+                @endfor
+                <span>{{ number_format($menu->averageRating(), 1) }}</span>
             </div>
+            @else
+            <div class="rating">
+                @for ($i = 1; $i <= 5; $i++)
+                    <i class="icon-star-empty"></i>
+                @endfor
+                <span>0</span>
+            </div>
+            @endif
+            <p>{{ $menu->seller }}</p>
+            <p>{{ $menu->menu_desc }}</p>
+            <h3>Rp. {{ number_format($menu->menu_price, 0, ',', '.') }}</h3>
+            <div class="menu_icon">
+                <i class="icon-basket2"></i>
+            </div>
+            @auth
+            <a href="{{ route('addMenu.to.order', $menu->id) }}" class="menu_btn">Order Now</a>   
+            @endauth
+            @guest
+            <a href="{{ route('auth') }}" class="menu_btn">Order Now</a> 
+            @endguest
+        </div>
         </div>
         @endforeach
     </div>
