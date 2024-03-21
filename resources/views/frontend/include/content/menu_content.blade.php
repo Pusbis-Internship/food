@@ -67,6 +67,11 @@
             </div>
             <div class="menu_info">
                 <h2>{{ $menu->menu_name }}</h2>
+                @if ($menu->reviews->count() > 0)
+                    <p class="icon-star">{{ number_format($menu->averageRating(), 1) }}</p>
+                @else
+                    <p class="icon-star">0</p>
+                @endif
                 <p>{{ $menu->seller }}</p>
                 <p>{{ $menu->menu_desc }}</p>
                 <h3>Rp. {{ number_format($menu->menu_price, 0, ',', '.') }}</h3>

@@ -50,4 +50,14 @@ class Menu extends Model
     {
         return $this->hasMany(Order::class, 'menu_id'); // Ubah relasi menjadi hasMany karena satu menu bisa memiliki banyak pesanan
     }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);  
+    }
+
+    public function averageRating()
+    {
+        return $this->reviews()->avg('rating');
+    }
 }

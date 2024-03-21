@@ -110,9 +110,9 @@ class UserController extends Controller
         $category = $request->input('category');
     
         if ($category) {
-            $menus = Menu::where('category_id', $category)->get();
+            $menus = Menu::with('reviews')->where('category_id', $category)->get();
         } else {
-            $menus = Menu::all();
+            $menus = Menu::with('reviews')->get();
         }
 
         return view('pointakses/user/page_menu', compact('menus', 'categories'));
