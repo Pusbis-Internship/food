@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-md-12">
                 <p class="pull-left hidden-xs">Pusat Bisnis UIN Sunan Ampel Surabaya</p>
-                <p class="pull-right"><i class="fa fa-phone"></i>Contact For Bussiness +62</p>
+                <p class="pull-right"><i class="fa fa-phone"></i>Contact For Bussiness</p>
             </div>
         </div>
     </div>

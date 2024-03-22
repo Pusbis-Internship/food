@@ -11,7 +11,11 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $menus = Menu::all();
+        $makanans = Menu::where('category_id', 1)->get();
+        $minumans = Menu::where('category_id', 2)->get();
+        $snacks   = Menu::where('category_id', 3)->get();
+        $prasmanans   = Menu::where('category_id', 4)->get();
+
         $order = session()->get('order', []);
         $total = 0;
 
@@ -23,7 +27,7 @@ class HomeController extends Controller
         }
         session()->put('order', $order);  // Update the session with new subtotal values
 
-        return view('frontend.customer.homepage', compact('menus', 'order', 'total'));
+        return view('frontend.customer.homepage', compact('makanans','prasmanans', 'minumans', 'snacks', 'order', 'total'));
 
     }
     public function menu(Request $request)

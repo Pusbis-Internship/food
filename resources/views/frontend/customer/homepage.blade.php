@@ -18,7 +18,6 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend/css/zerogrid.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend/css/style.css') }}">
     <link rel="shortcut icon" href="{{ asset('frontend/images/favicon.png') }}">
-
 </head>
 
 <body>
@@ -27,7 +26,6 @@
     @include('frontend.include.loader')
     <!--Header-->
     @include('frontend.include.header')
-
 
     <!-- REVOLUTION SLIDER -->
 
@@ -60,7 +58,6 @@
                         data-transform_out="auto:auto;s:1000;e:Power3.easeInOut;"
                         data-mask_in="x:0px;y:0px;s:inherit;e:inherit;" data-mask_out="x:0;y:0;s:inherit;e:inherit;"
                         data-start="800" style="z-index: 9;">Siap Menemani Hari-harimu!
-
                     </p>
                     <div class="tp-caption fade tp-resizeme" data-x="left" data-hoffset="15" data-y="280"
                         data-width = "full"
@@ -70,8 +67,6 @@
                         data-start="1200" style="z-index: 12;">
                         <a href="#" class="btn-common btn-white page-scroll">Beli Sekarang</a>
                     </div>
-
-
                 </li>
 
                 <li class="text-center" data-index="rs-130" data-transition="slideleft" data-slotamount="default"
@@ -95,8 +90,6 @@
                         data-mask_in="x:0px;y:0px;s:inherit;e:inherit;" data-mask_out="x:0;y:0;s:inherit;e:inherit;"
                         data-start="800" style="z-index: 9;">Siap Menemani Hari-harimu!
                     </p>
-
-
                     <div class="tp-caption fade tp-resizeme" data-x="center" data-hoffset="15" data-y="280"
                         data-width = "full"
                         data-transform_in="y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;s:1500;e:Power3.easeInOut;"
@@ -107,9 +100,6 @@
                         &nbsp; <a href="#order-form" class="btn-common btn-orange page-scroll">Beli &nbsp;
                             Sekaramg</a>
                     </div>
-
-
-
                 </li>
 
                 <li class="text-right" data-index="rs-131" data-transition="slideleft" data-rotate="0"
@@ -174,10 +164,8 @@
                     <p> Enjoy Delicious Food!</p>
                 </div>
             </div>
-
         </div>
     </section>
-
 
     <!-- image with content -->
     <section class="info_section paralax">
@@ -239,9 +227,11 @@
     </section>
 
     <!-- dESSERT -->
-    @include('frontend.include.content.dessert')
+    @include('frontend.include.content.makanan')
     <!-- minuman -->
     @include('frontend.include.content.minuman')
+    <!-- snack -->
+    @include('frontend.include.content.snack')
     <!--Footer-->
     @include('frontend.include.footer')
 
@@ -262,7 +252,6 @@
     <script src="{{ asset('frontend/js/jquery.appear.js') }}"></script>
     <script src="{{ asset('frontend/js/jquery.fancybox.js') }}"></script>
     <script src="{{ asset('frontend/js/functions.js') }}" type="text/javascript"></script>
-
 
 </body>
 
