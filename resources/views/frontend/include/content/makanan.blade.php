@@ -3,7 +3,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12 text-center">
-                <h2 class="heading">Our &nbsp; Kitchen &nbsp; Staff</h2>
+                <h2 class="heading">Makanan</h2>
                 <hr class="heading_space">
             </div>
         </div>
@@ -46,8 +46,14 @@
                                         </div>
                                         @endif
                                         <small>{{$menu->seller}}</small>
+                                        <h3>Rp. {{ number_format($menu->menu_price, 0, ',', '.') }}</h3>
                                         <p>{{ $menu->menu_desc }}</p>
-                                        <a href="#" class="menu_btn">Rp. {{ $menu->menu_price }}</a>
+                                        @auth
+                                        <a href="{{ route('addMenu.to.order', $menu->id) }}" class="menu_btn">Order Now</a>   
+                                        @endauth
+                                        @guest
+                                        <a href="{{ route('auth') }}" class="menu_btn">Order Now</a> 
+                                        @endguest
                                     </div>
 
                                 </div>

@@ -64,88 +64,104 @@
             text-decoration: none;
             cursor: pointer;
         }
+
         .rate {
-         float: left;
-         height: 46px;
-         padding: 0 10px;
-         }
-         .rate:not(:checked) > input {
-         position:absolute;
-         display: none;
-         }
-         .rate:not(:checked) > label {
-         float:right;
-         width:1em;
-         overflow:hidden;
-         white-space:nowrap;
-         cursor:pointer;
-         font-size:30px;
-         color:#ccc;
-         }
-         .rated:not(:checked) > label {
-         float:right;
-         width:1em;
-         overflow:hidden;
-         white-space:nowrap;
-         cursor:pointer;
-         font-size:30px;
-         color:#ccc;
-         }
-         .rate:not(:checked) > label:before {
-         content: '★ ';
-         }
-         .rate > input:checked ~ label {
-         color: #ffc700;
-         }
-         .rate:not(:checked) > label:hover,
-         .rate:not(:checked) > label:hover ~ label {
-         color: #deb217;
-         }
-         .rate > input:checked + label:hover,
-         .rate > input:checked + label:hover ~ label,
-         .rate > input:checked ~ label:hover,
-         .rate > input:checked ~ label:hover ~ label,
-         .rate > label:hover ~ input:checked ~ label {
-         color: #c59b08;
-         }
-         .star-rating-complete{
+            float: left;
+            height: 46px;
+            padding: 0 10px;
+        }
+
+        .rate:not(:checked)>input {
+            position: absolute;
+            display: none;
+        }
+
+        .rate:not(:checked)>label {
+            float: right;
+            width: 1em;
+            overflow: hidden;
+            white-space: nowrap;
+            cursor: pointer;
+            font-size: 30px;
+            color: #ccc;
+        }
+
+        .rated:not(:checked)>label {
+            float: right;
+            width: 1em;
+            overflow: hidden;
+            white-space: nowrap;
+            cursor: pointer;
+            font-size: 30px;
+            color: #ccc;
+        }
+
+        .rate:not(:checked)>label:before {
+            content: '★ ';
+        }
+
+        .rate>input:checked~label {
+            color: #ffc700;
+        }
+
+        .rate:not(:checked)>label:hover,
+        .rate:not(:checked)>label:hover~label {
+            color: #deb217;
+        }
+
+        .rate>input:checked+label:hover,
+        .rate>input:checked+label:hover~label,
+        .rate>input:checked~label:hover,
+        .rate>input:checked~label:hover~label,
+        .rate>label:hover~input:checked~label {
             color: #c59b08;
-         }
-         .rated {
-         float: left;
-         height: 46px;
-         padding: 0 10px;
-         }
-         .rated:not(:checked) > input {
-         position:absolute;
-         display: none;
-         }
-         .rated:not(:checked) > label {
-         float:right;
-         width:1em;
-         overflow:hidden;
-         white-space:nowrap;
-         cursor:pointer;
-         font-size:30px;
-         color:#ffc700;
-         }
-         .rated:not(:checked) > label:before {
-         content: '★ ';
-         }
-         .rated > input:checked ~ label {
-         color: #ffc700;
-         }
-         .rated:not(:checked) > label:hover,
-         .rated:not(:checked) > label:hover ~ label {
-         color: #deb217;
-         }
-         .rated > input:checked + label:hover,
-         .rated > input:checked + label:hover ~ label,
-         .rated > input:checked ~ label:hover,
-         .rated > input:checked ~ label:hover ~ label,
-         .rated > label:hover ~ input:checked ~ label {
-         color: #c59b08;
-         }
+        }
+
+        .star-rating-complete {
+            color: #c59b08;
+        }
+
+        .rated {
+            float: left;
+            height: 46px;
+            padding: 0 10px;
+        }
+
+        .rated:not(:checked)>input {
+            position: absolute;
+            display: none;
+        }
+
+        .rated:not(:checked)>label {
+            float: right;
+            width: 1em;
+            overflow: hidden;
+            white-space: nowrap;
+            cursor: pointer;
+            font-size: 30px;
+            color: #ffc700;
+        }
+
+        .rated:not(:checked)>label:before {
+            content: '★ ';
+        }
+
+        .rated>input:checked~label {
+            color: #ffc700;
+        }
+
+        .rated:not(:checked)>label:hover,
+        .rated:not(:checked)>label:hover~label {
+            color: #deb217;
+        }
+
+        .rated>input:checked+label:hover,
+        .rated>input:checked+label:hover~label,
+        .rated>input:checked~label:hover,
+        .rated>input:checked~label:hover~label,
+        .rated>label:hover~input:checked~label {
+            color: #c59b08;
+        }
     </style>
 </head>
 
@@ -164,7 +180,8 @@
                     <!-- Menampilkan gambar menu dan harga -->
                     @if ($lastOrder)
                         <div class="card">
-                            <img src="" id="menuPic" class="card-img-top" alt="Menu Image" style="width: 300px; height: 260px;">
+                            <img src="" id="menuPic" class="card-img-top" alt="Menu Image"
+                                style="width: 300px; height: 260px;">
                             <div class="card-body">
                                 <h3 class="card-title"><span id="selectedMenu"></span></h3>
                                 <p class="card-text">Rp. <span id="menuPrice"></span></p>
@@ -193,7 +210,8 @@
                                 <!-- Menampilkan semua menu pada pesanan terakhir -->
                                 <select name="menu_id" id="menu_id" class="form-control">
                                     @foreach ($uniqueMenus as $menu)
-                                        <option value="{{ $menu->id }}" data-price="{{ number_format($menu->menu_price, 0, ',', '.') }}"
+                                        <option value="{{ $menu->id }}"
+                                            data-price="{{ number_format($menu->menu_price, 0, ',', '.') }}"
                                             data-pic="{{ url('storage/menu_images/' . basename($menu['menu_pic'])) }}">
                                             {{ $menu->menu_name }}
                                         </option>
@@ -205,19 +223,22 @@
                                     <label for="review">Review:</label>
                                 </div>
                                 <div class="rate">
-                                    <input type="radio" id="star5" class="rate" name="rating" value="5"/>
+                                    <input type="radio" id="star5" class="rate" name="rating" value="5" />
                                     <label for="star5" title="text">5 stars</label>
-                            
-                                    <input type="radio" checked id="star4" class="rate" name="rating" value="4"/>
+
+                                    <input type="radio" checked id="star4" class="rate" name="rating"
+                                        value="4" />
                                     <label for="star4" title="text">4 stars</label>
-                            
-                                    <input type="radio" id="star3" class="rate" name="rating" value="3"/>
+
+                                    <input type="radio" id="star3" class="rate" name="rating" value="3" />
                                     <label for="star3" title="text">3 stars</label>
-                            
-                                    <input type="radio" id="star2" class="rate" name="rating" value="2">
+
+                                    <input type="radio" id="star2" class="rate" name="rating"
+                                        value="2">
                                     <label for="star2" title="text">2 stars</label>
-                            
-                                    <input type="radio" id="star1" class="rate" name="rating" value="1"/>
+
+                                    <input type="radio" id="star1" class="rate" name="rating"
+                                        value="1" />
                                     <label for="star1" title="text">1 star</label>
                                 </div>
                                 <textarea name="review" id="review" class="form-control" rows="3"></textarea>
@@ -238,9 +259,10 @@
             </div>
         </div>
     </div>
-    
+
     <!-- REVOLUTION SLIDER -->
-    <div id="rev_slider_34_1_wrapper" class="rev_slider_wrapper fullwidthbanner-container" data-alias="news-gallery34"
+    <div id="rev_slider_34_1_wrapper" class="rev_slider_wrapper fullwidthbanner-container"
+        data-alias="news-gallery34"
         style="margin:0px auto;background-color:#ffffff;padding:0px;margin-top:0px;margin-bottom:0px;">
         <!-- START REVOLUTION SLIDER 5.0.7 fullwidth mode -->
         <div id="rev_slider_34_1" class="rev_slider fullwidthabanner" style="display:none;" data-version="5.0.7">
@@ -451,57 +473,25 @@
                 modal.style.display = 'none';
             }
 
-            function handleMenuChange() {
-                var selectElement = document.getElementById('menu_id');
-                var menuOptions = selectElement.options; // Get options of the select element
-                var selectedMenuId = selectElement.value;
-                
-                // Find the selected option and get its data attributes
-                for (var i = 0; i < menuOptions.length; i++) {
-                    if (menuOptions[i].value == selectedMenuId) {
-                        var selectedOption = menuOptions[i];
-                        var selectedMenuPrice = selectedOption.getAttribute('data-price');
-                        var selectedMenuName = selectedOption.innerText;
-                        var selectedMenuPic = selectedOption.getAttribute('data-pic');
-
-                        // Update modal content with selected menu details
-                        document.getElementById('selectedMenu').innerText = selectedMenuName;
-                        document.getElementById('menuPrice').innerText = selectedMenuPrice;
-                        document.getElementById('menuPic').src = selectedMenuPic;
-                        
-                        break; // Exit the loop once the selected option is found
-                    }
-                }
-            }
-
-            // Add event listener for menu select change
-            document.getElementById('menu_id').addEventListener('change', handleMenuChange);
-
-            // Call handleMenuChange initially to populate modal with initially selected menu
-            handleMenuChange();
-
-            // Membuat event listener untuk menutup modal saat tombol close diklik
-            var closeBtn = document.querySelector('.close');
-            if (closeBtn) {
-                closeBtn.addEventListener('click', closeModal);
-            }
-            // Membuat event listener untuk menutup modal saat form disubmit
-            var form = document.getElementById('ratingForm');
-            if (form) {
-                form.addEventListener('submit', function() {
-                    closeModal();
-                });
-            }
-            // When the page is fully loaded, show modal
-            window.onload = function() {
-                // Cek apakah pengguna telah memberikan penilaian
-                var userReview = {!! json_encode($userReview) !!}; // Ambil data dari PHP blade
+            // Fungsi untuk menampilkan modal order atau modal review
+            function showAppropriateModal() {
+                var userReview = {!! json_encode($userReview) !!};
+                // Cek apakah ada review atau tidak
                 if (userReview && userReview.rating !== null) {
-                    closeModal(); // Tutup modal jika sudah memberikan penilaian
+                    // Jika sudah ada review, tampilkan modal untuk order
+                    showModal();
                 } else {
-                    showModal(); // Tampilkan modal jika belum memberikan penilaian
+                    // Jika belum ada review, tampilkan modal review
+                    // Anda dapat menambahkan logika untuk menampilkan modal review di sini
+                    // Contoh: document.getElementById("myModalReview").style.display = "block";
                 }
+            }
+
+            // Event listener untuk menampilkan modal ketika halaman dimuat
+            window.onload = function() {
+                showAppropriateModal();
             };
+
             // Close modal when clicking outside the modal
             window.onclick = function(event) {
                 var modal = document.getElementById("myModal");
@@ -511,6 +501,8 @@
             };
         </script>
     @endif
+
+
 
     <script src="{{ asset('frontend/js/jquery-2.2.3.js') }}" type="text/javascript"></script>
     <script src="{{ asset('frontend/js/bootstrap.min.js') }}" type="text/javascript"></script>
