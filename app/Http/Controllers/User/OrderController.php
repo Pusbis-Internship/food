@@ -80,7 +80,7 @@ class OrderController extends Controller
 
     private function updateOrderTotal($orderId)
     {
-        $orderItems = Order::where('id', $orderId)->get();
+        $orderItems = Order::where('id_pesanan', $orderId)->get();
     
         $totalOrder = $orderItems->sum('subtotal');
     
