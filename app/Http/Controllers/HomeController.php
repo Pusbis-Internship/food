@@ -2,10 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\password_reset_token;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Models\Menu;
 use App\Models\Category;
+use Illuminate\Support\Str;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\reset_password;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class HomeController extends Controller
 {
@@ -62,4 +69,88 @@ class HomeController extends Controller
     {
         return view('frontend.customer.page.page_contact');
     }
+
+    function forgot_password(){
+        return view('account/forgot');
+    }
+
+    function forgot_password_act(Request $request){
+
+        $custompesan = [
+            'email.required'=>'email tidak boleh kosong',
+            'email.email'=>'email tidak valid',
+            'email.exists'=>'email tidak terdaftar',
+        ];
+
+        $request->validate([
+            'email' => 'required|email|exists:users,email'
+        ], $custompesan);
+
+        $token = Str::random(60);
+
+        password_reset_token::updateOrCreate([
+            'email' => $request->email,
+        ],
+        [
+            'email' => $request->email,
+            'token' => $token,
+            'created_at' => Carbon::now()
+        ]);
+
+        Mail::to($request->email)->send(new reset_password($token));
+
+        $forgot = [
+            'email'=>$request->email
+        ];  
+
+        return redirect()->route('forgot.password')->with('success', 'Kami Telah Mengirimkan link reset Password Ke Email Anda');
+    }
+
+    function reset_password(Request $request, $token){
+        
+        $getToken = password_reset_token::where('token', $token)->first();
+
+        if (!$getToken) {
+            return redirect()->route('auth')->with('failed', 'Token Tidak Valid');
+        }
+
+        return view('account/resetpw', compact('token'));
+    }
+
+    function resetpasswordact(Request $request){
+        $custompw = [
+            'password.required' => 'Password Tidak Boleh Kosong',
+            'password.min' => 'Password Minimal 6 Huruf',
+        ];
+        
+        $request->validate([
+            'password' => 'required|min:6'
+        ], $custompw);
+        
+        $token = $request->token;
+        
+        $password_reset_token = password_reset_token::where('token', $token)->first();
+        
+        if (!$password_reset_token) {
+            return redirect()->route('auth')->with('failed', 'Token Tidak Valid');
+        }
+        
+        $user = User::where('email', $password_reset_token->email)->first();
+        
+        if (!$user) {
+            return redirect()->route('auth')->with('failed', 'Email Tidak Terdaftar');
+        }
+        
+        $user->update([
+            'password' => Hash::make($request->password)
+        ]);
+        
+        // Hapus token setelah digunakan
+        $password_reset_token->delete();
+        
+        return redirect()->route('auth')->with('success', 'Password Berhasil Diubah');
+        
+        
+    }
+
 }

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="msapplication-tap-highlight" content="no">
-    <title>Login</title>
+    <title>Reset Password</title>
 
     <!-- Favicons-->
     <link rel="icon" href="{{ asset('frontend/images/favicon.png') }}" sizes="32x32">
@@ -48,12 +48,12 @@
 
     <div id="login-page" class="row">
         <div class="col s12 z-depth-4 card-panel">
-            <form method="POST" action="{{ route('auth') }}" class="login-form" id="form">
+            <form method="POST" action="{{ route('reset.password.act') }}" class="login-form" id="form">
                 @csrf
 
                 <div class="row">
                     <div class="input-field col s12 center">
-                        <p class="center login-form-text">Login for Food Ordering System</p>
+                        <p class="center login-form-text">Masukkan Password Baru</p>
                         @if ($errors->any())
                             <div class="alert alert-danger">
                                 <ul>
@@ -74,30 +74,22 @@
                 </div>
                 <div class="row margin">
                     <div class="input-field col s12">
+                        <input type="hidden" name="token" value="{{$token}}">
                         <i class="mdi-social-person-outline prefix"></i>
-                        <input name="email" id="username" type="text" value="{{ old('username') }}">
-                        <label for="email" class="center-align">Email</label>
-                    </div>
-                </div>
-                <div class="row margin">
-                    <div class="input-field col s12">
-                        <i class="mdi-action-lock-outline prefix"></i>
                         <input name="password" id="password" type="password">
-                        <label for="password">Password</label>
+                        <label for="password" class="center-align">Password</label>
                     </div>
                 </div>
                 <div class="input-field col s6 m6 l6">
-                    <button type="submit" class="btn" style="background-color: #499848;">Login</button>
+                    <button type="submit" class="btn" style="background-color: #499848;">Kirim</button>
                 </div>
                 <div class="row">
                     <div class="input-field col s6 m6 l6">
                         <p class="margin medium-small">
-                            <a href="{{ route('registrasi') }}" style="float: left;">Register Now!</a>
-                            <a href="/" style="float: left;">Kembali</a>
+                            <a href="{{route('auth')}}" role="button" style="float: left;">Kembali</a>
                         </p>
 
                     </div>
-                    <a href="{{route('forgot.password')}}">Forgot Password</a>
                 </div>
         </div>
         </form>

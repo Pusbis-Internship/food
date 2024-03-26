@@ -33,6 +33,10 @@ Route::middleware(['guest'])->group(function(){
     Route::get('/tentangkami',[HomeController::class, 'about'])->name('about');
     Route::get('/kontak',[HomeController::class, 'contact'])->name('contact');
     Route::get('/filter-menu', [HomeController::class, 'filterMenu'])->name('filter.menu');
+    Route::get('/forgot-password', [HomeController::class, 'forgot_password'])->name('forgot.password');
+    Route::post('/forgot-password-act', [HomeController::class, 'forgot_password_act'])->name('forgot.password.act');
+    Route::get('/reset-password/{token}', [HomeController::class, 'reset_password'])->name('reset.password');
+    Route::post('/reset-password-act', [HomeController::class, 'resetpasswordact'])->name('reset.password.act');
 
 
     ////////// Guest Login & Regis Controller //////////
