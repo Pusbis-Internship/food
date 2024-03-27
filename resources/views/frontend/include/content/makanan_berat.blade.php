@@ -17,7 +17,9 @@
         margin: 15% auto;
         padding: 20px;
         border: 1px solid #888;
-        width: 80%;
+        width: 60%;
+        /* Ubah lebar menjadi 60% */
+        height: 70%;
     }
 
     .modal-content img {
@@ -54,7 +56,16 @@
     .menu_btn:hover {
         background-color: #0056b3;
     }
+
+    .modal-content img {
+        max-width: 50%;
+        max-height: 40%;
+        /* Mengatur tinggi maksimum gambar */
+        display: block;
+        /* Menghilangkan spasi ekstra */
+    }
 </style>
+
 
 
 
@@ -93,57 +104,55 @@
                     <a href="#" class="menu_btn menu_btn_gallery">Order Now</a>
                     <!-- Tambahkan kelas menu_btn_gallery -->
                 </div>
+                <!-- Tambahkan bagian untuk menampilkan makanan -->
+                <div class="menu_foods">
+                    <ul>
+                        <li>{{ $menu->makanan_1 }}</li>
+                        <li>{{ $menu->makanan_2 }}</li>
+                        <li>{{ $menu->makanan_3 }}</li>
+                        <li>{{ $menu->makanan_4 }}</li>
+                        <li>{{ $menu->makanan_5 }}</li>
+                        <li>{{ $menu->makanan_6 }}</li>
+                        <li>{{ $menu->makanan_7 }}</li>
+                        <li>{{ $menu->makanan_8 }}</li>
+                    </ul>
+                </div>
             </div>
         @endforeach
-
     </div>
 </div>
+
 
 <div id="Myprasmanan" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
+        <div class="menu-details">
+            <img src="" alt="Menu Image" id="menu-image">
+            <div class="menu-info">
+                <h2 id="menu-name"></h2>
+                <h3 id="menu-price"></h3>
+                <p id="menu-desc"></p>
+                <ul id="menu-foods">
+                    <li id="food_1"></li>
+                    <li id="food_2"></li>
+                    <li id="food_3"></li>
+                    <li id="food_4"></li>
+                    <li id="food_5"></li>
+                    <li id="food_6"></li>
+                    <li id="food_7"></li>
+                    <li id="food_8"></li>
+                </ul>
+            </div>
+        </div>
     </div>
 </div>
+
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
 ...
 <script>
-    // Function untuk menampilkan modal order
-    function showOrderModal(menuName, menuPrice, menuImage, menuId, makanans) {
-        var modalContent =
-            '<span class="close" onclick="closeOrderModal()">&times;</span>' +
-            '<div class="menu_details">' +
-            '<img src="' + menuImage + '" alt="Menu Image">' +
-            '<div>' +
-            '<h2>' + menuName + '</h2>' +
-            '<p>Price: ' + menuPrice + '</p>' +
-            '<p><strong>Additional Foods:</strong></p>';
-
-        // Tampilkan makanan tambahan
-        for (var i = 0; i < makanans.length; i++) {
-            modalContent += '<p>' + makanans[i] + '</p>';
-        }
-
-        // Cek apakah pengguna masuk atau tidak
-        @auth
-        modalContent += '<a href="{{ route('addMenu.to.order', ':menuId') }}" class="menu_btn">Order Now</a>'.replace(
-            ':menuId', menuId);
-    @else
-        modalContent += '<a href="{{ route('auth') }}" class="menu_btn">Order Now</a>';
-    @endauth
-
-    modalContent += '</div></div>';
-
-    $('#Myprasmanan .modal-content').html(modalContent);
-    $('#Myprasmanan').fadeIn(); // Tampilkan modal dengan animasi fade-in
-    }
-
-    // Function untuk menutup modal order
-    function closeOrderModal() {
-        $('#Myprasmanan').fadeOut(); // Tutup modal dengan animasi fade-out
-    }
-
     document.addEventListener("DOMContentLoaded", function() {
         $('.gallary_image_box').owlCarousel({
             loop: true,
@@ -162,40 +171,53 @@
             }
         });
 
-        // Menampilkan pop-up saat tombol "Order Now" ditekan
+        // Event listener for opening modal when "Order Now" button is clicked
         $('.menu_btn_gallery').click(function(event) {
-            event.preventDefault(); // Menghentikan perilaku default dari link
+            event.preventDefault(); // Prevent the default behavior of the link
 
-            // Menemukan menu_info terdekat dari tombol yang ditekan
-            var menuInfo = $(this).closest('.menu_info');
+            var $menuCard = $(this).closest('.gallary_card');
+            var menuName = $menuCard.find('.menu_info h2').text();
+            var menuPrice = $menuCard.find('.menu_info h3').text();
+            var menuDesc = $menuCard.find('.menu_info p').text();
+            var menuImage = $menuCard.find('.menu_image img').attr('src');
+            var foods = [];
 
-            // Mendapatkan informasi menu yang dipesan
-            var menuName = menuInfo.find('h2').text();
-            var menuPrice = menuInfo.find('h3').text();
-            var menuImage = menuInfo.siblings('.menu_image').find('img').attr('src');
-            var menuId = menuInfo.data('menu-id');
-            var makanan1 = menuInfo.data('makanan-1');
-            var makanan2 = menuInfo.data('makanan-2');
-            var makanan3 = menuInfo.data('makanan-3');
-            var makanan4 = menuInfo.data('makanan-4');
-            var makanan5 = menuInfo.data('makanan-5');
-            var makanan6 = menuInfo.data('makanan-6');
-            var makanan7 = menuInfo.data('makanan-7');
-            var makanan8 = menuInfo.data('makanan-8');
+            // Get food items
+            for (var i = 1; i <= 8; i++) {
+                var food = $menuCard.find('.menu_foods li:nth-child(' + i + ')').text();
+                if (food) {
+                    foods.push(food);
+                }
+            }
 
-            // Simpan makanan tambahan dalam sebuah array
-            var makanans = [makanan1, makanan2, makanan3, makanan4, makanan5, makanan6, makanan7, makanan8];
 
-            // Tampilkan modal untuk memesan makanan
-            showOrderModal(menuName, menuPrice, menuImage, menuId, makanans);
+            // Set modal content
+            $('#menu-name').text(menuName);
+            $('#menu-price').text(menuPrice);
+            $('#menu-desc').text(menuDesc);
+            $('#menu-image').attr('src', menuImage);
+
+            // Set food items
+            var $menuFoods = $('#menu-foods');
+            $menuFoods.empty();
+            foods.forEach(function(food, index) {
+                $menuFoods.append('<li>Food ' + (index + 1) + ': ' + food + '</li>');
+            });
+
+            // Show the modal
+            $('#Myprasmanan').fadeIn(); // Show modal with fade-in animation
+        });
+
+        // Event listener for closing modal when the close button is clicked
+        $('.close').click(function() {
+            $('#Myprasmanan').fadeOut(); // Close modal with fade-out animation
+        });
+
+        // Event listener for closing modal when clicked outside the modal
+        $(window).click(function(event) {
+            if ($(event.target).hasClass('modal')) {
+                $('#Myprasmanan').fadeOut(); // Close modal with fade-out animation
+            }
         });
     });
-
-    // Event listener untuk menutup modal order saat area di luar modal di klik
-    $(window).click(function(event) {
-        if ($(event.target).hasClass('modal')) {
-            closeOrderModal();
-        }
-    });
 </script>
-
