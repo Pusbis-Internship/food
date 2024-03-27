@@ -19,7 +19,7 @@
         border: 1px solid #888;
         width: 60%;
         /* Ubah lebar menjadi 60% */
-        height: 70%;
+        height: 68%;
     }
 
     .modal-content img {
@@ -64,6 +64,31 @@
         display: block;
         /* Menghilangkan spasi ekstra */
     }
+
+    /* Tambahkan gaya CSS untuk mengatur posisi menu-foods */
+    .menu-image-and-foods {
+        display: flex;
+        align-items: flex-start;
+    }
+
+    .menu-image-and-foods img {
+        max-width: 50%;
+        /* Lebar gambar maksimum */
+        max-height: 100%;
+        /* Tinggi gambar maksimum */
+    }
+
+    #menu-foods {
+        margin-left: 20px;
+        /* Atur jarak antara gambar dan daftar makanan */
+        padding: 0;
+        list-style-type: none;
+    }
+
+    #menu-foods li {
+        margin-bottom: 5px;
+        /* Atur jarak antara setiap item makanan */
+    }
 </style>
 
 
@@ -106,7 +131,7 @@
                 </div>
                 <!-- Tambahkan bagian untuk menampilkan makanan -->
                 <div class="menu_foods">
-                    <ul>
+                    <ul hidden>
                         <li>{{ $menu->makanan_1 }}</li>
                         <li>{{ $menu->makanan_2 }}</li>
                         <li>{{ $menu->makanan_3 }}</li>
@@ -122,30 +147,24 @@
     </div>
 </div>
 
-
 <div id="Myprasmanan" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
         <div class="menu-details">
-            <img src="" alt="Menu Image" id="menu-image">
+            <div class="menu-image-and-foods">
+                <img src="" alt="Menu Image" id="menu-image">
+                <ul id="menu-foods"></ul>
+            </div>
             <div class="menu-info">
                 <h2 id="menu-name"></h2>
                 <h3 id="menu-price"></h3>
+                <button class="order-btn">Order Now</button> <!-- Tambahkan tombol order -->
                 <p id="menu-desc"></p>
-                <ul id="menu-foods">
-                    <li id="food_1"></li>
-                    <li id="food_2"></li>
-                    <li id="food_3"></li>
-                    <li id="food_4"></li>
-                    <li id="food_5"></li>
-                    <li id="food_6"></li>
-                    <li id="food_7"></li>
-                    <li id="food_8"></li>
-                </ul>
             </div>
         </div>
     </div>
 </div>
+
 
 
 
@@ -201,7 +220,7 @@
             var $menuFoods = $('#menu-foods');
             $menuFoods.empty();
             foods.forEach(function(food, index) {
-                $menuFoods.append('<li>Food ' + (index + 1) + ': ' + food + '</li>');
+                $menuFoods.append('<li>Menu ' + (index + 1) + ': ' + food + '</li>');
             });
 
             // Show the modal
