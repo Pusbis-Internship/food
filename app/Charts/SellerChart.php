@@ -24,7 +24,9 @@ class SellerChart
                 // Mendapatkan semua pesanan berdasarkan seller yang sedang login
                 $orders = Order::whereHas('menu', function($query) use ($sellerId) {
                     $query->where('users_id', $sellerId);
-                })->get();
+                })
+                ->where('status', 'setuju')
+                ->get();
 
                 // Memproses data pesanan untuk ditampilkan pada grafik
                 $labels = [];
