@@ -14,11 +14,15 @@ use Illuminate\Support\Facades\Hash;
 
 use Illuminate\Support\Facades\Validator;
 
+use App\Charts\SellerChart;
+
 class SellerController extends Controller
 {
-    function index(){
+    function index(SellerChart $chart){
     
         $userId = Auth::id();
+
+        $datachart['chart'] =  $chart->build();
 
         $groupedOrders = DB::table('orders')
             ->join('table_menu', 'orders.menu_name', '=', 'table_menu.menu_name')
@@ -26,11 +30,12 @@ class SellerController extends Controller
             ->select('orders.id_pesanan', 'orders.total', 'orders.nama_penerima', 'orders.alamat_pengiriman', 'orders.fakultas', 'orders.tanggal', 'orders.jam', 'users.nama_lengkap', 'status',
                 DB::raw('GROUP_CONCAT(CONCAT(orders.menu_name, " (", quantity, ")") SEPARATOR ", ") as menu_with_quantity'))
             ->where('table_menu.users_id', $userId)
-            ->whereIn('status', ['setuju'])
             ->groupBy('id_pesanan', 'total', 'nama_penerima', 'alamat_pengiriman', 'fakultas', 'tanggal', 'jam', 'users.nama_lengkap', 'status')
             ->get();
 
-        return view('pointakses/seller/index', ['groupedOrders' => $groupedOrders]);
+        $data = compact('groupedOrders');
+        $merge = array_merge($data, $datachart);
+        return view('pointakses/seller/index', $merge);
     }
 
     public function seller_order(Request $request)
