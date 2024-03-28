@@ -157,6 +157,7 @@
             </div>
             <div class="menu-info">
                 <h2 id="menu-name"></h2>
+                <br>
                 <h3 id="menu-price"></h3>
                 @auth
                 <a href="{{ route('addMenu.to.order', $menu->id) }}" class="menu_btn">Order Now</a>   

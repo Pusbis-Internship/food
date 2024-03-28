@@ -1,5 +1,4 @@
 @extends('pointakses.seller.layouts.dashboard')
-
 @section('content_seller')
 
 <div class="content-wrapper iframe-mode" data-widget="iframe" data-loading-screen="750">
@@ -42,6 +41,17 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body table-responsive p-0">
+                    @if($groupedOrders->isEmpty())
+                    <br>
+                    <br>
+                    <div class="d-flex justify-content-center">
+                    <div class="badge bg-primary text-wrap" style="width: 6rem;">
+                        KOSONG
+                    </div>
+                    </div>
+                    <br>
+                    <h2 class="text-center"><strong><em>Belum ada pesanan saat ini~</em></strong></h2>
+                        @else
                         <table class="table table-hover text-nowrap">
                             <thead>
                                 <tr>
@@ -72,10 +82,11 @@
                         </table>
                     </div>
                     <!-- /.card-body -->
+                    @endif
                 </div>
                 <!-- /.card -->
             </div>
         </div>
     </div>
-    @include('pointakses.seller.include.sidebar_seller')
-    @endsection
+@include('pointakses.seller.include.sidebar_seller')
+@endsection

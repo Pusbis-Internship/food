@@ -3,8 +3,9 @@
 @section('content_seller')
 
 <div class="content-wrapper iframe-mode" data-widget="iframe" data-loading-screen="750">
-    <a href="{{ route('createmenuseller') }}" class="btn btn-success">Tambah Menu</a>
+    <br>
     <div class="content">
+        <a href="{{ route('createmenuseller') }}" class="btn btn-success">Tambah Menu</a>
         <div class="col-12 mt-4">
             <div class="card">
                 <div class="card-header">
@@ -28,6 +29,17 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body table-responsive p-0">
+                @if($menus->isEmpty())
+                <br>
+                <br>
+                <div class="d-flex justify-content-center">
+                <div class="badge bg-primary text-wrap" style="width: 6rem;">
+                    KOSONG
+                </div>
+                </div>
+                <br>
+                <h2 class="text-center"><strong><em>Belum ada pesanan saat ini~</em></strong></h2>
+                    @else
                     <table class="table table-hover text-nowrap">
                         <thead>
                             <tr>
@@ -80,6 +92,7 @@
                     </table>
                 </div>
                 <!-- /.card-body -->
+                @endif
             </div>
             <!-- /.card -->
         </div>
