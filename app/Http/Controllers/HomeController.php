@@ -40,6 +40,7 @@ class HomeController extends Controller
     public function menu(Request $request)
     {
         $categories = Category::all();
+        $sellers = User::where('role', 'seller')->get();
         $search = $request->input('search');
 
         if ($search) {
@@ -47,20 +48,29 @@ class HomeController extends Controller
         } else {
             $menus = Menu::all();
         }
-        return view('frontend.customer.page.page_menu', compact('categories', 'menus', 'search'));
+        return view('frontend.customer.page.page_menu', compact('categories', 'menus', 'search', 'sellers'));
     }
     public function filterMenu(Request $request)
     {
         $categories = Category::all();
         $category = $request->input('category');
+        $sellers = User::where('role', 'seller')->get();
+        $seller = $request->input('seller');
+        $menus = Menu::query();
 
         if ($category) {
-            $menus = Menu::where('category_id', $category)->get();
-        } else {
-            $menus = Menu::all();
+            $menus->where('category_id', $category);
         }
-        return view('frontend.customer.page.page_menu', compact('menus', 'categories'));
+
+        if ($seller) {
+            $menus->where('users_id', $seller);
+        }
+
+        $menus = $menus->get();
+
+        return view('frontend.customer.page.page_menu', compact('menus', 'categories', 'sellers'));
     }
+
     public function about()
     {
         return view('frontend.customer.page.page_about');

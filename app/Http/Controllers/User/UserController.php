@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Menu;
+use App\Models\User;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Category;
@@ -98,6 +99,7 @@ class UserController extends Controller
     public function menu_user(Request $request)
     {
         $categories = Category::all();
+        $sellers = User::where('role', 'seller')->get();
         $search = $request->input('search');
     
         if ($search) {
@@ -106,21 +108,28 @@ class UserController extends Controller
             $menus = Menu::all();
         }
 
-        return view('pointakses/user/page_menu', compact('categories', 'menus', 'search'));
+        return view('pointakses/user/page_menu', compact('categories', 'menus', 'search', 'sellers'));
     }
 
     public function filterMenu_user(Request $request)
     {
         $categories = Category::all();
         $category = $request->input('category');
-    
+        $sellers = User::where('role', 'seller')->get();
+        $seller = $request->input('seller');
+        $menus = Menu::query();
+
         if ($category) {
-            $menus = Menu::with('reviews')->where('category_id', $category)->get();
-        } else {
-            $menus = Menu::with('reviews')->get();
+            $menus->where('category_id', $category);
         }
 
-        return view('pointakses/user/page_menu', compact('menus', 'categories'));
+        if ($seller) {
+            $menus->where('users_id', $seller);
+        }
+
+        $menus = $menus->get();
+
+        return view('pointakses/user/page_menu', compact('menus', 'categories', 'sellers'));
     }
 
     public function about_user()
