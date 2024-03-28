@@ -19,7 +19,7 @@
         border: 1px solid #888;
         width: 60%;
         /* Ubah lebar menjadi 60% */
-        height: 68%;
+        height: 80%;
     }
 
     .modal-content img {
@@ -156,23 +156,21 @@
                 <ul id="menu-foods"></ul>
             </div>
             <div class="menu-info">
-                <h2 id="menu-name"></h2>
                 <br>
+                <h2 id="menu-name"></h2>
+                <p><strong>{{ $menu->menu_desc}} </strong></p>
                 <h3 id="menu-price"></h3>
+                <br>
                 @auth
                 <a href="{{ route('addMenu.to.order', $menu->id) }}" class="menu_btn">Order Now</a>   
                 @endauth
                 @guest
                 <a href="{{ route('auth') }}" class="menu_btn">Order Now</a> 
                 @endguest
-                <p id="menu-desc"></p>
             </div>
         </div>
     </div>
 </div>
-
-
-
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
@@ -214,7 +212,6 @@
                     foods.push(food);
                 }
             }
-
 
             // Set modal content
             $('#menu-name').text(menuName);

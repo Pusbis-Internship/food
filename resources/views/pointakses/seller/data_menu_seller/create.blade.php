@@ -87,6 +87,26 @@
                             <label for="makanan_3">Makanan 3</label>
                             <input type="text" class="form-control" id="makanan_3" name="makanan_3">
                         </div>
+                        <div class="form-group">
+                            <label for="makanan_4">Makanan 4</label>
+                            <input type="text" class="form-control" id="makanan_4" name="makanan_4">
+                        </div>
+                        <div class="form-group">
+                            <label for="makanan_5">Makanan 5</label>
+                            <input type="text" class="form-control" id="makanan_5" name="makanan_5">
+                        </div>
+                        <div class="form-group">
+                            <label for="makanan_6">Makanan 6</label>
+                            <input type="text" class="form-control" id="makanan_6" name="makanan_6">
+                        </div>
+                        <div class="form-group">
+                            <label for="makanan_7">Makanan 7</label>
+                            <input type="text" class="form-control" id="makanan_7" name="makanan_7">
+                        </div>
+                        <div class="form-group">
+                            <label for="makanan_8">Makanan 8</label>
+                            <input type="text" class="form-control" id="makanan_8" name="makanan_8">
+                        </div>
                         <!-- Tambahkan input untuk makanan selanjutnya sesuai kebutuhan -->
                     </div>
                 </div>

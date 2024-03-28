@@ -2,7 +2,8 @@
 
 @section('content_seller')
     <div class="content-wrapper iframe-mode" data-widget="iframe" data-loading-screen="750">
-        <h1>Edit Menu</h1>
+        <br>
+        <h2 class="text-center"><strong>EDIT MENU</strong></h2>
 
         @if(session('success'))
             <div class="alert alert-success">
@@ -54,11 +55,46 @@
                         <option value="H-3" {{ $menus->min_order_time == 'H-3' ? 'selected' : '' }}>H-3</option>
                     </select>
                 </div>
-                
 
                 <div class="form-group">
                     <label for="menu_desc">Deskripsi Menu:</label>
                     <textarea class="form-control" name="menu_desc" id="menu_desc" rows="3">{{ $menus->menu_desc }}</textarea>
+                </div>
+                    
+                <!-- Input makanan_1 sampai makanan_8 -->
+                <div id="makanan_prasmanan" style="display: flex;">
+                    <div class="form-group">
+                        <label for="makanan_1">Makanan 1</label>
+                        <input type="text" class="form-control" id="makanan_1" name="makanan_1">
+                    </div>
+                    <div class="form-group">
+                        <label for="makanan_2">Makanan 2</label>
+                        <input type="text" class="form-control" id="makanan_2" name="makanan_2">
+                    </div>
+                    <div class="form-group">
+                        <label for="makanan_3">Makanan 3</label>
+                        <input type="text" class="form-control" id="makanan_3" name="makanan_3">
+                    </div>
+                    <div class="form-group">
+                        <label for="makanan_4">Makanan 4</label>
+                        <input type="text" class="form-control" id="makanan_4" name="makanan_4">
+                    </div>
+                    <div class="form-group">
+                        <label for="makanan_5">Makanan 5</label>
+                        <input type="text" class="form-control" id="makanan_5" name="makanan_5">
+                    </div>
+                    <div class="form-group">
+                        <label for="makanan_6">Makanan 6</label>
+                        <input type="text" class="form-control" id="makanan_6" name="makanan_6">
+                    </div>
+                    <div class="form-group">
+                        <label for="makanan_7">Makanan 7</label>
+                        <input type="text" class="form-control" id="makanan_7" name="makanan_7">
+                    </div>
+                    <div class="form-group">
+                        <label for="makanan_8">Makanan 8</label>
+                        <input type="text" class="form-control" id="makanan_8" name="makanan_8">
+                    </div>
                 </div>
             </div>
             <!-- /.card-body -->
@@ -69,6 +105,25 @@
             </div>
         </form>
     </div>
+
+    <script>
+            document.getElementById('category').addEventListener('change', function() {
+                var selectedCategory = this.options[this.selectedIndex].getAttribute('data-category');
+                if (selectedCategory === 'prasmanan') {
+                    document.getElementById('makanan_prasmanan').style.display = 'block';
+                    // Aktifkan input makanan prasmanan
+                    document.getElementById('makanan_1').required = true;
+                    document.getElementById('makanan_2').required = true;
+                    // Aktifkan input makanan lainnya sesuai kebutuhan
+                } else {
+                    document.getElementById('makanan_prasmanan').style.display = 'none';
+                    // Nonaktifkan input makanan prasmanan
+                    document.getElementById('makanan_1').required = false;
+                    document.getElementById('makanan_2').required = false;
+                    // Nonaktifkan input makanan lainnya sesuai kebutuhan
+                }
+            });
+        </script>
 
 @include('pointakses.seller.include.sidebar_seller')
 @endsection

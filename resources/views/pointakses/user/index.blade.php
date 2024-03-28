@@ -170,7 +170,7 @@
     @include('frontend.include.loader')
     <!--Header-->
     @include('frontend.include.header')
-    <div id="myModal" class="modal">
+    <div id="myModalReview" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
             <div class="row">
@@ -184,7 +184,7 @@
                                 style="width: 300px; height: 260px;">
                             <div class="card-body">
                                 <h3 class="card-title"><span id="selectedMenu"></span></h3>
-                                <p class="card-text">Rp. <span id="menuPrice"></span></p>
+                                <p class="card-text"><strong>Rp. <span id="menuPrice"></strong></span></p>
                             </div>
                         </div>
                     @else
@@ -460,46 +460,96 @@
     <!--Footer-->
     @include('frontend.include.footer')
     @if ($lastOrder)
-        <script>
-            // Function untuk menampilkan modal
-            function showModal() {
-                var modal = document.getElementById("myModal");
-                modal.style.display = "block";
+    <script>
+        // Function untuk menampilkan modal review
+        function showModalReview() {
+            var modal = document.getElementById("myModalReview");
+            modal.style.display = "block";
+
+            // Ambil data harga dan gambar menu yang dipilih dari pesanan terakhir
+            var menuId = document.getElementById("menu_id").value;
+            var menuPrice = document.querySelector('#menu_id option[value="' + menuId + '"]').getAttribute("data-price");
+            var menuPic = document.querySelector('#menu_id option[value="' + menuId + '"]').getAttribute("data-pic");
+
+            // Isi elemen HTML dengan data harga dan gambar menu yang dipilih
+            document.getElementById("menuPrice").textContent = menuPrice;
+            document.getElementById("menuPic").src = menuPic;
+        }
+
+        // Periksa apakah pesanan berhasil dilakukan
+        var orderSuccess = true; // Ganti dengan logika sesuai dengan aplikasi Anda
+
+        // Jika pesanan berhasil, tampilkan modal review
+        if (orderSuccess) {
+            showModalReview();
+        }
+
+        // Event listener untuk menutup modal ketika tombol close di klik
+        document.addEventListener("click", function(event) {
+            if (event.target.classList.contains("close")) {
+                var modals = document.querySelectorAll(".modal");
+                modals.forEach(function(modal) {
+                    modal.style.display = "none";
+                });
             }
+        });
+        
+        // Event listener untuk memantau perubahan pada pilihan menu
+        document.getElementById("menu_id").addEventListener("change", function() {
+            // Ambil data harga dan gambar menu yang dipilih dari elemen select
+            var menuId = this.value;
+            var menuPrice = this.options[this.selectedIndex].getAttribute("data-price");
+            var menuPic = this.options[this.selectedIndex].getAttribute("data-pic");
 
-            // Function untuk menutup modal
-            function closeModal() {
-                var modal = document.getElementById('myModal');
-                modal.style.display = 'none';
-            }
+            // Isi elemen HTML dengan data harga dan gambar menu yang dipilih
+            document.getElementById("menuPrice").textContent = menuPrice;
+            document.getElementById("menuPic").src = menuPic;
+        });
 
-            // Fungsi untuk menampilkan modal order atau modal review
-            function showAppropriateModal() {
-                var userReview = {!! json_encode($userReview) !!};
-                // Cek apakah ada review atau tidak
-                if (userReview && userReview.rating !== null) {
-                    // Jika sudah ada review, tampilkan modal untuk order
-                    showModal();
-                } else {
-                    // Jika belum ada review, tampilkan modal review
-                    // Anda dapat menambahkan logika untuk menampilkan modal review di sini
-                    // Contoh: document.getElementById("myModalReview").style.display = "block";
-                }
-            }
-
-            // Event listener untuk menampilkan modal ketika halaman dimuat
-            window.onload = function() {
-                showAppropriateModal();
-            };
-
-            // Close modal when clicking outside the modal
-            window.onclick = function(event) {
-                var modal = document.getElementById("myModal");
+        // Event listener untuk menutup modal ketika klik dilakukan di luar modal
+        window.onclick = function(event) {
+            var modals = document.querySelectorAll(".modal");
+            modals.forEach(function(modal) {
                 if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            });
+        };
+        // Event listener untuk tombol Submit
+        document.getElementById("submitRating").addEventListener("click", function() {
+            // Mengambil data rating dan ulasan dari formulir
+            var rating = document.querySelector('input[name="rating"]:checked').value;
+            var review = document.getElementById("review").value;
+
+            // Mengirim data rating dan ulasan secara asinkron menggunakan Ajax
+            var formData = new FormData(document.getElementById("ratingForm"));
+            formData.append('rating', rating);
+            formData.append('review', review);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', document.getElementById("ratingForm").getAttribute('action'), true);
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    // Jika pengiriman berhasil, tutup modal
                     closeModal();
+                } else {
+                    // Jika terjadi kesalahan, tindakan yang sesuai dapat ditambahkan di sini
+                    console.error('Error:', xhr.responseText);
                 }
             };
-        </script>
+            xhr.onerror = function() {
+                console.error('Error:', xhr.responseText);
+            };
+            xhr.send(formData);
+        });
+
+        // Fungsi untuk menutup modal
+        function closeModal() {
+            var modal = document.getElementById("myModalReview");
+            modal.style.display = "none";
+        }
+
+    </script>
     @endif
 
 

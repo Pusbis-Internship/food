@@ -102,6 +102,14 @@ class SellerMenuController extends Controller
         $menus->category_id = $request->input('category');
         $menus->menu_desc = $request->input('menu_desc');
         $menus->min_order_time = $request->input('min_order');
+        $menus->makanan_1 = $request->input('makanan_1');
+        $menus->makanan_2 = $request->input('makanan_2');
+        $menus->makanan_3 = $request->input('makanan_3');
+        $menus->makanan_4 = $request->input('makanan_4');
+        $menus->makanan_5 = $request->input('makanan_5');
+        $menus->makanan_6 = $request->input('makanan_6');
+        $menus->makanan_7 = $request->input('makanan_7');
+        $menus->makanan_8 = $request->input('makanan_8');
         $menus->users_id = auth()->id();
         $menus->save();
 

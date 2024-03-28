@@ -40,5 +40,17 @@ class MenuSeeder extends Seeder
             'menu_price' => 15,
             'menu_desc' => 'This is the third sample Menu.',
         ]);
+        Menu::create([
+            'menu_pic' => asset('storage/menu_images/teh.jpg'),
+            'menu_name' => 'paket 1',
+            'seller' => 'Seller',
+            'category_id' => '4',
+            'users_id' => '2',
+            'menu_price' => 50,
+            'menu_desc' => 'This is the fourth sample Menu.',
+            'makanan_1' => 'nasi putih',
+            'makanan_2' => 'ayam goreng',
+            'makanan_3' => 'es garbis',
+        ]);
     }
 }

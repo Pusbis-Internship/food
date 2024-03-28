@@ -22,9 +22,23 @@
                                     <div class="menu_info">
                                         <h2>{{$menu->menu_name}}</h2>
                                         @if ($menu->reviews->count() > 0)
-                                            <p class="icon-star">{{ number_format($menu->averageRating(), 1) }}</p>
+                                        <div class="rating">
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                @if ($i <= $menu->averageRating())
+                                                    <i class="icon-star-full"></i>
+                                                @else
+                                                    <i class="icon-star-empty"></i>
+                                                @endif
+                                            @endfor
+                                            <span>{{ number_format($menu->averageRating(), 1) }}</span>
+                                        </div>
                                         @else
-                                            <p class="icon-star">0</p>
+                                        <div class="rating">
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                <i class="icon-star-empty"></i>
+                                            @endfor
+                                            <span>0</span>
+                                        </div>
                                         @endif
                                         <small>{{$menu->seller}}</small>
                                         <h3>Rp. {{ number_format($menu->menu_price, 0, ',', '.') }}</h3>

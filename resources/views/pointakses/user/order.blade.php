@@ -306,7 +306,7 @@
             </div>
         </div>
     </section>
-    @if(session('order_' . auth()->id()))
+    @if(session('order_' . auth()->id()) && count(session('order_' . auth()->id())) > 0)
     <div class="wrap-iten-in-cart" id="cart">
         <ul class="products-cart">
             @php 
@@ -354,15 +354,20 @@
         </div>
 
         <div class="total">
-            <p>Total</p>
+            <p>Total: </p>
             <p><strong> Rp. {{ number_format($total, 0, ',', '.') }}</strong></p>
         </div>
         <div class="checkout-btn">
-            <button class="continue-btn" onclick="window.location.href='{{ url('/menu') }}'">Lanjutkan Order</button>
             <button class="checkout-btn" onclick="window.location.href='{{ url('/checkout') }}'">Checkout</button>
         </div>    
     </div>
     <br>
+    <br>
+    @else
+    <br>
+    <div class="text-center">
+        <h3><em>Belum ada menu yang ditambahkan.</em></h3>
+    </div>
     <br>
     @endif
 
