@@ -6,18 +6,18 @@
     
     @auth
     <form action="{{ route('menu_user') }}" method="GET">
-        <div class="input-group input-group-sm" style="width: 150px;">
-            <input type="search" name="search" class="form-control float-right" placeholder="Search">
-            <div class="input-group-append">
-                <button type="submit" class="btn btn-default">
-                    <i class="fas fa-search"></i>
-                </button>
+        <div class="form-group" style="display: flex; ">
+            <div style="max-width: 180px; margin-right: 6px;">
+                <input type="search" name="search" class="form-control" placeholder="Search">
             </div>
+            <button type="submit" class="btn btn-default">
+                <i class="icon-search"></i>
+            </button>
         </div>
     </form>
-    <br>
-    <form action="{{ route('filter.menu.user') }}" method="GET">
-        <select name="category" id="category">
+    
+    <form action="{{ route('filter.menu.user') }}" method="GET" style="display: flex;">
+        <select name="category" id="category" class="form-control" style="max-width: 178px; margin-right: 6px;">
             <option value="">Select Category</option>
             @if($categories && count($categories) > 0)
                 @foreach($categories as $category)
@@ -25,8 +25,9 @@
                 @endforeach
             @endif
         </select>
-        <button type="submit">Filter</button>
+        <button type="submit" class="btn btn-default">Filter</button>
     </form>
+    
     @endauth
     @guest
     <form action="{{ route('menu') }}" method="GET">
